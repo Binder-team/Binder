@@ -6,7 +6,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Binder App Home</Text>
+      <Text>Binder App Home Page</Text>
       <StatusBar style="auto" />
     </View>
   );
