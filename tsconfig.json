@@ -1,3 +1,13 @@
-{
-        "extends": "@tsconfig/react-native/tsconfig.json"
+
+{  
+ "compilerOptions": {
+        "target":"ES6",
+        "module": "commonjs",
+        "strict":true
+      },  
+       
+      "extends": "@tsconfig/react-native/tsconfig.json"
+
 }
+
+
