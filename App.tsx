@@ -1,35 +1,22 @@
-import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer, StackActions } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const Stack = createNativeStackNavigator();
-
-//this is where we can switch between screens 
+import useCachedResources from './hooks/useCachedResources';
+import useColorScheme from './hooks/useColorScheme';
+import Navigation from './navigation';
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <View style={styles.container}>
-          <Text>Binder App Home Page</Text>
-          <StatusBar style="auto" />
-        </View>
-      </Stack.Navigator>
-      
-    </NavigationContainer>
-    
-  );
+  const isLoadingComplete = useCachedResources();
+  const colorScheme = useColorScheme();
+
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <SafeAreaProvider>
+        <Navigation colorScheme={colorScheme} />
+        <StatusBar />
+      </SafeAreaProvider>
+    );
+  }
 }
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
