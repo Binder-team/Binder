@@ -1,13 +1,6 @@
-
-{  
- "compilerOptions": {
-        "target":"ES6",
-        "module": "commonjs",
-        "strict":true
-      },  
-       
-      "extends": "@tsconfig/react-native/tsconfig.json"
-
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true
+  }
 }
-
-
