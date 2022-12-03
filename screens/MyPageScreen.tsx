@@ -5,7 +5,7 @@ import { RootTabScreenProps } from '../types';
 
 export default function MyPageScreen() {
   <View style={styles.container}>
-  <Text style={styles.title}>Tab Two</Text>
+  <Text style={styles.title}>My Page Screen</Text>
   <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
   <EditScreenInfo path="/screens/AddBooksScreen.tsx" />
 </View>
