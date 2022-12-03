@@ -1,8 +1,3 @@
-/**
- * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
 import { FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
@@ -14,6 +9,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
+
 import BookMatchingScreen from '../screens/BookMatchingScreen';
 import AddBooksScreen from '../screens/AddBooksScreen';
 import MyPageScreen from "../screens/MyPageScreen";
@@ -53,9 +49,10 @@ function RootNavigator() {
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
+
 
 //the nav bar at the bottom is this
+const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
@@ -70,7 +67,7 @@ function BottomTabNavigator() {
         name="TabOne"
         component={BookMatchingScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Matches',
+          title: 'Find a book',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Pressable
@@ -93,6 +90,14 @@ function BottomTabNavigator() {
         component={AddBooksScreen}
         options={{
           title: 'Add a book',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="TabThree"
+        component={MyPageScreen}
+        options={{
+          title: 'My Page',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
