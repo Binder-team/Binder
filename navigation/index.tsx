@@ -14,8 +14,8 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/BookMatchingScreen';
-import TabTwoScreen from '../screens/AddBooksScreen';
+import BookMatchingScreen from '../screens/BookMatchingScreen';
+import AddBooksScreen from '../screens/AddBooksScreen';
 import MyPageScreen from "../screens/MyPageScreen";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -67,8 +67,8 @@ function BottomTabNavigator() {
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}>
       <BottomTab.Screen
-        name="MatchTab"
-        component={TabOneScreen}
+        name="TabOne"
+        component={BookMatchingScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
           title: 'Matches',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
@@ -89,8 +89,8 @@ function BottomTabNavigator() {
         })}
       />
       <BottomTab.Screen
-        name="AddBookTab"
-        component={TabTwoScreen}
+        name="TabTwo"
+        component={AddBooksScreen}
         options={{
           title: 'Add a book',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
