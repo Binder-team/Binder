@@ -1,4 +1,4 @@
-import { FontAwesome } from "@expo/vector-icons";
+// import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {NavigationContainer, DefaultTheme, DarkTheme,} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -14,7 +14,7 @@ import AddBooksScreen from "../screens/AddBooksScreen";
 import MyPageScreen from "../screens/MyPageScreen";
 import MessagesScreen from "../screens/MessagesScreen";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
-import LinkingConfiguration from "./LinkingConfiguration";
+// import LinkingConfiguration from "./LinkingConfiguration";
 
 export default function Navigation({
   colorScheme,
@@ -23,7 +23,7 @@ export default function Navigation({
 }) {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}
+      // linking={LinkingConfiguration}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
       <RootNavigator />
@@ -85,7 +85,7 @@ function BottomTabNavigator() {
         component={BookMatchingScreen}
         options={({ navigation }: RootTabScreenProps<"FindBookTab">) => ({
           title: "Find a book",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Pressable
               onPress={() => navigation.navigate("Messages")}
@@ -93,12 +93,12 @@ function BottomTabNavigator() {
                 opacity: pressed ? 0.5 : 1,
               })}
             >
-              <FontAwesome
+              {/* <FontAwesome
                 name="info-circle"
                 size={25}
                 color={Colors[colorScheme].text}
                 style={{ marginRight: 15 }}
-              />
+              /> */}
             </Pressable>
           ),
         })}
@@ -108,7 +108,7 @@ function BottomTabNavigator() {
         component={AddBooksScreen}
         options={{
           title: "Add a book",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -116,7 +116,7 @@ function BottomTabNavigator() {
         component={MyPageScreen}
         options={{
           title: "My Page",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -126,9 +126,9 @@ function BottomTabNavigator() {
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-}
+// function TabBarIcon(props: {
+//   name: React.ComponentProps<typeof FontAwesome>["name"];
+//   color: string;
+// }) {
+//   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+// }
