@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.amalthova.Binderclient"
+      "package": "com.binder.Binderclient"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
