@@ -7,9 +7,10 @@ const MyBooks = () => {
     return (
        <View>
             <Text>
-                This is the My Books list
+                This is the Liked Books list
             </Text>
-       </View>
+       </View> 
+ 
   );
 };
 
