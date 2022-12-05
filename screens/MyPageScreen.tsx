@@ -6,13 +6,17 @@ import { Text, View } from 'react-native';
 import { useScrollToTop, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { RootTabScreenProps } from '../types';
+import  LikedBooks from '../components/LikedBooks'
+import MyBooks from '../components/MyBooks';
+import Navigation from '../navigation';
 
 
-const Stack = createNativeStackNavigator();
+//const Stack = createNativeStackNavigator();
 
  const MyPageScreen: FunctionComponent =() =>  {
-
-  //const [currentView, setCurrentView] = useState ("currentView");
+   const likedBooks = LikedBooks();
+   const myBooks = MyBooks();
+  const [currentView, setCurrentView] = useState ("myBooks");
 
   return (
     <View style={styles.container}>
@@ -20,13 +24,13 @@ const Stack = createNativeStackNavigator();
 
       <Text style={styles.title}> My Profile</Text>
       <View style={{ flexDirection: 'row' }}>
-        <View >
-          <TouchableOpacity style={styles.button}>
+        <View style={styles.button}>
+          <TouchableOpacity  onPress={() => setCurrentView("likedBooks")}>
           <Text>My Books</Text>
           </TouchableOpacity>
         </View>
-        <View >
-          <TouchableOpacity style={styles.button}>
+        <View  style={styles.button}>
+          <TouchableOpacity  onPress={() => {setCurrentView("myBooks")}} >
             <Text>Liked Books</Text>
           </TouchableOpacity>
         </View>
@@ -50,8 +54,9 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
+    alignItems: 'center',
     width: '100%', 
-    height: 30,
+    height: 40,
     backgroundColor: '#008B8B',
     padding: 10,
   },
