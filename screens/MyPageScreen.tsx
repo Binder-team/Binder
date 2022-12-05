@@ -1,17 +1,24 @@
-import React, { Component } from 'react';
+import React, { useState, Component, FunctionComponent }from 'react';
 import { StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { white } from 'react-native-paper/lib/typescript/styles/colors';
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import { Text, View } from 'react-native';
+import { useScrollToTop, NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { RootTabScreenProps } from '../types';
 
 
+const Stack = createNativeStackNavigator();
 
+ const MyPageScreen: FunctionComponent =() =>  {
 
-export default function MyPageScreen() {
+  //const [currentView, setCurrentView] = useState ("currentView");
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Profile</Text>
+      <View style={{backgroundColor: 'white', height: '100%'}}>
+
+      <Text style={styles.title}> My Profile</Text>
       <View style={{ flexDirection: 'row' }}>
         <View >
           <TouchableOpacity style={styles.button}>
@@ -24,11 +31,12 @@ export default function MyPageScreen() {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="/screens/AddBooksScreen.tsx" />
+    </View>
     </View>
   )
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -53,3 +61,5 @@ const styles = StyleSheet.create({
     width: '80%',
   },
 });
+
+export default  MyPageScreen;
