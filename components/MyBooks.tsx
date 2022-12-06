@@ -1,10 +1,17 @@
-import React, { useState } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, StyleSheet, View, FlatList, Image } from "react-native";
 import axios from 'axios'
-const MyBooks = () => {
+import BookItem  from '../components/BookItem';
+import { Book } from '../types';
+
+export type Props = {
+  book: Book;
+  BookItem: Function;
+}
+
+const MyBooks: React.FC<Props> =({ book, BookItem }) => {
+    const [data, setData] = useState<[]>([]); //where all user's books get stored, as an array
   
-  
-<<<<<<< HEAD
   //axios get all books from user using 'https://binderapp-server.herokuapp.com/api/user_books'
   //it's going to be stored in the state, data, then 
   //in the return statement, map through array to render
@@ -35,14 +42,9 @@ const showBooks = data.map((obj) => {
         </View>
     )
 })
-=======
->>>>>>> de933b945749d88ef744964be0101304c687f4de
     return (
        <View>
-        <Text>
-            This is the My Books list
-        </Text>
-
+        {showBooks}
        </View> 
  
   );
