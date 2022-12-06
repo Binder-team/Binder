@@ -2,33 +2,22 @@
 import { View, StyleSheet, Image, Text } from 'react-native';
 import React from 'react';
 import { Book } from '../types';
-import axios from 'axios';
 
 
-export type BookItemProps = {
+type BookItemProps = {
     book: Book;
 }
 
 
-//Bookitem render function
+const  BookItem = ({ book }: BookItemProps) => {
 
-const  BookItem: React.FC<BookItemProps> =({ book }) => {
-  
-  
-  axios.get(`https://binderapp-server.herokuapp.com/api/user_books`,{
-    params: {
-        
-    }
-}).then((response) => {
-  console.log(response.data);
-});
 
     return  (
         <View style= {styles.container}>
-            <Image source={ {uri: book.thumbnail_url}} style={styles.image} />
+            <Image source={ {uri: book.image}} style={styles.image} />
             <View style={styles.contentContainer}>
                 <Text style={styles.title}>{book.title}</Text>
-                <Text>by {book.author}</Text>
+                <Text>by {book.authors?.join(", ")}</Text>
             </View>
         </View>
     );
