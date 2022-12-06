@@ -1,13 +1,26 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet} from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-
+import { TextInput } from 'react-native-paper';
+import AddBooks from '../components/AddBook';
 export default function AddBooksScreen() {
+  const addBook = AddBooks();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Add a book</Text>
+      <View>
+        {addBook}
+      </View>
+        {/* <View>
+          <Text>ISBN:</Text>
+          <TextInput placeholder='enter ISBN'/>
+          <Text>Book Title:</Text>
+          <TextInput placeholder='enter book title'/>
+          <Text>Condition</Text>
+          <TextInput placeholder='enter a number from 1 - 10'/>
+        </View> */}
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/AddBooksScreen.tsx" />
+      <EditScreenInfo path="/screens/AddBooksScreen.tsx"/>
     </View>
   );
 }
