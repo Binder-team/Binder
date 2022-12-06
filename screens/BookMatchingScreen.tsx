@@ -11,7 +11,7 @@ export default function BookMatchingScreen({ navigation }: RootTabScreenProps<'F
     <View style={styles.container}>
       {/* <Text style={styles.title}>Find a book</Text> */}
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Swipe />
+      <Swipe  />
       <EditScreenInfo path="/screens/BookMatchingScreen.tsx" />
     </View>
   );
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   separator: {
-    marginVertical: 30,
+    marginVertical: 10,
     height: 1,
     width: '80%',
   },

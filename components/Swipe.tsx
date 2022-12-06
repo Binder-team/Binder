@@ -26,7 +26,7 @@ const profiles = [
     //===IMPORTANT===
     let index = 1;  //index should be declared outside of App to avoid duplicates.  
     //It's here for now and resets every time this loads
-export default function Swipe(props: any) {
+const Swipe = ({}) => {
 
   const [profile,setProfile] = useState(profiles[0]);
   const translateX = new Animated.Value(0);
@@ -84,7 +84,7 @@ export default function Swipe(props: any) {
   return (
     <View style={styles.container}>
       <PanGestureHandler onHandlerStateChange={handleSwipe} onGestureEvent={handlePan} >
-        <Animated.View style={{backgroundColor:"yellow", width:"75%", height:"75%"}}>
+        <Animated.View style={{backgroundColor:"yellow", width:"100%", height:"100%"}}>
           <Image ></Image>
           <Text>{profile.name}</Text>
           <Text>Age: {profile.age}</Text>
@@ -123,3 +123,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 });
+
+
+export default Swipe;
