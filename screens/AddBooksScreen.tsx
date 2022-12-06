@@ -11,15 +11,6 @@ export default function AddBooksScreen() {
       <View>
         {addBook}
       </View>
-        {/* <View>
-          <Text>ISBN:</Text>
-          <TextInput placeholder='enter ISBN'/>
-          <Text>Book Title:</Text>
-          <TextInput placeholder='enter book title'/>
-          <Text>Condition</Text>
-          <TextInput placeholder='enter a number from 1 - 10'/>
-        </View> */}
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <EditScreenInfo path="/screens/AddBooksScreen.tsx"/>
     </View>
   );
