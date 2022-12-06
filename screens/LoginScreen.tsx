@@ -1,40 +1,64 @@
-import { StyleSheet, TextInput, TouchableOpacity, Button } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
+import FormButton from '../components/FormButton';
+import FormInput from '../components/FormInput';
+//import  navigation from 'react-native';
+
+
+
 
 //this is the main page where user swipes on a book or not. for now, just two buttons
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Please enter your name:</Text>
-      <TextInput placeholder='name'></TextInput>
-      <Text style={styles.title}>Please enter your password:</Text>
-      <TextInput placeholder='password'></TextInput>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/BookMatchingScreen.tsx" />
-    
-    
-    <TouchableOpacity>
-        <Button title='SUBMIT'/>
-    </TouchableOpacity>
-</View>
+      <View style={styles.container}>
+      <Text style={styles.text}>Login</Text>
+      <FormInput
+        value={email}
+        placeholderText='Email'
+        onChangeText={userEmail => setEmail(userEmail)}
+        autoCapitalize='none'
+        keyboardType='email-address'
+        autoCorrect={false}
+      />
+      <FormInput
+        value={password}
+        placeholderText='Password'
+        onChangeText={userPassword => setPassword(userPassword)}
+        secureTextEntry={true}
+      />
+      <FormButton buttonTitle='Login' onPress={() => alert('login button')} />
+      <TouchableOpacity
+        style={styles.navButton}
+        onPress={() => navigation.navigate('Signup')}
+      >
+        <Text style={styles.navButtonText}>New user? Join here</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#f5f5f5',
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center'
   },
-  title: {
+  text: {
+    fontSize: 24,
+    marginBottom: 10
+  },
+  navButton: {
+    marginTop: 15
+  },
+  navButtonText: {
     fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+    color: '#6646ee'
+  }
 });

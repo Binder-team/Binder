@@ -17,18 +17,22 @@ import LoginScreen from "../screens/LoginScreen";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
 // import LinkingConfiguration from "./LinkingConfiguration";
 
+import { AuthProvider } from "./AuthProvider";
+
 export default function Navigation({
   colorScheme,
 }: {
   colorScheme: ColorSchemeName;
 }) {
   return (
+    <AuthProvider>
     <NavigationContainer
       // linking={LinkingConfiguration}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
       <RootNavigator />
     </NavigationContainer>
+    </AuthProvider>
   );
 }
 
