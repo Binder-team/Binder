@@ -39,8 +39,12 @@ import BookItem from '../components/BookItem';
           </TouchableOpacity>
         </View>
       </View>
-      <View>{myBooks}</View>
-      <View>{likedBooks}</View>
+
+      <View>
+        {currentView === "myBooks"? (
+          <MyBooks/>
+        ): (<LikedBooks/>)}
+      </View>
       <EditScreenInfo path="/screens/AddBooksScreen.tsx" />
     </View>
     </View>
