@@ -13,6 +13,7 @@ import BookMatchingScreen from "../screens/BookMatchingScreen";
 import AddBooksScreen from "../screens/AddBooksScreen";
 import MyPageScreen from "../screens/MyPageScreen";
 import MessagesScreen from "../screens/MessagesScreen";
+import LoginScreen from "../screens/LoginScreen";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
 // import LinkingConfiguration from "./LinkingConfiguration";
 
@@ -50,12 +51,12 @@ function RootNavigator() {
         component={NotFoundScreen}
         options={{ title: "Oops!" }}
       />
-      {/* <Stack.Screen name="Login" component={}/> */}
+      <Stack.Screen name="Login" component={LoginScreen}/>
       
       
-      {/* @ts-ignore */}
+      
         <Stack.Screen name="Messages" component={MessagesScreen} />
-     
+
     </Stack.Navigator>
   );
 }
@@ -119,7 +120,15 @@ function BottomTabNavigator() {
           // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
+      <BottomTab.Screen
+        name="LoginTab"
+        component={LoginScreen}
+        options={{
+          title: "Login Page",
+        }}
+      />
     </BottomTab.Navigator>
+    
   );
 }
 
