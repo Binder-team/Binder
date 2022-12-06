@@ -29,8 +29,12 @@ const MyBooks: React.FC<Props> =({ book, BookItem }) => {
 //map over data
 const showBooks = data.map((obj) => {
     return (
-        <View key={obj.id}>
-            {/* <Image source = {require('http://books.google.com/books/content?id=Yz8Fnw0PlEQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api')} /> */}
+        
+        <View key={obj["id"]}>
+            <View>
+                <Image source={{uri:obj["thumbnail_url"],width: 50, height: 50,}}/>
+            </View>
+
             <Text>Title:{obj["title"]}</Text>
             <Text>Author:{obj["author"]}</Text>
             <Text>Condition:{obj["condition"]}</Text>
