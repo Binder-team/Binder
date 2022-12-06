@@ -15,9 +15,9 @@ export type Props = {
   MyBooks: Function;
   LikedBooks: Function;
 }
- const MyPageScreen: React.FC <Props> = ({book, BookItem, MyBooks, LikedBooks}) =>  {
-   const likedBooks = LikedBooks();
-   const myBooks = MyBooks();
+ const MyPageScreen: React.FC <Props> = ({book, BookItem}) =>  {
+  //  const likedBooks = LikedBooks();
+  //  const myBooks = MyBooks();
   const [currentView, setCurrentView] = useState ("myBooks");
 
 
