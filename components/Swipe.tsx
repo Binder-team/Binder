@@ -1,32 +1,34 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Image, StatusBar, Animated } from 'react-native';
+import { StyleSheet, Button, Text, View, Image, StatusBar, Animated } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 
 //Fake data 
 const profiles = [
   {
-    name:"John Doe",
-    age:27,
-    likes:["Hockey","Hiking"],
-    pic:"https://www.exampleimagelink.png"
+    name:"Count of Monte Christo",
+    condition: "1",
+    pic:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn2.penguin.com.au%2Fcovers%2Foriginal%2F9789380028675.jpg&f=1&nofb=1&ipt=82eb3a11bd69c8e84218313a81993eb033b2f3d6997979e94ea97548923218fd&ipo=images"
   },
   {
-    name:"Alexis Texas",
-    age:22,
-    likes:["Parties","Bananas"],
+    name:"Hitch Hiker's Guide to the Galaxy",
+    condition: "10",
+    pic:"../assets/images/splash.png"
+  },
+  {
+    name:"Foundation",
+    condition: "5",
     pic:"https://www.exampleimagelink2.png"
   },
   {
-    name:"Jane Smith",
-    age:35,
-    likes:["Netflix","Wine"],
-    pic:"https://www.exampleimagelink3.png"
+    name:"Wild Cards",
+    condition: "3",
+    pic:"https://www.exampleimagelink2.png"
   }
 ]
     //===IMPORTANT===
     let index = 1;  //index should be declared outside of App to avoid duplicates.  
     //It's here for now and resets every time this loads
-const Swipe = ({}) => {
+const Swipe= ({}) => {
 
   const [profile,setProfile] = useState(profiles[0]);
   const translateX = new Animated.Value(0);
@@ -84,11 +86,26 @@ const Swipe = ({}) => {
   return (
     <View style={styles.container}>
       <PanGestureHandler onHandlerStateChange={handleSwipe} onGestureEvent={handlePan} >
-        <Animated.View style={{backgroundColor:"yellow", width:"100%", height:"100%"}}>
-          <Image ></Image>
+        <Animated.View style={{backgroundColor:"", width:"75%", height:"75%", transform:[{translateX}]}}>
+          
+          <Button title="<"
+          onPress={() => swipeLeftAnimation.start(()=>{
+            index++;
+            setProfile(profiles[index%3])
+          })}
+          ></Button>
+
+          <Image source={profile.pic}></Image>
           <Text>{profile.name}</Text>
-          <Text>Age: {profile.age}</Text>
-          <Text>Likes: {profile.likes.join(', ')}</Text>
+          <Text>Condition: {profile.condition}</Text>
+
+          <Button title=">"
+          onPress={() => swipeRightAnimation.start(()=>{
+            index++;
+            setProfile(profiles[index%3])
+          })}
+          ></Button>
+
         </Animated.View>
       </PanGestureHandler>
       <StatusBar />
