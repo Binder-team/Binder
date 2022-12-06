@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View } from "react-native";
 
-const MyBooks = () => {
+const LikedBooks = () => {
   
   
     return (
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MyBooks;
+export default LikedBooks;
