@@ -14,7 +14,7 @@ const  BookItem: React.FC<BookItemProps> =({ book }) => {
     
     return  (
         <View style= {styles.container}>
-            <Image source={ {uri: book.image}} style={styles.image} />
+            <Image source={ {uri: book.thumbnail_url}} style={styles.image} />
             <View style={styles.contentContainer}>
                 <Text style={styles.title}>{book.title}</Text>
                 <Text>by {book.author}</Text>
