@@ -9,9 +9,20 @@ export type BookItemProps = {
     book: Book;
 }
 
-const  BookItem: React.FC<BookItemProps> =({ book }) => {
 
-    
+//Bookitem render function
+
+const  BookItem: React.FC<BookItemProps> =({ book }) => {
+  
+  
+  axios.get(`https://binderapp-server.herokuapp.com/api/user_books`,{
+    params: {
+        
+    }
+}).then((response) => {
+  console.log(response.data);
+});
+
     return  (
         <View style= {styles.container}>
             <Image source={ {uri: book.thumbnail_url}} style={styles.image} />
