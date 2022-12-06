@@ -11,7 +11,6 @@ export default function AddBooksScreen() {
       <View>
         {addBook}
       </View>
-     
       <EditScreenInfo path="/screens/AddBooksScreen.tsx"/>
     </View>
   );
