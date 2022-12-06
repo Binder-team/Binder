@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import axios from 'axios'
-const MyBooks = () => {
+const LikedBooks = () => {
   //axios get request
   
   
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default MyBooks;
+export default LikedBooks;
