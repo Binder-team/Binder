@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Text, StyleSheet, View } from "react-native";
-import axios from 'axios'
+
 const LikedBooks = () => {
-  //axios get request
   
   
     return (
