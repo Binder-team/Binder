@@ -31,7 +31,25 @@ export default function Swipe(props: any) {
   const [profile,setProfile] = useState(profiles[0]);
   const translateX = new Animated.Value(0);
 
+    // Animations
+    const reset = Animated.timing(translateX,{
+      toValue:0,
+      duration:250,
+      useNativeDriver:true
+    })
   
+    const swipeRightAnimation = Animated.timing(translateX,{
+      toValue: 600,
+      duration: 400,
+      useNativeDriver:true
+    })
+  
+    const swipeLeftAnimation = Animated.timing(translateX,{
+      toValue: -600,
+      duration: 400,
+      useNativeDriver:true
+    })
+
   const handleSwipe=(nativeEvent:any) =>{ // "nativeEvent" is like "e" but for gesture handler
     console.log(nativeEvent);
     //Currently leaving is as "Any"
@@ -42,20 +60,26 @@ export default function Swipe(props: any) {
       //Here we would add the code to save the user profile + book into our match list.
       
       index++;
-      setProfile(profiles[index%3]);
+      swipeRightAnimation.start(()=>{
+        //add profile to match list
+        setProfile(profiles[index%3])
+      })
     }
     //swiping left
     else if(nativeEvent.translationX > 225){
       console.log("Swiped Left");
 
       index++;
-      setProfile(profiles[index%3]);
-    }
+      swipeLeftAnimation.start(()=>{
+        setProfile(profiles[index%3])
+      })
+    };
   };
 
   const handlePan= Animated.event(
     [{nativeEvent:{translationX:translateX}}],{useNativeDriver:true}
   )  
+
 
   return (
     <View style={styles.container}>
