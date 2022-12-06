@@ -28,6 +28,7 @@ export type RootTabParamList = {
   FindBookTab: undefined;
   AddBookTab: undefined;
   MyPageTab: undefined;
+  LoginTab: undefined
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
@@ -37,8 +38,8 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 
 
 export type Book = {
-    thumbnail_url: string;
+    image: string;
     title: string;
-    author: string;
+    authors: string[];
     isbn: string;
 }
