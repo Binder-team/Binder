@@ -37,8 +37,8 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 
 
 export type Book = {
-    image: string;
+    thumbnail_url: string;
     title: string;
-    authors: string[];
+    author: string;
     isbn: string;
 }

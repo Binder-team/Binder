@@ -2,22 +2,22 @@
 import { View, StyleSheet, Image, Text } from 'react-native';
 import React from 'react';
 import { Book } from '../types';
+import axios from 'axios';
 
 
-type BookItemProps = {
+export type BookItemProps = {
     book: Book;
 }
 
+const  BookItem: React.FC<BookItemProps> =({ book }) => {
 
-const  BookItem = ({ book }: BookItemProps) => {
-
-
+    
     return  (
         <View style= {styles.container}>
             <Image source={ {uri: book.image}} style={styles.image} />
             <View style={styles.contentContainer}>
                 <Text style={styles.title}>{book.title}</Text>
-                <Text>by {book.authors?.join(", ")}</Text>
+                <Text>by {book.author}</Text>
             </View>
         </View>
     );
