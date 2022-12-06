@@ -1,26 +1,26 @@
-import React, { useState, Component, FunctionComponent }from 'react';
-import { StyleSheet, Button, TouchableOpacity } from 'react-native';
+import React, { useState }from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { white } from 'react-native-paper/lib/typescript/styles/colors';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from 'react-native';
-import { useScrollToTop, NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import { RootTabScreenProps } from '../types';
 import  LikedBooks from '../components/LikedBooks'
 import MyBooks from '../components/MyBooks';
 import BookItem from '../components/BookItem';
+import { Book } from '../types';
 
-
-
-//const Stack = createNativeStackNavigator();
-
-
- const MyPageScreen =() =>  {
+export type Props = {
+  book: Book;
+  BookItem: Function;
+  MyBooks: Function;
+  LikedBooks: Function;
+}
+ const MyPageScreen: React.FC <Props> = ({book, BookItem, MyBooks, LikedBooks}) =>  {
    const likedBooks = LikedBooks();
    const myBooks = MyBooks();
-   
-  
   const [currentView, setCurrentView] = useState ("myBooks");
+
+
  
 
   return (
