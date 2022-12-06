@@ -1,18 +1,15 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View, FlatList } from "react-native";
-//import axios from 'axios'
-
-
- function MyBooks() {
-
+import { Text, StyleSheet, View } from "react-native";
+import axios from 'axios'
+const MyBooks = () => {
+  
+  
     return (
        <View>
-            <Text>
-                This is the My Books list
-            </Text>
-            <View>
-            
-            </View>
+        <Text>
+            This is the My Books list
+        </Text>
+
        </View> 
  
   );
