@@ -9,12 +9,7 @@ const MyBooks = () => {
             <Text>
                 This is the My Books list
             </Text>
-<<<<<<< HEAD
-       </View> 
- 
-=======
        </View>
->>>>>>> 8a7df6ebd77b7f01a8db362571df22c1c4b89e90
   );
 };
 
