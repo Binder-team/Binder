@@ -21,18 +21,6 @@ export type Props = {
   const [currentView, setCurrentView] = useState ("myBooks");
 
 
-<<<<<<< HEAD
-//const Stack = createNativeStackNavigator();
-
-
- const MyPageScreen =() =>  {
-   const likedBooks = LikedBooks();
-   const myBooks = MyBooks();
-   
-  
-  const [currentView, setCurrentView] = useState("myBooks");
-=======
->>>>>>> e1055d0611a58a033e390f6389f6cfcf011c9ae0
  
 
   return (
