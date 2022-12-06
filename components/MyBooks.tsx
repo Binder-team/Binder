@@ -6,10 +6,12 @@ const MyBooks = () => {
   
     return (
        <View>
-            <Text>
-                This is the My Books list
-            </Text>
-       </View>
+        <Text>
+            This is the My Books list
+        </Text>
+
+       </View> 
+ 
   );
 };
 
