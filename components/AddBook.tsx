@@ -59,13 +59,13 @@ const AddBooks = () => {
       console.log(bookTitle);
       const key = 'AIzaSyAS32GEr_NB25nXnjTjbEBabB8xatzPznE';
       const fetchedData = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitle}&printType=books&orderBy=relevance&key=${key}`);
-      const firstBook = fetchedData.data.items[0];
+      const firstBook = fetchedData.data.items[2];
       const fetchedBook = await axios.get(`https://www.googleapis.com/books/v1/volumes/${firstBook.id}?key=${key}`);
       const bookData = fetchedBook.data.volumeInfo;
       console.log(bookData.title);
       console.log(bookData.authors.join(', '));
       console.log(Number(condition));
-      console.log(bookData.imageLinks.thumbnail);
+      console.log(fetchedBook.data.id);
       try {
           await axios.post('https://binderapp-server.herokuapp.com/api/user_books', {
             user_id: 1,
@@ -73,10 +73,9 @@ const AddBooks = () => {
             title: bookData.title,
             author: bookData.authors.join(', '),
             condition: Number(condition),
-            // CHANGE THESE DATATYPES
-            // book_id: bookData.id,
-            // image_url: bookData.imageLinks.large ? bookData.imageLinks.large : null,
-            // thumbnail_url: bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : null,
+            book_id: fetchedBook.data.id,
+            image_url: bookData.imageLinks.large ? bookData.imageLinks.large : null,
+            thumbnail_url: bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : null,
 
           });
       } catch (error) {
