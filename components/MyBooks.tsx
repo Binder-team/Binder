@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, View, FlatList, Image } from "react-native";
-import axios from 'axios'
+import axios from 'axios';
 import BookItem  from '../components/BookItem';
 import { Book } from '../types';
 
@@ -21,11 +21,11 @@ const MyBooks: React.FC<Props> =({ book, BookItem }) => {
     const data = await res.data;
     setData(data);
     console.log(data);
-  }
+  };
 
   useEffect(()=>{
     handleFetch();
-},[])
+},[]);
 //map over data
 const showBooks = data.map((obj) => {
     return (
