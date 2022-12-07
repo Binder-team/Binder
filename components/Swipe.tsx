@@ -61,23 +61,48 @@ const books = [
 
 const Swipe = ({}) => {
 
-  const [profile,setProfile] = useState(profiles[0]);
+
   const translateX = new Animated.Value(0);
   const [bookData, setBookData] = useState([
-    {
-      "id": 0,
-      "user_id": 1,
-      "book_id": "0",
-      "is_available": true,
-      "isbn": "9780439023481",
-      "condition": 7,
-      "image_url": null,
-      "thumbnail_url": "http://books.google.com/books/content?id=Yz8Fnw0PlEQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-      "title": "The Hunger Games",
-      "author": "Suzanne Collins"
-    }
-  ]); //where all user's books get stored, as an array
 
+    {
+        "id": 7,
+        "user_id": 3,
+        "book_id": "0",
+        "is_available": true,
+        "isbn": "9780439023481",
+        "condition": 7,
+        "image_url": null,
+        "thumbnail_url": "http://books.google.com/books/content?id=Yz8Fnw0PlEQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+        "title": "The Hunger Games",
+        "author": "Suzanne Collins"
+    },
+    {
+        "id": 8,
+        "user_id": 3,
+        "book_id": "0",
+        "is_available": true,
+        "isbn": "9781594631931",
+        "condition": 8,
+        "image_url": null,
+        "thumbnail_url": "http://books.google.com/books/content?id=ykWQEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+        "title": "The Kite Runner",
+        "author": "Khaled Hosseini"
+    },
+    {
+        "id": 9,
+        "user_id": 3,
+        "book_id": "0",
+        "is_available": true,
+        "isbn": "0307762718",
+        "condition": 6,
+        "image_url": null,
+        "thumbnail_url": "http://books.google.com/books/content?id=1EhPf1ZptXwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+        "title": "Norwegian Wood",
+        "author": "Haruki Murakami"
+    }
+]); //where all user's books get stored, as an array
+const [profile, setProfile] = useState(bookData[0]);
 
     // Animations
     const reset = Animated.timing(translateX,{
@@ -132,6 +157,7 @@ const Swipe = ({}) => {
     const res = await axios.get('https://binderapp-server.herokuapp.com/api/user_books');
     const data = await res.data;
     setBookData(data);
+
     console.log(data);
     
   };
@@ -148,9 +174,12 @@ const Swipe = ({}) => {
         <Animated.View style={{backgroundColor:"yellow", width:"100%", height:"100%", transform:[{translateX}]}}>
 
           <Image 
-          // style={styles.image}
-          source={{uri:bookData[index]["thumbnail_url"]}}
+          style={{width: 100, height: 100}}
+          // source={{uri: bookData[index]["thumbnail_url"]}}
+          source={{uri: `${bookData[index]["thumbnail_url"]}` }}
           />
+
+          
 
           <Text>{bookData[index]["title"]}</Text>
           <Text>Condition: {bookData[index]["condition"]}</Text>
