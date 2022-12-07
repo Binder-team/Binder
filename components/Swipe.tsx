@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Button, Text, View, Image, StatusBar, Animated } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
+import axios from 'axios';
 
 //Fake data 
 const profiles = [
   {
-    name:"Count of Monte Christo",
+    name:"Count of Monte Cristo",
     condition: "1",
     pic:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn2.penguin.com.au%2Fcovers%2Foriginal%2F9789380028675.jpg&f=1&nofb=1&ipt=82eb3a11bd69c8e84218313a81993eb033b2f3d6997979e94ea97548923218fd&ipo=images"
   },
@@ -25,13 +26,58 @@ const profiles = [
     pic:"https://www.exampleimagelink2.png"
   }
 ]
+
+const books = [
+
+  {
+    "id": 0,
+    "user_id": 3,
+    "book_id": "0",
+    "is_available": true,
+    "isbn": "9780439023481",
+    "condition": 7,
+    "image_url": null,
+    "thumbnail_url": "http://books.google.com/books/content?id=Yz8Fnw0PlEQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+    "title": "The Hunger Games",
+    "author": "Suzanne Collins"
+  }
+
+]
+
+// "imageLinks": {
+//   "smallThumbnail": "https://books.google.com/books?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+//   "thumbnail":      "https://books.google.com/books?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+//   "small":          "https://books.google.com/books?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=2&edge=curl&source=gbs_api",
+//   "medium":         "https://books.google.com/books?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=3&edge=curl&source=gbs_api",
+//   "large":          "https://books.google.com/books?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=4&edge=curl&source=gbs_api",
+//   "extraLarge":     "https://books.google.com/books?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=6&edge=curl&source=gbs_api"
+//  },
+
+
+
     //===IMPORTANT===
-    let index = 1;  //index should be declared outside of App to avoid duplicates.  
+  let index = 0;  //index should be declared outside of App to avoid duplicates.  
     //It's here for now and resets every time this loads
-const Swipe= ({}) => {
+
+const Swipe = ({}) => {
 
   const [profile,setProfile] = useState(profiles[0]);
   const translateX = new Animated.Value(0);
+  const [bookData, setBookData] = useState([
+    {
+      "id": 0,
+      "user_id": 1,
+      "book_id": "0",
+      "is_available": true,
+      "isbn": "9780439023481",
+      "condition": 7,
+      "image_url": null,
+      "thumbnail_url": "http://books.google.com/books/content?id=Yz8Fnw0PlEQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
+      "title": "The Hunger Games",
+      "author": "Suzanne Collins"
+    }
+  ]); //where all user's books get stored, as an array
+
 
     // Animations
     const reset = Animated.timing(translateX,{
@@ -52,7 +98,7 @@ const Swipe= ({}) => {
       useNativeDriver:true
     })
 
-  const handleSwipe=(nativeEvent:any) =>{ // "nativeEvent" is like "e" but for gesture handler
+  const handleSwipe=(nativeEvent:any) => { // "nativeEvent" is like "e" but for gesture handler
     console.log(nativeEvent);
     //Currently leaving is as "Any"
     
@@ -64,7 +110,7 @@ const Swipe= ({}) => {
       index++;
       swipeRightAnimation.start(()=>{
         //add profile to match list
-        setProfile(profiles[index%3])
+        setProfile(bookData[index])
       })
     }
     //swiping left
@@ -73,7 +119,7 @@ const Swipe= ({}) => {
 
       index++;
       swipeLeftAnimation.start(()=>{
-        setProfile(profiles[index%3])
+        setProfile(bookData[index])
       })
     };
   };
@@ -81,28 +127,44 @@ const Swipe= ({}) => {
   const handlePan= Animated.event(
     [{nativeEvent:{translationX:translateX}}],{useNativeDriver:true}
   )  
+  
+  const handleFetch = async() => {
+    const res = await axios.get('https://binderapp-server.herokuapp.com/api/user_books');
+    const data = await res.data;
+    setBookData(data);
+    console.log(data);
+    
+  };
 
+  useEffect(()=>{
+    handleFetch();
+  },[]);
+
+  const [bookPosition, setBookPosition] = useState(bookData[0]);
 
   return (
     <View style={styles.container}>
       <PanGestureHandler onHandlerStateChange={handleSwipe} onGestureEvent={handlePan} >
-        <Animated.View style={{backgroundColor:"", width:"75%", height:"75%", transform:[{translateX}]}}>
-          
-          <Button title="<"
+        <Animated.View style={{backgroundColor:"yellow", width:"100%", height:"100%", transform:[{translateX}]}}>
+
+          <Image 
+          // style={styles.image}
+          source={{uri:bookData[index]["thumbnail_url"]}}
+          />
+
+          <Text>{bookData[index]["title"]}</Text>
+          <Text>Condition: {bookData[index]["condition"]}</Text>
+
+          <Button style={styles.Button} title="<"
           onPress={() => swipeLeftAnimation.start(()=>{
             index++;
-            setProfile(profiles[index%3])
+            setProfile(profiles[index])
           })}
           ></Button>
-
-          <Image source={profile.pic}></Image>
-          <Text>{profile.name}</Text>
-          <Text>Condition: {profile.condition}</Text>
-
           <Button title=">"
           onPress={() => swipeRightAnimation.start(()=>{
             index++;
-            setProfile(profiles[index%3])
+            setProfile(profiles[index])
           })}
           ></Button>
 
@@ -138,6 +200,10 @@ const styles = StyleSheet.create({
     borderColor:'black',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  Button:{
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   }
 });
 
