@@ -1,6 +1,6 @@
 
-let token: string|null = null;
+let token: Number|null = null;
 let getToken = () => token;
-let setToken = (t:string) => {token = t}
+let setToken = (t:Number) => {token = t}
 
 export {getToken, setToken};

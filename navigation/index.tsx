@@ -42,7 +42,6 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const { user } = useAuth()
   
   return (
     <Stack.Navigator>
