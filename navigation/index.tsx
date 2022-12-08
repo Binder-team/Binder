@@ -8,13 +8,14 @@ import { ColorSchemeName, Pressable } from "react-native";
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import NotFoundScreen from "../screens/NotFoundScreen";
-
+import { getToken } from "../components/userTokenManager";
 import BookMatchingScreen from "../screens/BookMatchingScreen";
 import AddBooksScreen from "../screens/AddBooksScreen";
 import MyPageScreen from "../screens/MyPageScreen";
 import MessagesScreen from "../screens/MessagesScreen";
 import LoginScreen from "../screens/LoginScreen";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
+import useAuth, { AuthProvider } from "../hooks/useAuth";
 // import LinkingConfiguration from "./LinkingConfiguration";
 
 export default function Navigation({
@@ -24,10 +25,12 @@ export default function Navigation({
 }) {
   return (
     <NavigationContainer
-      // linking={LinkingConfiguration}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+    // linking={LinkingConfiguration}
     >
-      <RootNavigator />
+      <AuthProvider>
+        <RootNavigator />
+      </AuthProvider>
     </NavigationContainer>
   );
 }
@@ -39,24 +42,21 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const { user } = useAuth()
+  
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Root"
-        component={BottomTabNavigator}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
-      />
-      <Stack.Screen name="Login" component={LoginScreen}/>
-      
-      
-      
-        <Stack.Screen name="Messages" component={MessagesScreen} />
-
+      {getToken()!==null?(
+        <>
+          <Stack.Screen
+            name="Root"
+            component={BottomTabNavigator}
+            options={{ headerShown: false }}
+          />
+        </>
+        ):(
+        <Stack.Screen name="Login" component={LoginScreen} options={{title: 'Sign in'}}/>
+        )}
     </Stack.Navigator>
   );
 }
@@ -120,13 +120,13 @@ function BottomTabNavigator() {
           // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="LoginTab"
         component={LoginScreen}
         options={{
           title: "Login Page",
         }}
-      />
+      /> */}
     </BottomTab.Navigator>
     
   );
