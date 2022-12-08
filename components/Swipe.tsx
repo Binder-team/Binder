@@ -1,7 +1,10 @@
+
+import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Button, Text, View, Image, StatusBar, Animated } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import axios from 'axios';
+import BookCard from './BookCard';
 
 //Fake data 
 const profiles = [
@@ -173,16 +176,7 @@ const [profile, setProfile] = useState(bookData[0]);
       <PanGestureHandler onHandlerStateChange={handleSwipe} onGestureEvent={handlePan} >
         <Animated.View style={{backgroundColor:"yellow", width:"100%", height:"100%", transform:[{translateX}]}}>
 
-          <Image 
-          style={{width: 100, height: 100}}
-          // source={{uri: bookData[index]["thumbnail_url"]}}
-          source={{uri: `${bookData[index]["thumbnail_url"]}` }}
-          />
-
-          
-
-          <Text>{bookData[index]["title"]}</Text>
-          <Text>Condition: {bookData[index]["condition"]}</Text>
+         <BookCard  />
 
           <Button style={styles.Button} title="<"
           onPress={() => swipeLeftAnimation.start(()=>{
@@ -233,6 +227,11 @@ const styles = StyleSheet.create({
   Button:{
     flexDirection: 'row',
     flexWrap: 'wrap'
+  },
+  bookImage:{
+    width: '100%',
+    height: '100%',
+
   }
 });
 

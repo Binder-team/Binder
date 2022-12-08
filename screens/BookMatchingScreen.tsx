@@ -3,6 +3,8 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import Swipe from '../components/Swipe';
 import { RootTabScreenProps } from '../types';
+//import BookCard from '../components/BookCard';
+//import { Book } from '../types';
 
 
 const profiles = [
@@ -34,7 +36,9 @@ export default function BookMatchingScreen({ navigation }: RootTabScreenProps<'F
     <View style={styles.container}>
       {/* <Text style={styles.title}>Find a book</Text> */}
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <Swipe  />
+      {<Swipe  /> }
+      
+
       <EditScreenInfo path="/screens/BookMatchingScreen.tsx" />
     </View>
   );
