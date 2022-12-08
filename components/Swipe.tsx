@@ -1,10 +1,11 @@
 
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Button, Text, View, Image, StatusBar, Animated } from 'react-native';
+import { StyleSheet, Button, Text, View, Image, StatusBar } from 'react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import axios from 'axios';
 import BookCard from './BookCard';
+import Animated from 'react-native-reanimated';
 
 //Fake data 
 const profiles = [
