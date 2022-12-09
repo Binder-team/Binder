@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {NavigationContainer, DefaultTheme, DarkTheme,} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
+import { useState } from "react";
 import { ColorSchemeName, Pressable } from "react-native";
 
 import Colors from "../constants/Colors";
@@ -23,12 +24,16 @@ export default function Navigation({
 }: {
   colorScheme: ColorSchemeName;
 }) {
+  
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
   return (
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     // linking={LinkingConfiguration}
     >
-      <AuthProvider>
+      <AuthProvider 
+        setAuthenticated={setAuthenticated}
+      >
         <RootNavigator />
       </AuthProvider>
     </NavigationContainer>
@@ -43,8 +48,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   
+
   return (
-    <Stack.Navigator>
+    <Stack.Navigator >
       {getToken()!==null?(
         <>
           <Stack.Screen
@@ -54,7 +60,11 @@ function RootNavigator() {
           />
         </>
         ):(
-        <Stack.Screen name="Login" component={LoginScreen} options={{title: 'Sign in'}}/>
+          <Stack.Screen 
+            name="Login" 
+            component={LoginScreen} 
+            options={{title: 'Sign in'}} 
+          />
         )}
     </Stack.Navigator>
   );

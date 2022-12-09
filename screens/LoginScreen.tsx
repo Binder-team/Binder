@@ -7,16 +7,19 @@ import { setToken, getToken } from '../components/userTokenManager';
 import axios from 'axios';
 import Navigation from '../navigation';
 import useAuth from '../hooks/useAuth';
+
+
 //on click, call a function that verifies if user exists
 //this is the main page where user swipes on a book or not. for now, just two buttons
 //when submit is clicked, check if token matches a user, then login 
 //if it matches a user's token, attach 
 //if token is still null, then the user 
-export default function LoginScreen() {
+export default function LoginScreen({username, password}) {
 
   const { signIn } = useAuth();
-  const password = useRef<HTMLInputElement>();
-  const username = useRef<HTMLInputElement>();
+  // const password = useRef<HTMLInputElement>();
+  // const username = useRef<HTMLInputElement>();
+  
   
   function getUsername(event: React.MouseEvent<HTMLElement>) {
     console.log(username.current);
