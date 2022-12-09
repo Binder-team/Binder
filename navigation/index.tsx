@@ -3,18 +3,20 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {NavigationContainer, DefaultTheme, DarkTheme,} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
+import { useState } from "react";
 import { ColorSchemeName, Pressable } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import NotFoundScreen from "../screens/NotFoundScreen";
-
+import { getToken } from "../components/userTokenManager";
 import BookMatchingScreen from "../screens/BookMatchingScreen";
 import AddBooksScreen from "../screens/AddBooksScreen";
 import MyPageScreen from "../screens/MyPageScreen";
 import MessagesScreen from "../screens/MessagesScreen";
 import LoginScreen from "../screens/LoginScreen";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
+import useAuth, { AuthProvider } from "../hooks/useAuth";
 // import LinkingConfiguration from "./LinkingConfiguration";
 
 export default function Navigation({
@@ -22,12 +24,18 @@ export default function Navigation({
 }: {
   colorScheme: ColorSchemeName;
 }) {
+  
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
   return (
     <NavigationContainer
-      // linking={LinkingConfiguration}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+    // linking={LinkingConfiguration}
     >
-      <RootNavigator />
+      <AuthProvider 
+        setAuthenticated={setAuthenticated}
+      >
+        <RootNavigator />
+      </AuthProvider>
     </NavigationContainer>
   );
 }
@@ -39,24 +47,25 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Root"
-        component={BottomTabNavigator}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="NotFound"
-        component={NotFoundScreen}
-        options={{ title: "Oops!" }}
-      />
-      <Stack.Screen name="Login" component={LoginScreen}/>
-      
-      
-      
-        <Stack.Screen name="Messages" component={MessagesScreen} />
+  
 
+  return (
+    <Stack.Navigator >
+      {getToken()!==null?(
+        <>
+          <Stack.Screen
+            name="Root"
+            component={BottomTabNavigator}
+            options={{ headerShown: false }}
+          />
+        </>
+        ):(
+          <Stack.Screen 
+            name="Login" 
+            component={LoginScreen} 
+            options={{title: 'Sign in'}} 
+          />
+        )}
     </Stack.Navigator>
   );
 }
@@ -120,13 +129,13 @@ function BottomTabNavigator() {
           // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         name="LoginTab"
         component={LoginScreen}
         options={{
           title: "Login Page",
         }}
-      />
+      /> */}
     </BottomTab.Navigator>
     
   );
