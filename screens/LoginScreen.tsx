@@ -1,9 +1,9 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, ChangeEvent } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, Button } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-import { setToken, getToken } from '../components/userTokenManager';
+import { setToken, getToken, getUsername, setUsername, setPassword, getPassword } from '../components/userTokenManager';
 import axios from 'axios';
 import Navigation from '../navigation';
 import useAuth from '../hooks/useAuth';
@@ -14,47 +14,46 @@ import useAuth from '../hooks/useAuth';
 //when submit is clicked, check if token matches a user, then login 
 //if it matches a user's token, attach 
 //if token is still null, then the user 
-export default function LoginScreen({username, password}) {
-
+export default function LoginScreen() {
+  // const [username, setUsername]= useState<string|null>();
+  // const [password, setPassword]=useState<string|null>();
+  // const password = useRef<HTMLInputElement|null>(null);
+  // const username = useRef<HTMLInputElement|null>(null);
+  // const [authenticated, setAuthenticated] = useState(false);
   const { signIn } = useAuth();
-  // const password = useRef<HTMLInputElement>();
-  // const username = useRef<HTMLInputElement>();
-  
-  
-  function getUsername(event: React.MouseEvent<HTMLElement>) {
-    console.log(username.current);
-  }
-
-  function getPassword(event: React.MouseEvent<HTMLElement>) {
-    console.log(password.current);
-  }
-
-  // const verifyUser = async() => {
-  //   const res = await axios.post('',{
-  //     username: username,
-  //     password: password,
-  //   });
-  //   const data = res.data;
-  //   setToken(data);
-    //get request a body, that has the token in it, 
-    //wait for response
-    //if 200 status, check body for user_id 
+   
+  // function handleSetUsername(event: ChangeEvent<{ value: string }>) {
+  //   event.preventDefault();
+  //   setUsername(event.target.value)
   // }
-  //if getToken isn't null, then navigate to the app
-console.log("token is: ",getToken());
+
+  // function handleSetPassword(event: React.MouseEvent<HTMLElement>) {
+  //   event.preventDefault();
+  //   setPassword(event.target.value)
+  // }
+
+  // useEffect(()=>{
+  //  console.log("username is: ", username)
+  //  console.log("password is: ", password)
+  // },[username])
+
+console.log("console log:", getUsername());
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Please enter your username:</Text>
-      <TextInput 
-        ref={username}
-        placeholder='enter username' 
+      
+      <TextInput
+        onChange={(e)=>{
+          setUsername(e.nativeEvent.text)
+        }}
       >
       </TextInput>
       <Text style={styles.title}>Please enter your password:</Text>
-      <TextInput 
-        ref={password}
+      <TextInput
         placeholder='password'
         secureTextEntry={true} 
+        onChange={(e)=>setPassword(e.nativeEvent.text)
+       }
       >
       </TextInput>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />

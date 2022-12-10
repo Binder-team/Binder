@@ -33,6 +33,7 @@ export default function Navigation({
     >
       <AuthProvider 
         setAuthenticated={setAuthenticated}
+        authenticated={authenticated}
       >
         <RootNavigator />
       </AuthProvider>
@@ -48,7 +49,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   
-
   return (
     <Stack.Navigator >
       {getToken()!==null?(
