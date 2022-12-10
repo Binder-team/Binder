@@ -1,29 +1,22 @@
-<<<<<<< HEAD
 import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-=======
-import { useState, useRef } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, Button } from 'react-native';
->>>>>>> 5e0c6159b755d5f5a3aa314c8226be6e0796b723
+//import { useState, useRef } from 'react';
+//import { StyleSheet, TextInput, TouchableOpacity, Button } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { RootTabScreenProps } from '../types';
-<<<<<<< HEAD
 import FormButton from '../components/FormButton';
 import FormInput from '../components/FormInput';
 import { AuthContext } from '../navigation/AuthProvider';
 
 
-=======
-import { setToken, getToken } from '../components/userTokenManager';
+//import { setToken, getToken } from '../components/userTokenManager';
 import axios from 'axios';
 import Navigation from '../navigation';
 import useAuth from '../hooks/useAuth';
->>>>>>> 5e0c6159b755d5f5a3aa314c8226be6e0796b723
 
 
 //on click, call a function that verifies if user exists
 //this is the main page where user swipes on a book or not. for now, just two buttons
-<<<<<<< HEAD
 export default function LoginScreen({ navigation }) {
 
     const [email, setEmail] = useState('');
@@ -55,7 +48,10 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.navButtonText}>New user? Join here</Text>
       </TouchableOpacity>
     </View>
-=======
+)};
+
+
+/*
 //when submit is clicked, check if token matches a user, then login 
 //if it matches a user's token, attach 
 //if token is still null, then the user 
@@ -110,10 +106,12 @@ console.log("token is: ",getToken());
         <Button title='SUBMIT' onPress={signIn}/>
     </TouchableOpacity>
 </View>
->>>>>>> 5e0c6159b755d5f5a3aa314c8226be6e0796b723
   );
 }
- 
+ */
+
+
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#f5f5f5',

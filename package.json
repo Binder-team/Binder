@@ -16,12 +16,7 @@
     "@react-navigation/bottom-tabs": "^6.4.3",
     "@react-navigation/native": "^6.0.16",
     "@react-navigation/native-stack": "^6.9.4",
-<<<<<<< HEAD
-    "@react-navigation/stack": "^6.3.7",
-    "axios": "^1.2.0",
-=======
     "axios": "^1.2.1",
->>>>>>> 5e0c6159b755d5f5a3aa314c8226be6e0796b723
     "flatlist": "^0.0.0",
     "react": "18.1.0",
     "react-hook-form": "^7.40.0",

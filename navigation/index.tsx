@@ -19,7 +19,7 @@ import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../typ
 import useAuth, { AuthProvider } from "../hooks/useAuth";
 // import LinkingConfiguration from "./LinkingConfiguration";
 
-import { AuthProvider } from "./AuthProvider";
+//import { AuthProvider } from "./AuthProvider";
 
 export default function Navigation({
   colorScheme,

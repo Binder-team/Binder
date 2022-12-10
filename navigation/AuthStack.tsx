@@ -13,6 +13,7 @@ export default function AuthStack() {
         options={{ header: () => null }}
       />
       <Stack.Screen name='Signup' component={SignupScreen} />
+  
     </Stack.Navigator>
   );
 }
