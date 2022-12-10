@@ -43,6 +43,7 @@ console.log("console log:", getUsername());
       <Text style={styles.title}>Please enter your username:</Text>
       
       <TextInput
+        placeholder='enter username'
         onChange={(e)=>{
           setUsername(e.nativeEvent.text)
         }}
