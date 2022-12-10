@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Button, Text, View, Image, StatusBar, useWindowDimensions } from 'react-native';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import { StyleSheet, Button, Text, View, Image, StatusBar, useWindowDimensions, Pressable } from 'react-native';
+import { GestureDetector, GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import axios from 'axios';
 import BookCard from './BookCard';
 import Animated, { 
@@ -15,6 +15,7 @@ import Animated, {
   event
 } from 'react-native-reanimated';
 import { Book } from '../types';
+import { getToken, setToken } from './userTokenManager';
 
 
 
@@ -180,102 +181,56 @@ const nextProfile = bookData[nextIndex];
 
 const {width: screenWidth} = useWindowDimensions();
 
-const hiddenTranslatex = 2 * screenWidth;
-
-const translateX = useSharedValue(0);
-
-const rotate = useDerivedValue(() => 
-    interpolate(translateX.value, [0, hiddenTranslatex], [0, ROTATION])+ 'deg');
+const sharedValue = useSharedValue(0)
 
 const cardStyle = useAnimatedStyle(() => ({
-  transform: [
-    {
-      translateX: translateX.value,
-    },
-    {
-      rotate: rotate.value,
-    },
+  transform: [{
+    translateX: sharedValue.value 
+  },
+
   ],
 }));
 
-const nextCardStyle = useAnimatedStyle(()=> ({
-  transform: [
-    {
-      scale: interpolate(
-        translateX.value,
-        [-hiddenTranslatex, 0, hiddenTranslatex], 
-        [1, 0.8, 1],
-      ),
-    },
-  ],
-  opacity: interpolate(
-    translateX.value, 
-    [-hiddenTranslatex, 0, hiddenTranslatex],
-    [1, 0.5, 1],
-  ),
-}));
-
-
-const gestureHandler = useAnimatedGestureHandler({
-  onStart: (_, context: AnimatedGHContext) => {
-    context.startX = translateX.value;
+const gestureHandler = useAnimatedGestureHandler ({
+  onStart: () =>{
     console.log('Touch start');
   },
-  onActive: (event, context) => {
-    translateX.value = context.startX + event.translationX;
+  onActive: (event) => {
+    sharedValue.value = event.translationX;
+    console.log('Touch x: ', event.translationX);
   },
-  onEnd: event => {
-    if (Math.abs(event.velocityX) < SWIPE_VELOCITY) {
-      translateX.value = withSpring(0);
-      console.log('Touch end')
-      return;
-    }
-
-    translateX.value = withSpring(
-      hiddenTranslatex * Math.sign(event.velocityX),
-      {},
-      () => runOnJS(setCurrentIndex)(currentIndex + 1),
-    );
-
-    const swipeDirection = event.velocityX > 0 ? SWIPE_DIRECTION.RIGHT: SWIPE_DIRECTION.LEFT;
-    swipeDirection && runOnJS(onSwipe)(currentProfile);
-      
-  },
-});
-
-useEffect(() => {
-  translateX.value = 0;
-  setNextIndex(currentIndex + 1);
-}, [currentIndex, translateX]);
-      
-
-    
+  onEnd: ()=>{
+    console.log('Touch end');
+  }
+})
 
   return (
-    <View style={styles.container}>
-      {nextProfile && (
-        <View style={styles.nextCardContainer}>
-          <Animated.View style={[styles.animatedCard, nextCardStyle]}>
-              <BookCard bookData={nextProfile}/> 
-          </Animated.View>
-        </View>
-      )}
-
-      {currentProfile && (
-        <PanGestureHandler onGestureEvent={gestureHandler}>
-          <Animated.View style={[styles.animatedCard, cardStyle]}>
-            <BookCard bookData= {currentProfile} /> 
-          </Animated.View>
+    <GestureHandlerRootView style={{flex: 1}}>
+    <View style={styles.pageContainer}>
+      <PanGestureHandler onGestureEvent={gestureHandler}>
+       
+          <Animated.View style={[styles.animatedCard,cardStyle]}>
+              <BookCard bookData={currentProfile}/> 
+          </Animated.View> 
+         
         </PanGestureHandler>
-      )}        
+         
+
+    <Pressable 
+    onPress={()=> (sharedValue.value = withSpring(Math.random()))}
+    >
+      <Text>Change Value</Text>
+      </Pressable>    
+         
     </View>
+    </GestureHandlerRootView>
   );
 }
 
 
 
 const styles = StyleSheet.create({
-  container: {
+  pageContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
