@@ -1,9 +1,33 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, ReactNode, useState } from 'react';
 import auth from '@react-native-firebase/auth';
-export const AuthContext = createContext({});
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+
+
+export type UserData = {
+   email: 'string';
+   password: 'string';
+   token: 'string';
+}
+
+export type AuthData ={
+  user: UserData | null;
+  login: (email: string, password: string)=> Promise<void>;
+  register:(email: string, password: string)=> Promise<void>;
+  logout(): void; 
+  setUser: Function;
+}
+
+export type AuthProviderProps = {
+  children? : ReactNode
+}
+
+
+export const AuthContext = createContext<AuthData>({} as AuthData);
+
+export const AuthProvider :React.FC= ({ children }: AuthProviderProps) => {
+
+  const [user, setUser] = useState<UserData | null>(null);
+
   return (
     <AuthContext.Provider
       value={{
@@ -29,7 +53,7 @@ export const AuthProvider = ({ children }) => {
           } catch (e) {
             console.error(e);
           }
-        }
+        },
       }}
     >
       {children}

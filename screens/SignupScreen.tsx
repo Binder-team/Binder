@@ -6,7 +6,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 
 
 
- export default function SignupScreen({navigation}) {
+ export default function SignupScreen({ navigation }) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

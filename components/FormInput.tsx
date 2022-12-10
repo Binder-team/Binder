@@ -6,11 +6,11 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export type Props = {
-    labelValue: String;
-    placeholderText: String;
+    labelValue: string;
+    placeholderText: string;
 }
 
-export default function FormInput({ labelValue, placeholderText, ...rest }) {
+export default function FormInput ({ labelValue, placeholderText, ...rest }: Props) {
   return (
     <TextInput
       value={labelValue}

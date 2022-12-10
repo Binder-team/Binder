@@ -19,9 +19,10 @@ import useAuth from '../hooks/useAuth';
 //this is the main page where user swipes on a book or not. for now, just two buttons
 export default function LoginScreen({ navigation }) {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-     const { login } = useContext(AuthContext);
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const { login } = useContext(AuthContext);
+
 
   return (
       <View style={styles.container}>
