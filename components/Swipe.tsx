@@ -175,8 +175,8 @@ const [profile, setProfile] = useState(bookData[0]);
 
           <Image 
           style={{width: 100, height: 100}}
-          // source={{uri: bookData[index]["thumbnail_url"]}}
-          source={{uri: `${bookData[index]["thumbnail_url"]}` }}
+          source={{uri: bookData[index]["thumbnail_url"]}}
+          // source={{uri: `${bookData[index]["thumbnail_url"]}` }}
           />
 
           

@@ -14,19 +14,20 @@ export const AuthProvider = ({children, setAuthenticated, authenticated}) => {
     // const password = getPassword();
     
    
-    const signIn =  () => {
+    const signIn =  async () => {
         const username = getUsername();
         console.log("username in useAuth login", username)
-        // const res = await axios.post('https://binderapp-server.herokuapp.com/api/login', {username});
-        // const data = await res.data;
-        // if(res.status === 400) {
-        //     setToken(data)
-        //     setAuthenticated(true);
-        // } else {
-        //     console.log("failed")
-        // }
-        setToken("something");
-        setAuthenticated(true);
+        const res = await axios.post('https://binderapp-server.herokuapp.com/api/login', {username});
+        const data = await res.data;
+        if(res.status === 200) {
+            setToken(data)
+            console.log(getToken())
+            setAuthenticated(true);
+        } else {
+            console.log("failed")
+        }
+        // setToken("something");
+        // setAuthenticated(true);
     }
 
 
