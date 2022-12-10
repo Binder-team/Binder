@@ -74,9 +74,9 @@ const MyBooks: React.FC<Props> = ({book, BookItem}) => {
         />
       </View>
       <View>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text>{item.author}</Text>
-        <Text>{item.condition}</Text>
+        <Text style={styles.title}>Title:{item.title}</Text>
+        <Text>Author:{item.author}</Text>
+        <Text>Condition:{item.condition}</Text>
       </View>
     </View>
   );
