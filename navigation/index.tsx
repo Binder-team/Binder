@@ -13,10 +13,10 @@ import { getToken } from "../components/userTokenManager";
 import BookMatchingScreen from "../screens/BookMatchingScreen";
 import AddBooksScreen from "../screens/AddBooksScreen";
 import MyPageScreen from "../screens/MyPageScreen";
-import MessagesScreen from "../screens/MessagesScreen";
+import MatchScreen from "../screens/MatchScreen";
 import LoginScreen from "../screens/LoginScreen";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
-import useAuth, { AuthProvider } from "../hooks/useAuth";
+import { AuthProvider } from "../hooks/useAuth";
 // import LinkingConfiguration from "./LinkingConfiguration";
 
 export default function Navigation({
@@ -98,7 +98,7 @@ function BottomTabNavigator() {
           // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Pressable
-              onPress={() => navigation.navigate("Messages")}
+              onPress={() => navigation.navigate("MatchScreen")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}
@@ -126,16 +126,27 @@ function BottomTabNavigator() {
         component={MyPageScreen}
         options={{
           title: "My Page",
+          headerRight: () => (
+            <Pressable
+              onPress={() => navigation.navigate("MatchScreen")}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+              color="#fff"
+            >
+             
+            </Pressable>
+          ),
           // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
-      {/* <BottomTab.Screen
-        name="LoginTab"
-        component={LoginScreen}
+      <BottomTab.Screen
+        name="MatchTab"
+        component={MatchScreen}
         options={{
-          title: "Login Page",
+          title: "Your Matches",
         }}
-      /> */}
+      />
     </BottomTab.Navigator>
     
   );
