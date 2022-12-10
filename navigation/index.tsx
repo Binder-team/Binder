@@ -95,22 +95,6 @@ function BottomTabNavigator() {
         component={BookMatchingScreen}
         options={({ navigation }: RootTabScreenProps<"FindBookTab">) => ({
           title: "Find a book",
-          // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("MatchScreen")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              {/* <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              /> */}
-            </Pressable>
-          ),
         })}
       />
       <BottomTab.Screen
@@ -118,26 +102,13 @@ function BottomTabNavigator() {
         component={AddBooksScreen}
         options={{
           title: "Add a book",
-          // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="MyPageTab"
         component={MyPageScreen}
         options={{
-          title: "My Page",
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("MatchScreen")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-              color="#fff"
-            >
-             
-            </Pressable>
-          ),
-          // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "My Page"
         }}
       />
       <BottomTab.Screen
