@@ -60,7 +60,7 @@ const AddBooks = () => {
       console.log(bookTitle);
       const key = 'AIzaSyAS32GEr_NB25nXnjTjbEBabB8xatzPznE';
       const fetchedData = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitle}&printType=books&orderBy=relevance&key=${key}`);
-      const firstBook = fetchedData.data.items[2];
+      const firstBook = fetchedData.data.items[1];
       const fetchedBook = await axios.get(`https://www.googleapis.com/books/v1/volumes/${firstBook.id}?key=${key}`);
       const bookData = fetchedBook.data.volumeInfo;
       console.log(bookData.title);

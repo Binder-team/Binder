@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, View, FlatList, Image } from "react-native";
 import axios from 'axios';
-import BookItem  from '../components/BookItem';
+import { getUsername } from "./userTokenManager";
 import { Book } from '../types';
 
 export type Props = {
@@ -17,8 +17,10 @@ const MyBooks: React.FC<Props> =({ book, BookItem }) => {
   //in the return statement, map through array to render
 
   const handleFetch = async() => {
-    const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books`);
-    const data = await res.data;
+    const fetchedUser = await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`);
+    const id = fetchedUser.data.id;
+    const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/user/${id}`);
+    const data = res.data;
     setData(data);
     // console.log(data);
   };
