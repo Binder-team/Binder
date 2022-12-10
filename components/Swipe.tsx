@@ -14,6 +14,7 @@ import Animated, {
   runOnJS,
   event
 } from 'react-native-reanimated';
+import { Book } from '../types';
 
 
 
@@ -150,6 +151,25 @@ const Swipe = ({
     }
 ]); //where all user's books get stored, as an array
 
+//handlerFunction
+async function swipeRight (bookObj: Book) {
+  await axios.post("https://binderapp-server.herokuapp.com/api/trade_tables", {
+    sender: 1,
+    receiver: bookObj.user_id,
+    book_id: bookObj.book_id,
+    is_matched: false,
+    is_accepted:false,
+    is_exchanged:false
+  })
+  await axios.post("https://binderapp-server.herokuapp.com/api/trade_tables/match", {
+    sender: 1,
+    receiver: bookObj.user_id,
+    book_id: bookObj.book_id,
+    is_matched: false,
+    is_accepted:false,
+    is_exchanged:false
+  })
+}
 
  
 const [currentIndex, setCurrentIndex] = useState(0);
