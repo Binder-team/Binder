@@ -30,6 +30,11 @@ export type Props = {
       <View style={{backgroundColor: 'white', height: '100%'}}>
       <Text style={styles.title}> My Profile</Text>
       <View style={{ flexDirection: 'row' }}>
+      <View style={styles.profile}>
+        
+      </View>
+        
+        
         <View style={styles.button}>
           <TouchableOpacity  onPress={() => setCurrentView("myBooks")}>
           <Text>My Books</Text>       
