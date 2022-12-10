@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TouchableOpacity, Text, TextInput, StyleSheet, View, Button} from "react-native";
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
+import { getUsername } from "./userTokenManager";
 
 type BookData = {
     isbn: string;
@@ -67,8 +68,10 @@ const AddBooks = () => {
       console.log(Number(condition));
       console.log(fetchedBook.data.id);
       try {
+          const fetchedUser = await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`);
+          const userId = fetchedUser.data.id;
           await axios.post('https://binderapp-server.herokuapp.com/api/user_books', {
-            user_id: 1,
+            user_id: userId,
             is_available: true,
             title: bookData.title,
             author: bookData.authors.join(', '),
