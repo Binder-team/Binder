@@ -39,7 +39,7 @@ export default function BookMatchingScreen({ navigation }: RootTabScreenProps<'F
       {<Swipe  /> }
       
 
-      <EditScreenInfo path="/screens/BookMatchingScreen.tsx" />
+     
     </View>
   );
 }

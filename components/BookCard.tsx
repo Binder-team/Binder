@@ -47,6 +47,8 @@ const books = [
 
 ]
 
+
+
  
    //===IMPORTANT===
   let index = 0;  //index should be declared outside of App to avoid duplicates.  

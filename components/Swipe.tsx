@@ -25,11 +25,11 @@ export enum SWIPE_DIRECTION {
   DEFAULT = 'default'
 }
 
-interface Value {
+export interface Value {
   value : number;
 }
 
-interface Props {
+export interface Props {
   x: Value;
   onStart: () => void;
   onActive: () => void;
@@ -37,7 +37,7 @@ interface Props {
   onSwipe : (direction: SWIPE_DIRECTION) => void;
 }
 
-type AnimatedGHContext  = {
+export type AnimatedGHContext  = {
   startX: number;
 }
 
@@ -104,7 +104,6 @@ const books = [
 
 const Swipe = ({
   x,
-  
   onStart,
   onActive,
   onEnd,
@@ -181,26 +180,34 @@ const nextProfile = bookData[nextIndex];
 
 const {width: screenWidth} = useWindowDimensions();
 
-const sharedValue = useSharedValue(0)
+const hiddenSreenWidth = 2 * screenWidth; 
+
+const sharedValue = useSharedValue(0);
+const rotate = useDerivedValue(() =>  interpolate(
+  sharedValue.value, [0, hiddenSreenWidth], [0, ROTATION]) +  'deg');
 
 const cardStyle = useAnimatedStyle(() => ({
   transform: [{
-    translateX: sharedValue.value 
+    translateX: sharedValue.value,
   },
-
+  {
+    rotate: rotate.value,
+  },
   ],
 }));
 
 const gestureHandler = useAnimatedGestureHandler ({
-  onStart: () =>{
-    console.log('Touch start');
+  onStart: (_, context: AnimatedGHContext) =>{
+    //console.log('Touch start');
+    context.startX = sharedValue.value;
   },
-  onActive: (event) => {
+  onActive: (event, context: AnimatedGHContext) => {
     sharedValue.value = event.translationX;
-    console.log('Touch x: ', event.translationX);
+    //console.log('Touch x: ', event.translationX);
   },
   onEnd: ()=>{
-    console.log('Touch end');
+    //console.log('Touch end');
+
   }
 })
 
@@ -217,10 +224,9 @@ const gestureHandler = useAnimatedGestureHandler ({
          
 
     <Pressable 
-    onPress={()=> (sharedValue.value = withSpring(Math.random()))}
-    >
+        onPress={()=> (sharedValue.value = withSpring(Math.random()))} >
       <Text>Change Value</Text>
-      </Pressable>    
+    </Pressable>    
          
     </View>
     </GestureHandlerRootView>
