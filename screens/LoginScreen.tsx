@@ -32,7 +32,7 @@ export default function LoginScreen() {
       >
       </TextInput>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/BookMatchingScreen.tsx" />
+      
     
     
     <TouchableOpacity>

@@ -14,4 +14,4 @@ let password:string = "";
 let getPassword = () => password;
 let setPassword = (t:string) => {password = t}
 
-export {getToken, setToken, resetToken, getUsername, setUsername, getPassword, setPassword};
+export {getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword};
