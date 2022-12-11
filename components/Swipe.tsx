@@ -30,7 +30,7 @@ export interface Value {
 }
 
 export interface Props {
-  x: Value;
+  //x: Value;
   onStart: () => void;
   onActive: () => void;
   onEnd: () => void;
@@ -103,14 +103,13 @@ const books = [
     //It's here for now and resets every time this loads
 
 const Swipe = ({
-  x,
   onStart,
   onActive,
   onEnd,
   onSwipe, 
 }: Props) => {
 
-
+/*
   const [bookData, setBookData] = useState([
 
     {
@@ -150,7 +149,7 @@ const Swipe = ({
         "author": "Haruki Murakami"
     }
 ]); //where all user's books get stored, as an array
-
+*/
 //handlerFunction
 async function swipeRight (bookObj: Book) {
   await axios.post("https://binderapp-server.herokuapp.com/api/trade_tables", {
@@ -171,6 +170,7 @@ async function swipeRight (bookObj: Book) {
   })
 }
 
+const [bookData, setBookData]= useState<Book[]>([]);
  
 const [currentIndex, setCurrentIndex] = useState(0);
 const [nextIndex, setNextIndex] = useState(currentIndex + 1);
@@ -196,6 +196,17 @@ const cardStyle = useAnimatedStyle(() => ({
   ],
 }));
 
+const nextCardStyle = useAnimatedStyle(() => ({
+  transform: [
+    {
+    scale: interpolate(sharedValue.value,
+       [-hiddenSreenWidth, 0, hiddenSreenWidth],
+        [1, 0.5, 1]
+        ),
+    },  
+  ]
+}))
+
 const gestureHandler = useAnimatedGestureHandler ({
   onStart: (_, context: AnimatedGHContext) =>{
     //console.log('Touch start');
@@ -213,22 +224,19 @@ const gestureHandler = useAnimatedGestureHandler ({
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-    <View style={styles.pageContainer}>
+      <View style={styles.pageContainer}>
+      <View style={styles.nextCardContainer}>
+        <Animated.View style={[styles.animatedCard,nextCardStyle]}>
+           <BookCard bookData={nextProfile}/>
+        </Animated.View>
+        </View>
       <PanGestureHandler onGestureEvent={gestureHandler}>
-       
           <Animated.View style={[styles.animatedCard,cardStyle]}>
               <BookCard bookData={currentProfile}/> 
           </Animated.View> 
-         
-        </PanGestureHandler>
-         
-
-    <Pressable 
-        onPress={()=> (sharedValue.value = withSpring(Math.random()))} >
-      <Text>Change Value</Text>
-    </Pressable>    
-         
-    </View>
+      </PanGestureHandler>
+      </View>    
+   
     </GestureHandlerRootView>
   );
 }
@@ -239,20 +247,26 @@ const styles = StyleSheet.create({
   pageContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
-    width: '100%',
+    //flex: 1,
+    backgroundColor:'red'
   },
   animatedCard: {
-    width: '90%',
+    width: '80%',
+    height: '70%',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //backgroundColor:'blue',
+  },
+  nextCardContainer: {
+   // ...StyleSheet.absoluteFillObject,
+    width: '100%',
     height: '70%',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  nextCardContainer: {
-    ...StyleSheet.absoluteFillObject,
-
-    justifyContent: 'center',
-    alignItems: 'center',
+    
+    //flex: 1,
+    //backgroundColor: 'green'
   },
 });
 
