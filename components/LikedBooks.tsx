@@ -11,9 +11,8 @@ import {
 } from 'react-native';
 
 import axios from 'axios';
-
+import {getUsername} from './userTokenManager';
 import {Book} from '../types';
-import {Title} from 'react-native-paper';
 
 export type Props = {
   book: Book;
@@ -21,25 +20,34 @@ export type Props = {
 };
 
 const MyBooks: React.FC<Props> = ({book, BookItem}) => {
-  const [data, setData] = useState<[]>([]); //where all user's books get stored, as an array
+  const [books, setBooks] = useState<[]>([]); //where all user's books get stored, as an array
 
   //axios get all books from user using 'https://binderapp-server.herokuapp.com/api/user_books'
   //it's going to be stored in the state, data, then
   //in the return statement, map through array to render
 
-  const handleFetch = async () => {
-    const res = await axios.get(
-      `https://binderapp-server.herokuapp.com/api/user_books`,
+  const getLikedBooks = async () => {
+    const fetchLikes = await axios.get(
+      `https://binderapp-server.herokuapp.com/api/trade_table/liked/${getUsername()}`,
     );
-    const data = await res.data;
-    setData(data);
-    console.log(data);
-  };
+    console.log(fetchLikes, '🥰');
+    const likes = fetchLikes.data;
 
+    const bookId = likes.map(like => like.book_id);
+    const booksArray = bookId.map(async id => {
+      const bookObj = await axios.get(
+        `https://binderapp-server.herokuapp.com/api/user_books/${id}`,
+      );
+      return bookObj.data;
+    });
+
+    setBooks(booksArray);
+  };
   useEffect(() => {
-    handleFetch();
+    getLikedBooks();
   }, []);
-  //map over data
+
+  //map over Books
   // const showBooks = data.map(obj => {
   //   return (
   //     <View key={obj['id']}>
@@ -93,7 +101,7 @@ const MyBooks: React.FC<Props> = ({book, BookItem}) => {
         //contentContainerStyle={{paddingBottom: 30}}
         persistentScrollbar
         //contentContainerStyle={{marginBottom: 20}}
-        data={data}
+        data={books}
         renderItem={oneBook}
         ItemSeparatorComponent={itemSeparator}
         showsHorizontalScrollIndicator={false}
