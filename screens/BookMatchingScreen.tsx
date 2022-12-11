@@ -60,6 +60,7 @@ const Swipe = ({
 const [bookData, setBookData] = useState([]); //where all user's books get stored, as an array
 const [currentIndex, setCurrentIndex] = useState(0);
 const [nextIndex, setNextIndex] = useState(currentIndex + 1);
+const [currentCard, setCurrentCard] = useState(bookData[currentIndex]);
 
 const currentProfile = bookData[currentIndex];
 const nextProfile = bookData[nextIndex];
@@ -162,6 +163,7 @@ const gestureHandler = useAnimatedGestureHandler ({
 useEffect(() => {
   sharedValue.value = 0;
   setNextIndex(currentIndex + 1)
+  console.log(currentIndex);
 }, [currentIndex, sharedValue]);
 
   return (
@@ -170,7 +172,7 @@ useEffect(() => {
         {nextProfile && ( 
       <View style={styles.nextCardContainer}>
         <Animated.View style={[styles.animatedCard,nextCardStyle]}>
-           <BookCard bookData={nextProfile} />
+           <BookCard bookData={nextProfile} index={currentIndex}/>
         </Animated.View>
         </View>
         )}
@@ -178,7 +180,7 @@ useEffect(() => {
         {currentProfile && (
       <PanGestureHandler onGestureEvent={gestureHandler}>
           <Animated.View style={[styles.animatedCard,cardStyle]}>
-              <BookCard bookData={currentProfile}  /> 
+              <BookCard bookData={currentProfile}  index={currentIndex}/> 
           </Animated.View> 
       </PanGestureHandler>
       )}

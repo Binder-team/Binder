@@ -54,7 +54,7 @@ const books = [
   let index = 0;  //index should be declared outside of App to avoid duplicates.  
     //It's here for now and resets every time this loads
 
- const BookCard =({}) => {
+ const BookCard =(props) => {
   const [bookData, setBookData] = useState([
     {
         "id": 7,
@@ -65,7 +65,7 @@ const books = [
         "condition": 7,
         "image_url": null,
         "thumbnail_url": "http://books.google.com/books/content?id=Yz8Fnw0PlEQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-        "title": "The Hunger Games",
+        "title": "The Mungy Games",
         "author": "Suzanne Collins"
     },
     {
@@ -95,7 +95,7 @@ const books = [
   ]);
   //const [profile, setProfile] = useState(bookData[0]);  //where all user's books get stored, as an array
 
-   const handleFetch = async() => {
+  const handleFetch = async() => {
     const res = await axios.get('https://binderapp-server.herokuapp.com/api/user_books');
     const data = await res.data;
     setBookData(data);
@@ -103,21 +103,21 @@ const books = [
     //console.log(data);   
   };
 
-   useEffect(()=>{
+  useEffect(()=>{
     handleFetch();
   },[]);
 
   const [bookPosition, setBookPosition] = useState(bookData[0]);
- 
+
 
     return (
         <View style={styles.card}>
             <ImageBackground 
-                source={{uri: `${bookData[index]["thumbnail_url"]}` }}
+                source={{uri: `${bookData[ props.index ]["thumbnail_url"]}` }}
                 style={styles.cardImage}>
                     <View style={styles.cardInner}>
-                        <Text style={styles.title}>{bookData[index]["title"]}</Text>
-                        <Text style={styles.description}>Condition: {bookData[index]["condition"]}</Text>
+                        <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
+                        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>
                     </View>
             </ImageBackground>            
         </View>
