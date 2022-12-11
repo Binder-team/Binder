@@ -11,34 +11,14 @@ import Animated, {
   useAnimatedGestureHandler,
   interpolate,
   withSpring,
-  runOnJS,
+  runOnJS, 
   event
 } from 'react-native-reanimated';
 import { Book } from '../types';
 import { getToken, setToken } from '../components/userTokenManager';
 
-/*
-const profiles = [
-  {
-    name:"John Doe",
-    age:27,
-    likes:["Hockey","Hiking"],
-    pic:"https://www.exampleimagelink.png"
-  },
-  {
-    name:"Alexis Texas",
-    age:22,
-    likes:["Parties","Bananas"],
-    pic:"https://www.exampleimagelink2.png"
-  },
-  {
-    name:"Jane Smith",
-    age:35,
-    likes:["Netflix","Wine"],
-    pic:"https://www.exampleimagelink3.png"
-  }
-]
- */
+
+
 
 export enum SWIPE_DIRECTION {
   LEFT = 'left',
@@ -67,7 +47,7 @@ const SWIPE_VELOCITY = 800;
 
 
     //===IMPORTANT===
-  let index = 0;  //index should be declared outside of App to avoid duplicates.  
+  //let index = 0;  //index should be declared outside of App to avoid duplicates.  
     //It's here for now and resets every time this loads
 
 const Swipe = ({
@@ -77,51 +57,31 @@ const Swipe = ({
   onSwipe, 
 }: Props) => {
 
-/*
-  const [bookData, setBookData] = useState([
 
-    {
-        "id": 7,
-        "user_id": 3,
-        "book_id": "0",
-        "is_available": true,
-        "isbn": "9780439023481",
-        "condition": 7,
-        "image_url": null,
-        "thumbnail_url": "http://books.google.com/books/content?id=Yz8Fnw0PlEQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-        "title": "The Hunger Games",
-        "author": "Suzanne Collins"
-    },
-    {
-        "id": 8,
-        "user_id": 3,
-        "book_id": "0",
-        "is_available": true,
-        "isbn": "9781594631931",
-        "condition": 8,
-        "image_url": null,
-        "thumbnail_url": "http://books.google.com/books/content?id=ykWQEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-        "title": "The Kite Runner",
-        "author": "Khaled Hosseini"
-    },
-    {
-        "id": 9,
-        "user_id": 3,
-        "book_id": "0",
-        "is_available": true,
-        "isbn": "0307762718",
-        "condition": 6,
-        "image_url": null,
-        "thumbnail_url": "http://books.google.com/books/content?id=1EhPf1ZptXwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-        "title": "Norwegian Wood",
-        "author": "Haruki Murakami"
-    }
-]); //where all user's books get stored, as an array
-*/
+const [bookData, setBookData] = useState([]); //where all user's books get stored, as an array
+const [currentIndex, setCurrentIndex] = useState(0);
+const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 
+const currentProfile = bookData[currentIndex];
+const nextProfile = bookData[nextIndex];
+
+//const[profile, setProfile] = useState(currentProfile);
+
+
+const handleFetch = async() => {
+    const res = await axios.get('https://binderapp-server.herokuapp.com/api/user_books');
+    const data = await res.data;
+    setBookData(data);
+    //console.log(data);  
+  };
+
+
+  useEffect(()=>{
+    handleFetch();
+  },[]);
 
 //handlerFunction
-async function swipeRight (bookObj: Book) {
+  async function swipeRight (bookObj: Book) {
   await axios.post("https://binderapp-server.herokuapp.com/api/trade_tables", {
     sender: 1,
     receiver: bookObj.user_id,
@@ -139,14 +99,6 @@ async function swipeRight (bookObj: Book) {
     is_exchanged:false
   })
 }
-
-const [bookData, setBookData]= useState<Book[]>([]);
- 
-const [currentIndex, setCurrentIndex] = useState(0);
-const [nextIndex, setNextIndex] = useState(currentIndex + 1);
-
-const currentProfile = bookData[currentIndex];
-const nextProfile = bookData[nextIndex];
 
 const {width: screenWidth} = useWindowDimensions();
 
@@ -171,10 +123,15 @@ const nextCardStyle = useAnimatedStyle(() => ({
     {
     scale: interpolate(sharedValue.value,
        [-hiddenSreenWidth, 0, hiddenSreenWidth],
-        [1, 0.5, 1]
+        [1, 0.8, 1]
         ),
     },  
-  ]
+  ],
+  opacity: interpolate(
+    sharedValue.value,
+    [-hiddenSreenWidth, 0, hiddenSreenWidth],
+    [1, 0.6, 1]
+  )
 }))
 
 const gestureHandler = useAnimatedGestureHandler ({
@@ -186,25 +143,43 @@ const gestureHandler = useAnimatedGestureHandler ({
     sharedValue.value = event.translationX;
     //console.log('Touch x: ', event.translationX);
   },
-  onEnd: ()=>{
-    //console.log('Touch end');
+  onEnd: (event)=>{
 
-  }
-})
+    if(Math.abs(event.velocityX )< SWIPE_VELOCITY) {
+      sharedValue.value =withSpring(0);
+      return;
+    }
+    sharedValue.value = withSpring(
+      hiddenSreenWidth * Math.sign(event.velocityX),
+      {},
+      () =>runOnJS(setCurrentIndex)(currentIndex + 1)
+      );  
+  },
+});
+
+useEffect(() => {
+  sharedValue.value = 0;
+  setNextIndex(currentIndex + 1)
+}, [currentIndex, sharedValue]);
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <View style={styles.pageContainer}>
+        {nextProfile && ( 
       <View style={styles.nextCardContainer}>
         <Animated.View style={[styles.animatedCard,nextCardStyle]}>
-           <BookCard bookData={nextProfile}/>
+           <BookCard bookData={nextProfile} />
         </Animated.View>
         </View>
+        )}
+
+        {currentProfile && (
       <PanGestureHandler onGestureEvent={gestureHandler}>
           <Animated.View style={[styles.animatedCard,cardStyle]}>
-              <BookCard bookData={currentProfile}/> 
+              <BookCard bookData={currentProfile} /> 
           </Animated.View> 
       </PanGestureHandler>
+      )}
       </View>    
    
     </GestureHandlerRootView>
@@ -218,10 +193,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    backgroundColor:'red'
+    //backgroundColor:'red'
   },
   animatedCard: {
-    width: '80%',
+    width: '90%',
     height: '70%',
     //flex: 1,
     justifyContent: 'center',
