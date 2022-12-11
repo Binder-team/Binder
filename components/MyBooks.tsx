@@ -11,14 +11,9 @@ import {
 } from 'react-native';
 
 import axios from 'axios';
-<<<<<<< HEAD
-import { getUsername } from "./userTokenManager";
-import { Book } from '../types';
-=======
 
 import {Book} from '../types';
 import { getUsername } from "./userTokenManager";
->>>>>>> 716ddee15f874f89f180e688cc6077464a160a1a
 
 export type Props = {
   book: Book;
