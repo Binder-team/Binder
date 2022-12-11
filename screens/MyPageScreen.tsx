@@ -48,7 +48,13 @@ export type Props = {
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
-        <TouchableOpacity 
+        
+      
+      </View>
+      <View style={{backgroundColor: 'white', height: '100%'}}>
+      <Text style={styles.title}>My Profile</Text>
+      <Image style={styles.image}source={{uri:'https://ca.slack-edge.com/T043EUUMPPD-U043X7CT3N0-532658af7329-512'}}></Image>
+      <TouchableOpacity 
             onPress={() => {
             resetToken();
             setLogout(true);
@@ -56,11 +62,6 @@ export type Props = {
         >
           <Text style={styles.logout}>Log out</Text>
         </TouchableOpacity>
-      
-      </View>
-      <View style={{backgroundColor: 'white', height: '100%'}}>
-      <Text style={styles.title}>My Profile</Text>
-      <Image style={styles.image}source={{uri:'https://ca.slack-edge.com/T043EUUMPPD-U043X7CT3N0-532658af7329-512'}}></Image>
       <View style={styles.profileContainer}>
         <Text style={styles.username}>{data["username"]}</Text>
         <Text>city: {data["city"]}</Text>
@@ -94,6 +95,14 @@ export type Props = {
 
 
 const styles = StyleSheet.create({
+  logout:{
+    width: 100,
+    textAlign: 'center',
+    backgroundColor: '#5B8B8B',
+    padding: 1,
+    alignItems: 'center',
+    borderRadius:25
+  },
   image:{
     width:100,
     height:100,
@@ -124,6 +133,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5B8B8B',
     padding: 10,
     alignItems: 'center',
+    borderRadius:25
   },
   separator: {
     marginVertical: 30,
