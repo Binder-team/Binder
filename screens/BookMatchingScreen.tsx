@@ -31,7 +31,6 @@ export interface Value {
 }
 
 export interface Props {
-  //x: Value;
   onStart: () => void;
   onActive: () => void;
   onEnd: () => void;
@@ -65,7 +64,7 @@ const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 const currentProfile = bookData[currentIndex];
 const nextProfile = bookData[nextIndex];
 
-//const[profile, setProfile] = useState(currentProfile);
+const[profile, setProfile] = useState(currentProfile);
 
 
 const handleFetch = async() => {
@@ -154,6 +153,9 @@ const gestureHandler = useAnimatedGestureHandler ({
       {},
       () =>runOnJS(setCurrentIndex)(currentIndex + 1)
       );  
+
+     const onSwipe = event.velocityX > 0 ?  SWIPE_DIRECTION.RIGHT : SWIPE_DIRECTION.LEFT; 
+     onSwipe && runOnJS(onSwipe)(currentProfile);
   },
 });
 
@@ -176,12 +178,12 @@ useEffect(() => {
         {currentProfile && (
       <PanGestureHandler onGestureEvent={gestureHandler}>
           <Animated.View style={[styles.animatedCard,cardStyle]}>
-              <BookCard bookData={currentProfile} /> 
+              <BookCard bookData={currentProfile}  /> 
           </Animated.View> 
       </PanGestureHandler>
       )}
       </View>    
-   
+    
     </GestureHandlerRootView>
   );
 }

@@ -100,7 +100,7 @@ const books = [
     const data = await res.data;
     setBookData(data);
 
-    console.log(data);   
+    //console.log(data);   
   };
 
    useEffect(()=>{

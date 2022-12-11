@@ -178,6 +178,8 @@ const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 const currentProfile = bookData[currentIndex];
 const nextProfile = bookData[nextIndex];
 
+
+//swipe card implementation start
 const {width: screenWidth} = useWindowDimensions();
 
 const hiddenSreenWidth = 2 * screenWidth; 
@@ -220,7 +222,9 @@ const gestureHandler = useAnimatedGestureHandler ({
     //console.log('Touch end');
 
   }
-})
+});
+
+//swipe card functions end
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
