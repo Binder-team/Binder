@@ -227,12 +227,12 @@ const gestureHandler = useAnimatedGestureHandler ({
       <View style={styles.pageContainer}>
       <View style={styles.nextCardContainer}>
         <Animated.View style={[styles.animatedCard,nextCardStyle]}>
-           <BookCard bookData={nextProfile}/>
+           <BookCard bookData={nextProfile} index={currentIndex+1}/>
         </Animated.View>
         </View>
       <PanGestureHandler onGestureEvent={gestureHandler}>
           <Animated.View style={[styles.animatedCard,cardStyle]}>
-              <BookCard bookData={currentProfile}/> 
+              <BookCard bookData={currentProfile} index={currentIndex+1}/> 
           </Animated.View> 
       </PanGestureHandler>
       </View>    
