@@ -19,11 +19,7 @@
     "react": "18.1.0",
     "react-hook-form": "^7.40.0",
     "react-native": "0.70.6",
-<<<<<<< HEAD
     "react-native-cards-swipe": "^1.2.1",
-=======
-    "react-native-awesome-alerts": "^2.0.0",
->>>>>>> 81f50c8def865f5ecb16611cacbecd3a4e4b346a
     "react-native-gesture-handler": "^2.8.0",
     "react-native-paper": "^4.12.5",
     "react-native-reanimated": "^2.13.0",
