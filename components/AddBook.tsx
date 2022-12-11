@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TouchableOpacity, Text, TextInput, StyleSheet, View, Button} from "react-native";
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
+import { getUsername } from "./userTokenManager";
 
 type BookData = {
     isbn: string;
@@ -59,7 +60,7 @@ const AddBooks = () => {
       console.log(bookTitle);
       const key = 'AIzaSyAS32GEr_NB25nXnjTjbEBabB8xatzPznE';
       const fetchedData = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitle}&printType=books&orderBy=relevance&key=${key}`);
-      const firstBook = fetchedData.data.items[2];
+      const firstBook = fetchedData.data.items[1];
       const fetchedBook = await axios.get(`https://www.googleapis.com/books/v1/volumes/${firstBook.id}?key=${key}`);
       const bookData = fetchedBook.data.volumeInfo;
       console.log(bookData.title);
@@ -67,8 +68,10 @@ const AddBooks = () => {
       console.log(Number(condition));
       console.log(fetchedBook.data.id);
       try {
+          const fetchedUser = await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`);
+          const userId = fetchedUser.data.id;
           await axios.post('https://binderapp-server.herokuapp.com/api/user_books', {
-            user_id: 1,
+            user_id: userId,
             is_available: true,
             title: bookData.title,
             author: bookData.authors.join(', '),

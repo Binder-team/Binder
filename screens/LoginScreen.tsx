@@ -1,64 +1,38 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, ChangeEvent } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, Button } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-import { setToken, getToken } from '../components/userTokenManager';
+import { setToken, getToken, getUsername, setUsername, setPassword, getPassword } from '../components/userTokenManager';
 import axios from 'axios';
 import Navigation from '../navigation';
 import useAuth from '../hooks/useAuth';
 
 
-//on click, call a function that verifies if user exists
-//this is the main page where user swipes on a book or not. for now, just two buttons
-//when submit is clicked, check if token matches a user, then login 
-//if it matches a user's token, attach 
-//if token is still null, then the user 
-export default function LoginScreen({username, password}) {
 
+export default function LoginScreen() {
   const { signIn } = useAuth();
-  // const password = useRef<HTMLInputElement>();
-  // const username = useRef<HTMLInputElement>();
   
-  
-  function getUsername(event: React.MouseEvent<HTMLElement>) {
-    console.log(username.current);
-  }
-
-  function getPassword(event: React.MouseEvent<HTMLElement>) {
-    console.log(password.current);
-  }
-
-  // const verifyUser = async() => {
-  //   const res = await axios.post('',{
-  //     username: username,
-  //     password: password,
-  //   });
-  //   const data = res.data;
-  //   setToken(data);
-    //get request a body, that has the token in it, 
-    //wait for response
-    //if 200 status, check body for user_id 
-  // }
-  //if getToken isn't null, then navigate to the app
-console.log("token is: ",getToken());
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Please enter your username:</Text>
-      <TextInput 
-        ref={username}
-        placeholder='enter username' 
+      <TextInput
+        placeholder='enter username'
+        onChange={(e)=>{
+          setUsername(e.nativeEvent.text)
+        }}
       >
       </TextInput>
       <Text style={styles.title}>Please enter your password:</Text>
-      <TextInput 
-        ref={password}
+      <TextInput
         placeholder='password'
         secureTextEntry={true} 
+        onChange={(e)=>setPassword(e.nativeEvent.text)
+       }
       >
       </TextInput>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/BookMatchingScreen.tsx" />
+      
     
     
     <TouchableOpacity>

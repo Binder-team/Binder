@@ -13,10 +13,10 @@ import { getToken } from "../components/userTokenManager";
 import BookMatchingScreen from "../screens/BookMatchingScreen";
 import AddBooksScreen from "../screens/AddBooksScreen";
 import MyPageScreen from "../screens/MyPageScreen";
-import MessagesScreen from "../screens/MessagesScreen";
+import MatchScreen from "../screens/MatchScreen";
 import LoginScreen from "../screens/LoginScreen";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
-import useAuth, { AuthProvider } from "../hooks/useAuth";
+import { AuthProvider } from "../hooks/useAuth";
 // import LinkingConfiguration from "./LinkingConfiguration";
 
 export default function Navigation({
@@ -33,6 +33,7 @@ export default function Navigation({
     >
       <AuthProvider 
         setAuthenticated={setAuthenticated}
+        authenticated={authenticated}
       >
         <RootNavigator />
       </AuthProvider>
@@ -48,7 +49,6 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   
-
   return (
     <Stack.Navigator >
       {getToken()!==null?(
@@ -60,6 +60,7 @@ function RootNavigator() {
           />
         </>
         ):(
+          
           <Stack.Screen 
             name="Login" 
             component={LoginScreen} 
@@ -95,22 +96,6 @@ function BottomTabNavigator() {
         component={BookMatchingScreen}
         options={({ navigation }: RootTabScreenProps<"FindBookTab">) => ({
           title: "Find a book",
-          // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("Messages")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              {/* <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              /> */}
-            </Pressable>
-          ),
         })}
       />
       <BottomTab.Screen
@@ -118,24 +103,22 @@ function BottomTabNavigator() {
         component={AddBooksScreen}
         options={{
           title: "Add a book",
-          // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="MyPageTab"
         component={MyPageScreen}
         options={{
-          title: "My Page",
-          // tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "My Page"
         }}
       />
-      {/* <BottomTab.Screen
-        name="LoginTab"
-        component={LoginScreen}
+      <BottomTab.Screen
+        name="MatchTab"
+        component={MatchScreen}
         options={{
-          title: "Login Page",
+          title: "Your Matches",
         }}
-      /> */}
+      />
     </BottomTab.Navigator>
     
   );
