@@ -60,6 +60,7 @@ function RootNavigator() {
           />
         </>
         ):(
+          
           <Stack.Screen 
             name="Login" 
             component={LoginScreen} 

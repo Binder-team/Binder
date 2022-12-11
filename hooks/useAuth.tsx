@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useContext, createContext } from 'react';
+import React, { useEffect, useRef, useState, useContext, createContext  } from 'react';
+import { Alert } from 'react-native';
 import {setToken, getToken, setUsername, getUsername, setPassword, getPassword } from '../components/userTokenManager'
 import axios from 'axios'
 const AuthContext = createContext({});
@@ -15,19 +15,22 @@ export const AuthProvider = ({children, setAuthenticated, authenticated}) => {
     
    
     const signIn =  async () => {
-        const username = getUsername();
-        console.log("username in useAuth login", username)
-        const res = await axios.post('https://binderapp-server.herokuapp.com/api/login', {username});
-        const data = await res.data;
-        if(res.status === 200) {
-            setToken(data)
-            console.log(getToken())
-            setAuthenticated(true);
-        } else {
-            console.log("failed")
+        try{
+            const username = getUsername();
+            console.log("username in useAuth login", username)
+            const res = await axios.post('https://binderapp-server.herokuapp.com/api/login', {username});
+            const data = await res.data;
+            if(res.status === 200) {
+                setToken(data)
+                console.log(getToken())
+                setAuthenticated(true);
+                // Alert.alert(`Welcome, ${username}!`)
+            } else {
+                console.log("failed")
+            }
+        } catch {
+            Alert.alert("Could not find user, please try again!")
         }
-        // setToken("something");
-        // setAuthenticated(true);
     }
 
 

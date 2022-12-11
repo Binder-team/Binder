@@ -11,8 +11,14 @@ import {
 } from 'react-native';
 
 import axios from 'axios';
+<<<<<<< HEAD
 import { getUsername } from "./userTokenManager";
 import { Book } from '../types';
+=======
+
+import {Book} from '../types';
+import { getUsername } from "./userTokenManager";
+>>>>>>> 716ddee15f874f89f180e688cc6077464a160a1a
 
 export type Props = {
   book: Book;
@@ -26,11 +32,11 @@ const MyBooks: React.FC<Props> = ({book, BookItem}) => {
   //it's going to be stored in the state, data, then
   //in the return statement, map through array to render
 
-  const handleFetch = async () => {
-    const res = await axios.get(
-      `https://binderapp-server.herokuapp.com/api/user_books`,
-    );
-    const data = await res.data;
+  const handleFetch = async() => {
+    const fetchedUser = await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`);
+    const id = fetchedUser.data.id;
+    const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/user/${id}`);
+    const data = res.data;
     setData(data);
     console.log(data);
   };

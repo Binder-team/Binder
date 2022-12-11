@@ -12,7 +12,7 @@ import useAuth from '../hooks/useAuth';
 
 export default function LoginScreen() {
   const { signIn } = useAuth();
-   
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Please enter your username:</Text>

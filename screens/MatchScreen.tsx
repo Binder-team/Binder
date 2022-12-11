@@ -1,10 +1,18 @@
 // import { StatusBar } from 'expo-status-bar';
+import { useEffect, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 
 export default function MatchScreen() {
+  const [matchedBooks, setMatchedBooks] = useState({});
+  useEffect(() => {
+    getMatches();
+  },[]);
+
+  async function getMatches () {
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>all book matches appear here</Text>
