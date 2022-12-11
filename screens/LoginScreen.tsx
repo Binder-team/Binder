@@ -12,7 +12,7 @@ import useAuth from '../hooks/useAuth';
 
 export default function LoginScreen() {
   const { signIn } = useAuth();
-   
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Please enter your username:</Text>
@@ -32,7 +32,7 @@ export default function LoginScreen() {
       >
       </TextInput>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/BookMatchingScreen.tsx" />
+      
     
     
     <TouchableOpacity>
