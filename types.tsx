@@ -29,7 +29,7 @@ export type RootTabParamList = {
   FindBookTab: undefined;
   AddBookTab: undefined;
   MyPageTab: undefined;
-  LoginTab: undefined
+  MatchTab: undefined
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
