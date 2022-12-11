@@ -15,8 +15,9 @@ declare global {
 
 export type RootStackParamList = {
   Root: NavigatorScreenParams<RootTabParamList> | undefined;
-  Modal: undefined;
+  Messages: undefined;
   NotFound: undefined;
+  Login: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -25,11 +26,27 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> = Nati
 >;
 
 export type RootTabParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
+  FindBookTab: undefined;
+  AddBookTab: undefined;
+  MyPageTab: undefined;
+  MatchTab: undefined
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<RootTabParamList, Screen>,
   NativeStackScreenProps<RootStackParamList>
 >;
+
+
+export type Book = {
+  id: number;
+  user_id: number;
+  book_id: string;
+  is_available: boolean;
+  isbn: string;
+  condition: number;
+  image_url: string;
+  thumbnail_url: string;
+  title: string;
+  author: string;
+}

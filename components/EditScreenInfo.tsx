@@ -1,4 +1,4 @@
-import * as WebBrowser from 'expo-web-browser';
+// import * as WebBrowser from 'expo-web-browser';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import Colors from '../constants/Colors';
@@ -13,7 +13,6 @@ export default function EditScreenInfo({ path }: { path: string }) {
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
-          Open up the code for this screen:
         </Text>
 
         <View
@@ -27,7 +26,7 @@ export default function EditScreenInfo({ path }: { path: string }) {
           style={styles.getStartedText}
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)">
-          Change any of the text, save the file, and your app will automatically update.
+          * display available books here *
         </Text>
       </View>
 
@@ -43,9 +42,9 @@ export default function EditScreenInfo({ path }: { path: string }) {
 }
 
 function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
-  );
+  // WebBrowser.openBrowserAsync(
+  //   'https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
+  // );
 }
 
 const styles = StyleSheet.create({
