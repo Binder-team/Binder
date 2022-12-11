@@ -123,7 +123,7 @@ const nextCardStyle = useAnimatedStyle(() => ({
     {
     scale: interpolate(sharedValue.value,
        [-hiddenSreenWidth, 0, hiddenSreenWidth],
-        [1, 0.8, 1]
+        [1, 0.7, 1]
         ),
     },  
   ],
@@ -154,11 +154,24 @@ const gestureHandler = useAnimatedGestureHandler ({
       {},
       () =>runOnJS(setCurrentIndex)(currentIndex + 1)
       );  
+      
 
-     const onSwipe = event.velocityX > 0 ?  SWIPE_DIRECTION.RIGHT : SWIPE_DIRECTION.LEFT; 
-     onSwipe && runOnJS(onSwipe)(currentProfile);
+      //function for matching ... should be on screen 
+
+      //const onSwipeLeft = user => {
+       // console.warn('swipe left', user.name)
+      //}
+
+
+      //const onSwipeRight = user => {
+        //console.warn('swipe right', user.name);
+     // }
+     //const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
+     //onSwipe && runOnJS(onSwipe)(currentProfile);
   },
 });
+
+
 
 useEffect(() => {
   sharedValue.value = 0;

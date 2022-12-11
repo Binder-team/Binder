@@ -116,10 +116,12 @@ const books = [
                 source={{uri: `${bookData[ props.index ]["thumbnail_url"]}` }}
                 style={styles.cardImage}>
                     <View style={styles.cardInner}>
-                        <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
-                        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>
+                       
                     </View>
-            </ImageBackground>            
+            </ImageBackground>  
+
+             <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
+                        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>          
         </View>
     )
  }
@@ -138,8 +140,8 @@ const books = [
         },
         shadowOpacity: 0.36,
         shadowRadius: 6.68,
-
         elevation: 11,  
+        
     },
     cardImage: {
         width: '100%',
@@ -153,12 +155,12 @@ const books = [
     },
     title: {
         fontSize: 30,
-        color: 'white',
+        color: 'black',
         fontWeight: 'bold',
     }, 
     description: {
         fontSize: 18,
-        color: 'white',
+        color: 'black',
         lineHeight: 25,
     }   
  });
