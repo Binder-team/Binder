@@ -1,9 +1,11 @@
 // import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+
 
 export default function MatchScreen() {
   const [matchedBooks, setMatchedBooks] = useState({});
@@ -11,21 +13,34 @@ export default function MatchScreen() {
     getMatches();
   },[]);
 
+
+
+
+
   async function getMatches () {
   }
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.root}>
+
       <Text style={styles.title}>all book matches appear here</Text>
+      <Text style={{fontWeight:'bold', fontSize: 24}}>New Matches</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-    </View>
+    </SafeAreaView>
   );
 }
 
+
+
+
+
 const styles = StyleSheet.create({
-  container: {
+  root: {
+    width: '100%',
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: 10,
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    //backgroundColor:'green',
   },
   title: {
     fontSize: 20,
