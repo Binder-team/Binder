@@ -42,11 +42,13 @@ const newUser = async () => {
         const res = await axios.post('https://binderapp-server.herokuapp.com/api/users',{
             username:username,
             city:getCity(),
+            profile_url: 'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg',
             email:getEmail(),
-            postal_code:getPostalCode()
-            
+            postal_code:getPostalCode(),
+            is_banned:false
         });
         const data = res.data;
+        console.log("new user data: ", data)
         if(res.status === 200) {
             signIn();
         }

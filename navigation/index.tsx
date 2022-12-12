@@ -125,7 +125,6 @@ function BottomTabNavigator() {
         name="MatchTab"
         component={MatchScreen}
         options={{
-          header: "App name",
           title: "Your Matches",
         }}
       />

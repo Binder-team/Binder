@@ -24,7 +24,7 @@ export type Props = {
   navigation: Function
 }
 
-const MyPageScreen: React.FC <Props> = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
+const MyPageScreen = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
   const [data, setData] = useState({});
   const [currentView, setCurrentView] = useState<string>("myBooks");
   const [logout, setLogout] = useState<boolean>(false);
@@ -88,7 +88,18 @@ const MyPageScreen: React.FC <Props> = ({ navigation }: RootStackScreenProps<'My
 
       <View>
         {currentView === "myBooks"? (
-          <MyBooks/>
+          <MyBooks book={{
+              id: 0,
+              user_id: 0,
+              book_id: '',
+              is_available: false,
+              isbn: '',
+              condition: 0,
+              image_url: '',
+              thumbnail_url: '',
+              title: '',
+              author: ''
+            }} BookItem={undefined}/>
         ): (<LikedBooks/>)}
       </View>
     </View>
