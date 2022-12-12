@@ -15,6 +15,7 @@ import AddBooksScreen from "../screens/AddBooksScreen";
 import MyPageScreen from "../screens/MyPageScreen";
 import MatchScreen from "../screens/MatchScreen";
 import LoginScreen from "../screens/LoginScreen";
+import CreatAccountScreen from "../screens/CreatAccountScreen";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
 import { AuthProvider } from "../hooks/useAuth";
 // import LinkingConfiguration from "./LinkingConfiguration";
@@ -60,12 +61,20 @@ function RootNavigator() {
           />
         </>
         ):(
-          
-          <Stack.Screen 
+         <>
+         <Stack.Screen 
             name="Login" 
             component={LoginScreen} 
             options={{title: 'Sign in'}} 
           />
+          <Stack.Screen 
+            name="Login" 
+            component={CreateAccountScreen} 
+            options={{title: 'Create a new account'}} 
+          />
+         </> 
+          
+          
         )}
     </Stack.Navigator>
   );

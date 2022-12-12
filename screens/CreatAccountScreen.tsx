@@ -10,12 +10,15 @@ import useAuth from '../hooks/useAuth';
 
 
 
-export default function LoginScreen() {
+export default function CreatAccountScreen() {
+    const [city, setCity] = useState<string>("");
+    const [postalCode, setPostalCode] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
   const { signIn } = useAuth();
   
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Please enter your username:</Text>
+      <Text style={styles.title}>Please enter a username:</Text>
       <TextInput
         placeholder='enter username'
         onChange={(e)=>{
@@ -23,10 +26,24 @@ export default function LoginScreen() {
         }}
       >
       </TextInput>
-      <Text style={styles.title}>Please enter your password:</Text>
+      <Text style={styles.title}>Please enter a password:</Text>
       <TextInput
         placeholder='password'
         secureTextEntry={true} 
+        onChange={(e)=>setPassword(e.nativeEvent.text)
+       }
+      >
+      </TextInput>
+      <Text style={styles.title}>Please your city:</Text>
+      <TextInput
+        placeholder='city'
+        onChange={(e)=>setPassword(e.nativeEvent.text)
+       }
+      >
+      </TextInput>
+      <Text style={styles.title}>Please your email:</Text>
+      <TextInput
+        placeholder='email'
         onChange={(e)=>setPassword(e.nativeEvent.text)
        }
       >
@@ -36,28 +53,8 @@ export default function LoginScreen() {
     
     
     <TouchableOpacity>
-        <Button title='SIGN IN' onPress={signIn}/>
-    </TouchableOpacity>
-    <TouchableOpacity>
-        <Button title='create an account' onPress={signIn}/>
+        <Button title='SUBMIT' onPress={signIn}/>
     </TouchableOpacity>
 </View>
   );
 }
- 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
