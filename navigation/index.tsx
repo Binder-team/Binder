@@ -68,7 +68,7 @@ function RootNavigator() {
             options={{title: 'Sign in'}} 
           />
           <Stack.Screen 
-            name="Login" 
+            name="CreateAccount" 
             component={CreateAccountScreen} 
             options={{title: 'Create a new account'}} 
           />

@@ -10,7 +10,7 @@ import useAuth from '../hooks/useAuth';
 
 
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
   const { signIn } = useAuth();
   
   return (
@@ -39,7 +39,9 @@ export default function LoginScreen() {
         <Button title='SIGN IN' onPress={signIn}/>
     </TouchableOpacity>
     <TouchableOpacity>
-        <Button title='create an account' onPress={signIn}/>
+        <Button title='create an account' onPress={
+          navigation.navigate('CreateAccount')
+        }/>
     </TouchableOpacity>
 </View>
   );
