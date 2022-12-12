@@ -65,17 +65,13 @@ const AddBooks = () => {
       const bookData = fetchedBook.data.volumeInfo;
       console.log(bookData.title);
       console.log(bookData.authors.join(', '));
-      console.log(Number(condition));
       console.log(fetchedBook.data.id);
       try {
-          const fetchedUser = await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`);
-          const userId = fetchedUser.data.id;
-          await axios.post('https://binderapp-server.herokuapp.com/api/user_books', {
-            user_id: userId,
+          await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, {
             is_available: true,
             title: bookData.title,
             author: bookData.authors.join(', '),
-            condition: Number(condition),
+            condition: condition,
             book_id: fetchedBook.data.id,
             image_url: bookData.imageLinks.large ? bookData.imageLinks.large : null,
             thumbnail_url: bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : null,
