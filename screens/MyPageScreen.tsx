@@ -50,12 +50,6 @@ const MyPageScreen: React.FC <Props> = ({ navigation }: RootStackScreenProps<'My
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
-<<<<<<< HEAD
-        <TouchableOpacity 
-            onPress={signOut}
-            
-        >
-=======
         
       
       </View>
@@ -69,7 +63,6 @@ const MyPageScreen: React.FC <Props> = ({ navigation }: RootStackScreenProps<'My
             setLogout(true);
             }}
       >
->>>>>>> 7784c8351c49fa517ec646a73abd811a59ce56d0
           <Text style={styles.logout}>Log out</Text>
         </TouchableOpacity>
       <View style={styles.profileContainer}>

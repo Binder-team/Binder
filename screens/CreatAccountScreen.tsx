@@ -27,7 +27,7 @@ export default function CreatAccountScreen({navigation}) {
   
   useEffect(()=>{
     console.log(getCity());
-    console.log(getPostalCode());
+    
     console.log(getEmail());
     console.log(getUsername());
     console.log(getPassword());
@@ -52,7 +52,7 @@ export default function CreatAccountScreen({navigation}) {
        }
       >
       </TextInput>
-      <Text style={styles.title}>city:</Text>
+      {/* <Text style={styles.title}>city:</Text>
       <TextInput
         placeholder='city'
         onChange={(e)=>setCity(e.nativeEvent.text)
@@ -72,7 +72,7 @@ export default function CreatAccountScreen({navigation}) {
        }
       >
       </TextInput>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
       
     
     
