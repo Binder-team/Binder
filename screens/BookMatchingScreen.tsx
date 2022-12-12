@@ -15,7 +15,8 @@ import Animated, {
   event
 } from 'react-native-reanimated';
 import { Book } from '../types';
-import { getToken, setToken } from '../components/userTokenManager';
+import { getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword } from '../components/userTokenManager';
+
 
 
 
@@ -80,25 +81,6 @@ const handleFetch = async() => {
     handleFetch();
   },[]);
 
-//handlerFunction
-  async function swipeRight (bookObj: Book) {
-  await axios.post("https://binderapp-server.herokuapp.com/api/trade_tables", {
-    sender: 1,
-    receiver: bookObj.user_id,
-    book_id: bookObj.book_id,
-    is_matched: false,
-    is_accepted:false,
-    is_exchanged:false
-  })
-  await axios.post("https://binderapp-server.herokuapp.com/api/trade_tables/match", {
-    sender: 1,
-    receiver: bookObj.user_id,
-    book_id: bookObj.book_id,
-    is_matched: false,
-    is_accepted:false,
-    is_exchanged:false
-  })
-}
 
 const {width: screenWidth} = useWindowDimensions();
 
@@ -158,16 +140,22 @@ const gestureHandler = useAnimatedGestureHandler ({
 
       //function for matching ... should be on screen 
 
-      //const onSwipeLeft = user => {
-       // console.warn('swipe left', user.name)
-      //}
+      const onSwipeLeft =( user)=> {
+       console.log('swipe left', user.name)
+      }
+
+      //handlerFunction
+  async function onSwipeRight (bookObj: Book) {
+  const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
+  bookObj );
+   console.log("swipe right: ", match);
+}
 
 
-      //const onSwipeRight = user => {
-        //console.warn('swipe right', user.name);
-     // }
-     //const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
-     //onSwipe && runOnJS(onSwipe)(currentProfile);
+
+      
+     const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
+     onSwipe && runOnJS(onSwipe)(currentProfile);
   },
 });
 
@@ -191,7 +179,7 @@ useEffect(() => {
         )}
 
         {currentProfile && (
-      <PanGestureHandler onGestureEvent={gestureHandler}>
+      <PanGestureHandler onGestureEvent={gestureHandler} >
           <Animated.View style={[styles.animatedCard,cardStyle]}>
               <BookCard bookData={currentProfile}  index={currentIndex}/> 
           </Animated.View> 
