@@ -76,11 +76,18 @@ const handleFetch = async() => {
     //console.log(data);  
   };
 
-
   useEffect(()=>{
     handleFetch();
   },[]);
 
+
+      //handlerFunction
+  async function onSwipeRight (bookObj: Book) {
+  const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
+  { bookObj } );
+   console.log("MATCH ", match.data);
+   console.warn("swipe right: ", bookObj.title)
+}
 
 const {width: screenWidth} = useWindowDimensions();
 
@@ -140,24 +147,15 @@ const gestureHandler = useAnimatedGestureHandler ({
 
       //function for matching ... should be on screen 
 
-      const onSwipeLeft =( user)=> {
-       console.log('swipe left', user.name)
-      }
-
-      //handlerFunction
-  async function onSwipeRight (bookObj: Book) {
-  const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
-  bookObj );
-   console.log("swipe right: ", match);
-}
-
-
-
+      const onSwipeLeft =( bookObj: Book )=> {
+       console.warn('swipe left', bookObj.title)
+     }
       
      const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
-     onSwipe && runOnJS(onSwipe)(currentProfile);
+    onSwipe && runOnJS(onSwipe)(currentProfile);
   },
-});
+}
+);
 
 
 
