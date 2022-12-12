@@ -8,9 +8,10 @@ import  LikedBooks from '../components/LikedBooks'
 import MyBooks from '../components/MyBooks';
 import BookItem from '../components/BookItem';
 import { Book, RootStackParamList } from '../types';
-import { resetToken, getUsername, username } from '../components/userTokenManager';
+import { resetToken, getUsername, username, getToken } from '../components/userTokenManager';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import axios from 'axios';
+import useAuth from '../hooks/useAuth';
 // import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 
 
@@ -22,7 +23,9 @@ export type Props = {
   navigation: Function
 }
 
- const MyPageScreen: React.FC <Props> = ({book, BookItem}) =>  {
+const MyPageScreen = ({navigation:{reset}}) =>  {
+  const { signOut } = useAuth();
+
   const [data, setData] = useState({})
   const [currentView, setCurrentView] = useState<string>("myBooks");
   const [logout, setLogout] = useState<boolean>(false);
@@ -49,10 +52,8 @@ export type Props = {
     <View style={styles.container}>
       <View style={styles.profile}>
         <TouchableOpacity 
-            onPress={() => {
-            resetToken();
-            setLogout(true);
-            }}
+            onPress={signOut}
+            
         >
           <Text style={styles.logout}>Log out</Text>
         </TouchableOpacity>

@@ -15,7 +15,7 @@ import AddBooksScreen from "../screens/AddBooksScreen";
 import MyPageScreen from "../screens/MyPageScreen";
 import MatchScreen from "../screens/MatchScreen";
 import LoginScreen from "../screens/LoginScreen";
-import CreatAccountScreen from "../screens/CreatAccountScreen";
+import CreateAccountScreen from "../screens/CreatAccountScreen";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
 import { AuthProvider } from "../hooks/useAuth";
 // import LinkingConfiguration from "./LinkingConfiguration";

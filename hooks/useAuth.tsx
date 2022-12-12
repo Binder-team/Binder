@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useContext, createContext  } from 'react';
 import { Alert } from 'react-native';
-import {setToken, getToken, setUsername, getUsername, setPassword, getPassword } from '../components/userTokenManager'
+import {setToken, getToken, setUsername, getUsername, setPassword, getPassword, resetToken } from '../components/userTokenManager'
 import axios from 'axios'
 const AuthContext = createContext({});
 import Navigation from '../navigation/index';
@@ -32,7 +32,10 @@ export const AuthProvider = ({children, setAuthenticated, authenticated}) => {
             Alert.alert("Could not find user, please try again!")
         }
     }
-
+const signOut = () => {
+    resetToken();
+    setAuthenticated(false);
+}
 
     return (
         <AuthContext.Provider
@@ -40,7 +43,8 @@ export const AuthProvider = ({children, setAuthenticated, authenticated}) => {
             value={
                 {
                     user: getToken(),
-                    signIn
+                    signIn,
+                    signOut
                 }
             }>
                 {children}
