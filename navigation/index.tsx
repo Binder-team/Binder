@@ -36,7 +36,7 @@ export default function Navigation({
         setAuthenticated={setAuthenticated}
         authenticated={authenticated}
       >
-        <RootNavigator />
+        <RootNavigator/>
       </AuthProvider>
     </NavigationContainer>
   );
@@ -61,16 +61,16 @@ function RootNavigator() {
           />
         </>
         ):(
-         <>
-         <Stack.Screen 
-            name="Login" 
-            component={LoginScreen} 
-            options={{title: 'Sign in'}} 
+        <>
+          <Stack.Screen 
+              name="Login" 
+              component={LoginScreen} 
+              options={{title: 'Sign in'}} 
           />
           <Stack.Screen 
-            name="CreateAccount" 
-            component={CreateAccountScreen} 
-            options={{title: 'Create a new account'}} 
+              name="CreateAccount" 
+              component={CreateAccountScreen} 
+              options={{title: 'Create a new account'}} 
           />
          </> 
           
@@ -125,6 +125,7 @@ function BottomTabNavigator() {
         name="MatchTab"
         component={MatchScreen}
         options={{
+          header: "App name",
           title: "Your Matches",
         }}
       />

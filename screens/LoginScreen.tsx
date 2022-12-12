@@ -40,7 +40,7 @@ export default function LoginScreen({navigation}) {
     </TouchableOpacity>
     <TouchableOpacity>
         <Button title='create an account' onPress={
-          navigation.navigate('CreateAccount')
+          navigation.navigate("CreateAccount")
         }/>
     </TouchableOpacity>
 </View>
