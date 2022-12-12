@@ -10,6 +10,7 @@ import BookItem from '../components/BookItem';
 import { Book, RootStackParamList } from '../types';
 import { resetToken, getUsername, username } from '../components/userTokenManager';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { RootStackScreenProps } from '../types';
 import axios from 'axios';
 // import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 
@@ -22,8 +23,8 @@ export type Props = {
   navigation: Function
 }
 
- const MyPageScreen: React.FC <Props> = ({book, BookItem}) =>  {
-  const [data, setData] = useState({})
+const MyPageScreen: React.FC <Props> = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
+  const [data, setData] = useState({});
   const [currentView, setCurrentView] = useState<string>("myBooks");
   const [logout, setLogout] = useState<boolean>(false);
   
@@ -38,7 +39,7 @@ export type Props = {
     return data;
   }
   useEffect(()=>{
-    console.log(getProfile())
+    console.log(getProfile());
     console.log(getUsername());
     console.log(`../assets/images/${getUsername()}.jpeg`)
   },[]) 
@@ -48,19 +49,21 @@ export type Props = {
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
-        <TouchableOpacity 
-            onPress={() => {
-            resetToken();
-            setLogout(true);
-            }}
-        >
-          <Text style={styles.logout}>Log out</Text>
-        </TouchableOpacity>
+        
       
       </View>
       <View style={{backgroundColor: 'white', height: '100%'}}>
       <Text style={styles.title}>My Profile</Text>
-      <Image style={styles.image}source={{uri:'https://ca.slack-edge.com/T043EUUMPPD-U043X7CT3N0-532658af7329-512'}}></Image>
+      <Image style={styles.image}source={{uri:'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'}}></Image>
+      <TouchableOpacity 
+            onPress={() => {
+            resetToken();
+            // navigation.navigate('Login');
+            setLogout(true);
+            }}
+      >
+          <Text style={styles.logout}>Log out</Text>
+        </TouchableOpacity>
       <View style={styles.profileContainer}>
         <Text style={styles.username}>{data["username"]}</Text>
         <Text>city: {data["city"]}</Text>
@@ -94,6 +97,14 @@ export type Props = {
 
 
 const styles = StyleSheet.create({
+  logout:{
+    width: 100,
+    textAlign: 'center',
+    backgroundColor: '#5B8B8B',
+    padding: 1,
+    alignItems: 'center',
+    borderRadius:25
+  },
   image:{
     width:100,
     height:100,
@@ -124,6 +135,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5B8B8B',
     padding: 10,
     alignItems: 'center',
+    borderRadius:25
   },
   separator: {
     marginVertical: 30,
