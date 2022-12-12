@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Text, View, ImageBackground, StyleSheet, Image} from 'react-native';
 import { Book } from '../types';
 import axios from 'axios';
+import { getUsername } from './userTokenManager';
 
 
 
@@ -96,7 +97,7 @@ const books = [
   //const [profile, setProfile] = useState(bookData[0]);  //where all user's books get stored, as an array
 
   const handleFetch = async() => {
-    const res = await axios.get('https://binderapp-server.herokuapp.com/api/user_books');
+    const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/swipe/${getUsername()}`);
     const data = await res.data;
     setBookData(data);
 
