@@ -48,8 +48,12 @@ const MyBooks: React.FC<Props> = ({book, BookItem}) => {
     const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/user/${id}`);
     const data = res.data;
     setData(data);
+<<<<<<< HEAD
     console.log(data);
 >>>>>>> 81f50c8def865f5ecb16611cacbecd3a4e4b346a
+=======
+    //console.log(data);
+>>>>>>> 1e8fec7d828968915e426a421d1c912cc0f921a1
   };
 
   useEffect(() => {

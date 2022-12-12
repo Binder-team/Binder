@@ -1,9 +1,52 @@
+import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Button, Text, View, Image, StatusBar, Animated } from 'react-native';
-import { PanGestureHandler } from 'react-native-gesture-handler';
+import { StyleSheet, Button, Text, View, Image, StatusBar, useWindowDimensions, Pressable } from 'react-native';
+import { GestureDetector, GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import axios from 'axios';
+import BookCard from './BookCard';
+import Animated, { 
+  useSharedValue,
+  useAnimatedStyle,
+  useDerivedValue,
+  useAnimatedGestureHandler,
+  interpolate,
+  withSpring,
+  runOnJS,
+  event
+} from 'react-native-reanimated';
+import { Book } from '../types';
+import { getToken, setToken } from './userTokenManager';
+
+
+
+export enum SWIPE_DIRECTION {
+  LEFT = 'left',
+  RIGHT = 'right',
+  DEFAULT = 'default'
+}
+
+export interface Value {
+  value : number;
+}
+
+export interface Props {
+  //x: Value;
+  onStart: () => void;
+  onActive: () => void;
+  onEnd: () => void;
+  onSwipe : (direction: SWIPE_DIRECTION) => void;
+}
+
+export type AnimatedGHContext  = {
+  startX: number;
+}
+
+const ROTATION = 60;
+const SWIPE_VELOCITY = 800;
 
 //Fake data 
+
+/*
 const profiles = [
   {
     name:"Count of Monte Cristo",
@@ -43,7 +86,7 @@ const books = [
   }
 
 ]
-
+*/
 // "imageLinks": {
 //   "smallThumbnail": "https://books.google.com/books?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
 //   "thumbnail":      "https://books.google.com/books?id=zyTCAlFPjgYC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
@@ -59,10 +102,14 @@ const books = [
   let index = 0;  //index should be declared outside of App to avoid duplicates.  
     //It's here for now and resets every time this loads
 
-const Swipe = ({}) => {
+const Swipe = ({
+  onStart,
+  onActive,
+  onEnd,
+  onSwipe, 
+}: Props) => {
 
-
-  const translateX = new Animated.Value(0);
+/*
   const [bookData, setBookData] = useState([
 
     {
@@ -102,138 +149,125 @@ const Swipe = ({}) => {
         "author": "Haruki Murakami"
     }
 ]); //where all user's books get stored, as an array
-const [profile, setProfile] = useState(bookData[0]);
+*/
+//handlerFunction
+async function swipeRight (bookObj: Book) {
+  await axios.post("https://binderapp-server.herokuapp.com/api/trade_tables", {
+    sender: 1,
+    receiver: bookObj.user_id,
+    book_id: bookObj.book_id,
+    is_matched: false,
+    is_accepted:false,
+    is_exchanged:false
+  })
+  await axios.post("https://binderapp-server.herokuapp.com/api/trade_tables/match", {
+    sender: 1,
+    receiver: bookObj.user_id,
+    book_id: bookObj.book_id,
+    is_matched: false,
+    is_accepted:false,
+    is_exchanged:false
+  })
+}
 
-    // Animations
-    const reset = Animated.timing(translateX,{
-      toValue:0,
-      duration:250,
-      useNativeDriver:true
-    })
-  
-    const swipeRightAnimation = Animated.timing(translateX,{
-      toValue: 600,
-      duration: 400,
-      useNativeDriver:true
-    })
-  
-    const swipeLeftAnimation = Animated.timing(translateX,{
-      toValue: -600,
-      duration: 400,
-      useNativeDriver:true
-    })
+const [bookData, setBookData]= useState<Book[]>([]);
+ 
+const [currentIndex, setCurrentIndex] = useState(0);
+const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 
-  const handleSwipe=(nativeEvent:any) => { // "nativeEvent" is like "e" but for gesture handler
-    console.log(nativeEvent);
-    //Currently leaving is as "Any"
-    
-    //swiping right
-    if(nativeEvent.translationX < -225){  //0,0 is bottom left
-      console.log("Swiped Right");
-      //Here we would add the code to save the user profile + book into our match list.
-      
-      index++;
-      swipeRightAnimation.start(()=>{
-        //add profile to match list
-        setProfile(bookData[index])
-      })
-    }
-    //swiping left
-    else if(nativeEvent.translationX > 225){
-      console.log("Swiped Left");
+const currentProfile = bookData[currentIndex];
+const nextProfile = bookData[nextIndex];
 
-      index++;
-      swipeLeftAnimation.start(()=>{
-        setProfile(bookData[index])
-      })
-    };
-  };
+const {width: screenWidth} = useWindowDimensions();
 
-  const handlePan= Animated.event(
-    [{nativeEvent:{translationX:translateX}}],{useNativeDriver:true}
-  )  
-  
-  const handleFetch = async() => {
-    const res = await axios.get('https://binderapp-server.herokuapp.com/api/user_books');
-    const data = await res.data;
-    setBookData(data);
+const hiddenSreenWidth = 2 * screenWidth; 
 
-    console.log(data);
-    
-  };
+const sharedValue = useSharedValue(0);
+const rotate = useDerivedValue(() =>  interpolate(
+  sharedValue.value, [0, hiddenSreenWidth], [0, ROTATION]) +  'deg');
 
-  useEffect(()=>{
-    handleFetch();
-  },[]);
+const cardStyle = useAnimatedStyle(() => ({
+  transform: [{
+    translateX: sharedValue.value,
+  },
+  {
+    rotate: rotate.value,
+  },
+  ],
+}));
 
-  const [bookPosition, setBookPosition] = useState(bookData[0]);
+const nextCardStyle = useAnimatedStyle(() => ({
+  transform: [
+    {
+    scale: interpolate(sharedValue.value,
+       [-hiddenSreenWidth, 0, hiddenSreenWidth],
+        [1, 0.5, 1]
+        ),
+    },  
+  ]
+}))
+
+const gestureHandler = useAnimatedGestureHandler ({
+  onStart: (_, context: AnimatedGHContext) =>{
+    //console.log('Touch start');
+    context.startX = sharedValue.value;
+  },
+  onActive: (event, context: AnimatedGHContext) => {
+    sharedValue.value = event.translationX;
+    //console.log('Touch x: ', event.translationX);
+  },
+  onEnd: ()=>{
+    //console.log('Touch end');
+
+  }
+})
 
   return (
-    <View style={styles.container}>
-      <PanGestureHandler onHandlerStateChange={handleSwipe} onGestureEvent={handlePan} >
-        <Animated.View style={{backgroundColor:"yellow", width:"100%", height:"100%", transform:[{translateX}]}}>
-
-          <Image 
-          style={{width: 100, height: 100}}
-          source={{uri: bookData[index]["thumbnail_url"]}}
-          // source={{uri: `${bookData[index]["thumbnail_url"]}` }}
-          />
-
-          
-
-          <Text>{bookData[index]["title"]}</Text>
-          <Text>Condition: {bookData[index]["condition"]}</Text>
-
-          <Button style={styles.Button} title="<"
-          onPress={() => swipeLeftAnimation.start(()=>{
-            index++;
-            setProfile(profiles[index])
-          })}
-          ></Button>
-          <Button title=">"
-          onPress={() => swipeRightAnimation.start(()=>{
-            index++;
-            setProfile(profiles[index])
-          })}
-          ></Button>
-
+    <GestureHandlerRootView style={{flex: 1}}>
+      <View style={styles.pageContainer}>
+      <View style={styles.nextCardContainer}>
+        <Animated.View style={[styles.animatedCard,nextCardStyle]}>
+           <BookCard bookData={nextProfile} index={currentIndex+1}/>
         </Animated.View>
+        </View>
+      <PanGestureHandler onGestureEvent={gestureHandler}>
+          <Animated.View style={[styles.animatedCard,cardStyle]}>
+              <BookCard bookData={currentProfile} index={currentIndex+1}/> 
+          </Animated.View> 
       </PanGestureHandler>
-      <StatusBar />
-    </View>
+      </View>    
+   
+    </GestureHandlerRootView>
   );
 }
 
 
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin:10,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+  pageContainer: {
     justifyContent: 'center',
-  },
-  cardContainer:{
-    flex:1,
-    width:"100%",
     alignItems: 'center',
-    justifyContent: 'center'
+    //flex: 1,
+    backgroundColor:'red'
   },
-  card:{
-    backgroundColor: "rgb(230,230,230)",
-    width:"100%",
-    height:"100%",
-    borderRadius: 5,
-    position:'absolute',
-    borderWidth:1.5,
-    borderColor:'black',
+  animatedCard: {
+    width: '80%',
+    height: '70%',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    justifyContent: 'center'
+    //backgroundColor:'blue',
   },
-  Button:{
-    flexDirection: 'row',
-    flexWrap: 'wrap'
-  }
+  nextCardContainer: {
+   // ...StyleSheet.absoluteFillObject,
+    width: '100%',
+    height: '70%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    
+    //flex: 1,
+    //backgroundColor: 'green'
+  },
 });
 
 
