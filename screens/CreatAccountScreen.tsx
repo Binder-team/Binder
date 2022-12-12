@@ -18,8 +18,7 @@ import Navigation from '../navigation';
 import useAuth from '../hooks/useAuth';
 
 
-
-export default function CreatAccountScreen({navigation}) {
+export default function CreateAccountScreen({navigation}) {
     const { newUser } = useAuth();
     // const [city, setCity] = useState();
     // const [postalCode, setPostalCode] = useState();
@@ -27,12 +26,11 @@ export default function CreatAccountScreen({navigation}) {
   
   useEffect(()=>{
     console.log(getCity());
-    
     console.log(getEmail());
     console.log(getUsername());
     console.log(getPassword());
   },[])
-    const { signIn } = useAuth();
+    
   
   return (
     <View style={styles.container}>
@@ -52,19 +50,19 @@ export default function CreatAccountScreen({navigation}) {
        }
       >
       </TextInput>
-      {/* <Text style={styles.title}>city:</Text>
+      <Text style={styles.title}>city:</Text>
       <TextInput
         placeholder='city'
         onChange={(e)=>setCity(e.nativeEvent.text)
        }
-      >
+      ></TextInput>
     <Text style={styles.title}>Postal code:</Text>
       <TextInput
         placeholder='i.e 123-4567'
         onChange={(e)=>setPostalCode(e.nativeEvent.text)
        }
       ></TextInput>
-      </TextInput>
+      
       <Text style={styles.title}>Please your email:</Text>
       <TextInput
         placeholder='email'
@@ -72,12 +70,12 @@ export default function CreatAccountScreen({navigation}) {
        }
       >
       </TextInput>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
+     
       
     
     
     <TouchableOpacity>
-        <Button title='SIGN UP' onPress={signIn}/>
+        <Button title='SIGN UP' onPress={newUser}/>
     </TouchableOpacity>
     <TouchableOpacity>
         <Button title='go back' onPress={()=> navigation.goBack()}/>
