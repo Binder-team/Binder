@@ -15,7 +15,8 @@ import Animated, {
   event
 } from 'react-native-reanimated';
 import { Book } from '../types';
-import { getToken, setToken } from '../components/userTokenManager';
+import { getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword } from '../components/userTokenManager';
+
 
 
 
@@ -31,7 +32,6 @@ export interface Value {
 }
 
 export interface Props {
-  //x: Value;
   onStart: () => void;
   onActive: () => void;
   onEnd: () => void;
@@ -66,39 +66,27 @@ const [currentCard, setCurrentCard] = useState(bookData[currentIndex]);
 const currentProfile = bookData[currentIndex];
 const nextProfile = bookData[nextIndex];
 
-//const[profile, setProfile] = useState(currentProfile);
+const[profile, setProfile] = useState(currentProfile);
 
 
 const handleFetch = async() => {
-    const res = await axios.get('https://binderapp-server.herokuapp.com/api/user_books');
+    const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/swipe/${getUsername()}`);
     const data = await res.data;
     setBookData(data);
     //console.log(data);  
   };
 
-
   useEffect(()=>{
     handleFetch();
   },[]);
 
-//handlerFunction
-  async function swipeRight (bookObj: Book) {
-  await axios.post("https://binderapp-server.herokuapp.com/api/trade_tables", {
-    sender: 1,
-    receiver: bookObj.user_id,
-    book_id: bookObj.book_id,
-    is_matched: false,
-    is_accepted:false,
-    is_exchanged:false
-  })
-  await axios.post("https://binderapp-server.herokuapp.com/api/trade_tables/match", {
-    sender: 1,
-    receiver: bookObj.user_id,
-    book_id: bookObj.book_id,
-    is_matched: false,
-    is_accepted:false,
-    is_exchanged:false
-  })
+
+      //handlerFunction
+  async function onSwipeRight (bookObj: Book) {
+  const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
+   bookObj  );
+   console.log("MATCH ", match.data);
+   console.warn("swipe right: ", bookObj.title)
 }
 
 const {width: screenWidth} = useWindowDimensions();
@@ -124,7 +112,7 @@ const nextCardStyle = useAnimatedStyle(() => ({
     {
     scale: interpolate(sharedValue.value,
        [-hiddenSreenWidth, 0, hiddenSreenWidth],
-        [1, 0.8, 1]
+        [1, 0.7, 1]
         ),
     },  
   ],
@@ -155,8 +143,21 @@ const gestureHandler = useAnimatedGestureHandler ({
       {},
       () =>runOnJS(setCurrentIndex)(currentIndex + 1)
       );  
+      
+
+      //function for matching ... should be on screen 
+
+      const onSwipeLeft =( bookObj: Book )=> {
+       console.warn('swipe left', bookObj.title)
+     }
+      
+     const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
+    onSwipe && runOnJS(onSwipe)(currentProfile);
   },
-});
+}
+);
+
+
 
 useEffect(() => {
   sharedValue.value = 0;
@@ -176,14 +177,14 @@ useEffect(() => {
         )}
 
         {currentProfile && (
-      <PanGestureHandler onGestureEvent={gestureHandler}>
+      <PanGestureHandler onGestureEvent={gestureHandler} >
           <Animated.View style={[styles.animatedCard,cardStyle]}>
-              <BookCard bookData={currentProfile} index={currentIndex}/> 
+              <BookCard bookData={currentProfile}  index={currentIndex}/> 
           </Animated.View> 
       </PanGestureHandler>
       )}
       </View>    
-   
+    
     </GestureHandlerRootView>
   );
 }

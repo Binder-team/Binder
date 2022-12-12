@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Text, View, ImageBackground, StyleSheet, Image} from 'react-native';
 import { Book } from '../types';
 import axios from 'axios';
+import { getUsername } from './userTokenManager';
 
 
 
@@ -96,7 +97,7 @@ const books = [
   //const [profile, setProfile] = useState(bookData[0]);  //where all user's books get stored, as an array
 
   const handleFetch = async() => {
-    const res = await axios.get('https://binderapp-server.herokuapp.com/api/user_books');
+    const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/swipe/${getUsername()}`);
     const data = await res.data;
     setBookData(data);
 
@@ -116,10 +117,12 @@ const books = [
                 source={{uri: `${bookData[ props.index ]["thumbnail_url"]}` }}
                 style={styles.cardImage}>
                     <View style={styles.cardInner}>
-                        <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
-                        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>
+                       
                     </View>
-            </ImageBackground>            
+            </ImageBackground>  
+
+             <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
+                        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>          
         </View>
     )
  }
@@ -138,8 +141,8 @@ const books = [
         },
         shadowOpacity: 0.36,
         shadowRadius: 6.68,
-
         elevation: 11,  
+        
     },
     cardImage: {
         width: '100%',
@@ -153,12 +156,12 @@ const books = [
     },
     title: {
         fontSize: 30,
-        color: 'white',
+        color: 'black',
         fontWeight: 'bold',
     }, 
     description: {
         fontSize: 18,
-        color: 'white',
+        color: 'black',
         lineHeight: 25,
     }   
  });

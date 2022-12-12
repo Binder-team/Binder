@@ -7,10 +7,10 @@ import { setToken, getToken, getUsername, setUsername, setPassword, getPassword 
 import axios from 'axios';
 import Navigation from '../navigation';
 import useAuth from '../hooks/useAuth';
+import { RootStackScreenProps } from '../types';
 
 
-
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'>) {
   const { signIn } = useAuth();
   
   return (
@@ -36,7 +36,12 @@ export default function LoginScreen() {
     
     
     <TouchableOpacity>
-        <Button title='SUBMIT' onPress={signIn}/>
+        <Button title='SIGN IN' onPress={signIn}/>
+    </TouchableOpacity>
+    <TouchableOpacity>
+        <Button title='create an account' onPress={
+          navigation.navigate("CreateAccount")
+        }/>
     </TouchableOpacity>
 </View>
   );
