@@ -33,20 +33,6 @@ const MyBooks: React.FC<Props> = ({book, BookItem}) => {
 
     const userBooks = fetchUserBooks.data;
     setData(userBooks);
-    //console.log(data);
-
-    const handleFetch = async () => {
-      const fetchedUser = await axios.post(
-        `https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`,
-      );
-      const id = fetchedUser.data.id;
-      const res = await axios.get(
-        `https://binderapp-server.herokuapp.com/api/user_books/user/${id}`,
-      );
-      const data = res.data;
-      setData(data);
-
-      console.log(data);
     };
 
     useEffect(() => {
