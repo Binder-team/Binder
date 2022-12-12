@@ -8,10 +8,11 @@ import  LikedBooks from '../components/LikedBooks'
 import MyBooks from '../components/MyBooks';
 import BookItem from '../components/BookItem';
 import { Book, RootStackParamList } from '../types';
-import { resetToken, getUsername, username } from '../components/userTokenManager';
+import { resetToken, getUsername, username, getToken } from '../components/userTokenManager';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackScreenProps } from '../types';
 import axios from 'axios';
+import useAuth from '../hooks/useAuth';
 // import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 
 
@@ -23,7 +24,7 @@ export type Props = {
   navigation: Function
 }
 
-const MyPageScreen: React.FC <Props> = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
+const MyPageScreen = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
   const [data, setData] = useState({});
   const [currentView, setCurrentView] = useState<string>("myBooks");
   const [logout, setLogout] = useState<boolean>(false);
@@ -87,7 +88,18 @@ const MyPageScreen: React.FC <Props> = ({ navigation }: RootStackScreenProps<'My
 
       <View>
         {currentView === "myBooks"? (
-          <MyBooks/>
+          <MyBooks book={{
+              id: 0,
+              user_id: 0,
+              book_id: '',
+              is_available: false,
+              isbn: '',
+              condition: 0,
+              image_url: '',
+              thumbnail_url: '',
+              title: '',
+              author: ''
+            }} BookItem={undefined}/>
         ): (<LikedBooks/>)}
       </View>
     </View>
