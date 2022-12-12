@@ -14,6 +14,7 @@ import axios from 'axios';
 
 import {Book} from '../types';
 import {Title} from 'react-native-paper';
+import { getUsername } from './userTokenManager';
 
 export type Props = {
   book: Book;
@@ -27,17 +28,25 @@ const MyBooks: React.FC<Props> = ({book, BookItem}) => {
   //it's going to be stored in the state, data, then
   //in the return statement, map through array to render
 
-  const handleFetch = async () => {
-    const res = await axios.get(
-      `https://binderapp-server.herokuapp.com/api/user_books`,
-    );
-    const data = await res.data;
-    setData(data);
-    console.log(data);
+
+  const getLikedBooks = async () => {
+    const fetchLikes = await axios.get(
+      `https://binderapp-server.herokuapp.com/api/trade_table/liked/${getUsername()}`,
+      );
+      console.log(fetchLikes)
+    const likedBookIds = fetchLikes.data.map((book) => book.book_id);
+    const likedBooks = likedBookIds.map(async id => {
+      const bookObj = await axios.get(
+        `https://binderapp-server.herokuapp.com/api/user_books/${id}`,
+      );
+      return bookObj.data;
+    });
+
+    setData(likedBooks);
   };
 
   useEffect(() => {
-    handleFetch();
+    getLikedBooks();
   }, []);
   //map over data
   // const showBooks = data.map(obj => {
