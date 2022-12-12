@@ -84,7 +84,7 @@ const handleFetch = async() => {
       //handlerFunction
   async function onSwipeRight (bookObj: Book) {
   const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
-  { bookObj } );
+   bookObj  );
    console.log("MATCH ", match.data);
    console.warn("swipe right: ", bookObj.title)
 }
