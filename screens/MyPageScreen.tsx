@@ -8,10 +8,11 @@ import  LikedBooks from '../components/LikedBooks'
 import MyBooks from '../components/MyBooks';
 import BookItem from '../components/BookItem';
 import { Book, RootStackParamList } from '../types';
-import { resetToken, getUsername, username } from '../components/userTokenManager';
+import { resetToken, getUsername, username, getToken } from '../components/userTokenManager';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackScreenProps } from '../types';
 import axios from 'axios';
+import useAuth from '../hooks/useAuth';
 // import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 
 

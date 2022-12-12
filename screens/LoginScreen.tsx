@@ -36,7 +36,12 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'
     
     
     <TouchableOpacity>
-        <Button title='SUBMIT' onPress={signIn}/>
+        <Button title='SIGN IN' onPress={signIn}/>
+    </TouchableOpacity>
+    <TouchableOpacity>
+        <Button title='create an account' onPress={
+          navigation.navigate("CreateAccount")
+        }/>
     </TouchableOpacity>
 </View>
   );
