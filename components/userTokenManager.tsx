@@ -1,5 +1,5 @@
 
-let token: string|null = "Angelica";
+let token: string|null = null;
 let getToken = () => token;
 let setToken = (t:string) => {token = t}
 let resetToken = () => {
