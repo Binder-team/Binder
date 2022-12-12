@@ -18,6 +18,7 @@ export type RootStackParamList = {
   Messages: undefined;
   NotFound: undefined;
   Login: undefined;
+  MyPageTab:undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
