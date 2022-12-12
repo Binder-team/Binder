@@ -6,6 +6,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 
+import AntDesign from 'react-native-vector-icons/AntDesign'
+
+
 
 export default function MatchScreen() {
   const [matchedBooks, setMatchedBooks] = useState({});
@@ -25,6 +28,9 @@ export default function MatchScreen() {
       <Text style={styles.title}>all book matches appear here</Text>
       <Text style={{fontWeight:'bold', fontSize: 24}}>New Matches</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+       <AntDesign name="facebook-square" size={34} />
+
+
     </SafeAreaView>
   );
 }
