@@ -70,7 +70,7 @@ const[profile, setProfile] = useState(currentProfile);
 
 
 const handleFetch = async() => {
-    const res = await axios.get('https://binderapp-server.herokuapp.com/api/user_books');
+    const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/swipe/${getUsername()}`);
     const data = await res.data;
     setBookData(data);
     //console.log(data);  
