@@ -13,7 +13,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackScreenProps } from '../types';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
-import SelectDropdown from 'react-native-select-dropdown';
 // import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
 
 
@@ -29,7 +28,6 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
   const [data, setData] = useState({});
   const [currentView, setCurrentView] = useState<string>("myBooks");
   const [logout, setLogout] = useState<boolean>(false);
-  const conditions = ["Like new", "Great", "Very good", "Fine", "Poor"];
   
   const  getProfile = async() => {
     const res = await axios.post(`https://binderapp-server.herokuapp.com/api/users/info`, 
