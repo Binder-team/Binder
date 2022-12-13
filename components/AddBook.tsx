@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, TextInput, StyleSheet, View, Button} from "reac
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { getUsername } from "./userTokenManager";
-
+import SelectDropdown from "react-native-select-dropdown";
 type BookData = {
     isbn: string;
     title: string;
@@ -15,6 +15,7 @@ const AddBooks = () => {
 
   const [bookTitle, setBookTitle] = useState('');
   const [condition, setCondition] = useState('');
+  const conditions = ["Like new", "Great", "Very good", "Fine", "Poor"];
 
     const { control, handleSubmit, formState: { errors } } = useForm<BookData>({
         defaultValues: {
@@ -95,30 +96,12 @@ const AddBooks = () => {
                     placeholder='enter Book Title'
                     style={styles.input}
                     onBlur={onBlur}
-                    onChangeText={text => setBookTitle(text)}
+                    onChangeText={(text) => setBookTitle(text)}
                     defaultValue={bookTitle}
             />
             )}
             name="isbn"
             /> 
-            {/* <Text>Book Title:</Text>
-            <Controller
-                onSubmit={onSubmit}
-                control={control}
-                rules={{
-                required: true,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                    placeholder='enter the book title'
-                    style={styles.input}
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-            />
-            )}
-            name="title"
-            /> */}
             <Text>Condition:</Text>
             <Controller
                 control={control}
@@ -126,12 +109,20 @@ const AddBooks = () => {
                 required: true,
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                    placeholder='enter a number 1-10 10(best) '
-                    style={styles.input}
-                    onBlur={onBlur}
-                    onChangeText={number => setCondition(number)}
-                    defaultValue={condition} 
+            //     <TextInput
+            //         placeholder='enter a number 1-10 10(best) '
+            //         style={styles.input}
+            //         onBlur={onBlur}
+            //         onChangeText={number => setCondition(number)}
+            //         defaultValue={condition} 
+            // />
+            <SelectDropdown
+                  style = {styles.dropDown}
+                  data={conditions}
+                  onSelect={(selectedItem, index)=>{
+                    console.log(selectedItem)
+                    setCondition(selectedItem);
+                  }}
             />
             )}
             name="condition"
@@ -147,6 +138,8 @@ const AddBooks = () => {
 };
 
 const styles = StyleSheet.create({
+  dropDown:{
+  },
   baseText: {
     fontFamily: "Cochin"
   },
