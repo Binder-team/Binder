@@ -13,7 +13,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackScreenProps } from '../types';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
-// import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
+
 
 
 export type Props = {
@@ -55,7 +55,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
 
     <View style={{backgroundColor: 'white', height: '100%'}}>
       <Text style={styles.title}>My Profile</Text>
-      <Image style={styles.image}source={{uri:'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'}}></Image>
+      <Image style={styles.image}source={{uri:data["profile_url"]}}></Image>
       <TouchableOpacity onPress={signOut}>
           <Text style={styles.logout}>Log out</Text>
         </TouchableOpacity>
