@@ -73,8 +73,6 @@ function RootNavigator() {
               options={{title: 'Create a new account'}} 
           />
          </> 
-          
-          
         )}
     </Stack.Navigator>
   );
