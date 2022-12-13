@@ -67,18 +67,18 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     </View>
       
 
-      <View style={{ flexDirection: 'row' }}>
-        <View style={styles.button}>
+    <View style={{ flexDirection: 'row', width: '100%' }}>
+      <View style={styles.button}>
           <TouchableOpacity  onPress={() => setCurrentView("myBooks")}>
           <Text>My Books</Text>       
           </TouchableOpacity>         
-        </View>      
-        <View  style={styles.button}>
+      </View>      
+      <View  style={styles.button}>
           <TouchableOpacity  onPress={() =>setCurrentView("likedBooks")} >
             <Text>Liked Books</Text>
           </TouchableOpacity>
-        </View>
       </View>
+    </View>
 
       <View>
         {currentView === "myBooks"? (
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%'
   },
   title: {
     fontSize: 20,
