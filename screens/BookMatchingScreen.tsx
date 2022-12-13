@@ -86,16 +86,16 @@ const handleFetch = async() => {
   const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
    bookObj  );
    console.log("MATCH ", match.data);
-   console.warn("swipe right: ", bookObj.title)
+   console.log("swipe right: ", bookObj.title)
    if( match.data > 0){
     Alert.alert(`You got ${match.data} matches!`)
     setMatchState(match.data);
    }
 }
+const onSwipeLeft =( bookObj: Book )=> {
+       console.log('swipe left', bookObj.title)
+     }
 
-// useEffect(()=>{
-//     Alert.alert("You got a match!")
-// },[matchState])
 
 const {width: screenWidth} = useWindowDimensions();
 
@@ -155,9 +155,7 @@ const gestureHandler = useAnimatedGestureHandler ({
 
       //function for matching ... should be on screen 
 
-      const onSwipeLeft =( bookObj: Book )=> {
-       console.log('swipe left', bookObj.title)
-     }
+      
       
      const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
     onSwipe && runOnJS(onSwipe)(currentProfile);
