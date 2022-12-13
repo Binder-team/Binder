@@ -24,11 +24,11 @@ export type Props = {
   navigation: Function
 }
 
-const MyPageScreen = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
+const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   const [data, setData] = useState({});
   const [currentView, setCurrentView] = useState<string>("myBooks");
   const [logout, setLogout] = useState<boolean>(false);
-  
+  const {signOut} = useAuth();
   const  getProfile = async() => {
     const res = await axios.post(`https://binderapp-server.herokuapp.com/api/users/info`, 
     {
@@ -42,6 +42,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
   useEffect(()=>{
     console.log(getProfile());
     console.log(getUsername());
+    console.log(logout)
     console.log(`../assets/images/${getUsername()}.jpeg`)
   },[]) 
  
@@ -50,19 +51,12 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
-        
-      
-      </View>
-      <View style={{backgroundColor: 'white', height: '100%'}}>
+    </View>
+
+    <View style={{backgroundColor: 'white', height: '100%'}}>
       <Text style={styles.title}>My Profile</Text>
       <Image style={styles.image}source={{uri:'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'}}></Image>
-      <TouchableOpacity 
-            onPress={() => {
-            resetToken();
-            // navigation.navigate('Login');
-            setLogout(true);
-            }}
-      >
+      <TouchableOpacity onPress={signOut}>
           <Text style={styles.logout}>Log out</Text>
         </TouchableOpacity>
       <View style={styles.profileContainer}>
@@ -70,7 +64,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
         <Text>city: {data["city"]}</Text>
         <Text>contact: {data["phone_number"]}</Text>
         <Text>rating: {data["reputation"]}</Text>
-      </View>
+    </View>
       
 
       <View style={{ flexDirection: 'row' }}>
