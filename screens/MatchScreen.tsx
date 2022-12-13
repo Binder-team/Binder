@@ -2,34 +2,45 @@
 import { useEffect, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import BookCard from '../components/BookCard';
+import { Book } from '../types';
+import { getUsername } from '../components/userTokenManager';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-
-import AntDesign from 'react-native-vector-icons/AntDesign'
-
+import { ScrollView } from 'react-native-gesture-handler';
 
 
-export default function MatchScreen() {
-  const [matchedBooks, setMatchedBooks] = useState({});
-  useEffect(() => {
-    getMatches();
-  },[]);
+export type Props = {
+  book: Book,
+  BookItem: Function,
+  getUsername: Function
 
+}
 
+export default function MatchScreen({ book, BookItem, getUsername}: Props) {
+  const [matchedBooks, setMatchedBooks] = useState([]);
+ 
 
-
-
-  async function getMatches () {
-  }
   return (
     <SafeAreaView style={styles.root}>
 
-      <Text style={styles.title}>all book matches appear here</Text>
       <Text style={{fontWeight:'bold', fontSize: 24}}>New Matches</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-       <AntDesign name="facebook-square" size={34} />
 
+    <ScrollView>
+      <View style= {styles.matchContainer}>
+        <Text>You got a match!</Text>
+        <View >
+          
+
+
+        </View>
+
+
+      </View>
+    </ScrollView>
+    
 
     </SafeAreaView>
   );
@@ -57,4 +68,9 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  matchContainer :{
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  }
 });

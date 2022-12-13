@@ -52,3 +52,13 @@ export type Book = {
   title: string;
   author: string;
 }
+
+export type matchedBooks = {
+  id: number,
+  user1Id : number,
+  user2Id: number,
+  username1: string,
+  username2: string,
+  book1Id: number,
+  book2Id: number,
+}
