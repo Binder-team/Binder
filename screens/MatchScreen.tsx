@@ -42,12 +42,14 @@ export default function MatchScreen({ book, BookItem }: Props) {
   },[])
 
 
-   const oneBook = ({item}) => (
+   const oneBook = ({ item }) => (
     <View style={styles.item}>
       <View style={styles.bookContainer}>
         
         <Image
           style={{
+             borderColor: 'blue',
+            borderWidth: 2,
             height: 80,
             width: 80,
           }}
@@ -59,7 +61,7 @@ export default function MatchScreen({ book, BookItem }: Props) {
         />
       </View>
       <View>
-        <Text style={styles.title}>Title:{item.title}</Text>
+        <Text>Title:{item.title}</Text>
         <Text>Author:{item.author}</Text>
         <Text>Condition:{item.condition}</Text>
         <Text>User:{}</Text>
@@ -75,30 +77,21 @@ export default function MatchScreen({ book, BookItem }: Props) {
   return (
     <SafeAreaView style={styles.root}>
 
-      <Text style={{fontWeight:'bold', fontSize: 24}}>New Matches</Text>
+      <Text style={{fontWeight:'bold', fontSize: 20}}>New Matches</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-
-    
       <View style= {styles.matchContainer}>
-        <Text>You got a match!</Text>
+        <Text style={{fontSize: 20, fontWeight: 'bold'}}>You got a match!</Text>
         <View >
           <FlatList
               numColumns={2}
               data={matchedBooks}
-              renderItem={oneBook}>
-                <Card style ={{margin: 20, padding: 10}} >
-                  <View>
-                    
-                  </View>
-                </Card>
-
-          </FlatList>
-        
+              renderItem={oneBook}
+              keyExtractor={item => item.id }
+              ItemSeparatorComponent={itemSeparator}
+               >            
+          </FlatList> 
         </View>
       </View>
-  
-    
-
     </SafeAreaView>
   );
 }
@@ -138,5 +131,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
 
-  }
+  },
+   item: {
+     flexDirection: 'row',
+    alignItems: 'center',
+    paddingVetrical: 13,
+   }
 });
