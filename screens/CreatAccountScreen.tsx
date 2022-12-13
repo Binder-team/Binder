@@ -34,7 +34,7 @@ export default function CreateAccountScreen({navigation}) {
   
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Please enter a username:</Text>
+      <Text style={styles.title}>Enter a username:</Text>
       <TextInput
         placeholder='enter username'
         onChange={(e)=>{
@@ -42,7 +42,7 @@ export default function CreateAccountScreen({navigation}) {
         }}
       >
       </TextInput>
-      <Text style={styles.title}>Please enter a password:</Text>
+      <Text style={styles.title}>Enter a password:</Text>
       <TextInput
         placeholder='password'
         secureTextEntry={true} 
@@ -50,7 +50,7 @@ export default function CreateAccountScreen({navigation}) {
        }
       >
       </TextInput>
-      <Text style={styles.title}>city:</Text>
+      <Text style={styles.title}>City:</Text>
       <TextInput
         placeholder='city'
         onChange={(e)=>setCity(e.nativeEvent.text)
@@ -63,7 +63,7 @@ export default function CreateAccountScreen({navigation}) {
        }
       ></TextInput>
       
-      <Text style={styles.title}>Please your email:</Text>
+      <Text style={styles.title}>Email:</Text>
       <TextInput
         placeholder='email'
         onChange={(e)=>setEmail(e.nativeEvent.text)
