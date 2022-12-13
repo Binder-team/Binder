@@ -1,15 +1,24 @@
 import React, { useEffect, useRef, useState, useContext, createContext  } from 'react';
 import { Alert } from 'react-native';
-import {setToken, getToken, setUsername, getUsername, setPassword, getPassword, getCity, getEmail, getPostalCode, resetToken } from '../components/userTokenManager'
+import {
+    setToken, 
+    getToken, 
+    setUsername, 
+    getUsername, 
+    setPassword, 
+    getPassword, 
+    getCity, 
+    getEmail, 
+    getPostalCode, 
+    resetToken 
+} from '../components/userTokenManager'
 import axios from 'axios'
-const AuthContext = createContext({});
+
 import Navigation from '../navigation/index';
 import LoginScreen from '../screens/LoginScreen';
-
+const AuthContext = createContext({});
 export const AuthProvider = ({children, setAuthenticated, authenticated}) => {
     // const [authenticated, setAuthenticated] = useState(false);
-   //may have to create a state variable here, bc if token gets updated, that equals to getToken()
-   
     // const username = getUsername();
     // const password = getPassword();
     
