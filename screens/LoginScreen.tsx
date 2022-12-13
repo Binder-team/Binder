@@ -10,7 +10,7 @@ import useAuth from '../hooks/useAuth';
 import { RootStackScreenProps } from '../types';
 
 
-export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'>) {
+export default function LoginScreen({ navigation }: RootStackScreenProps<'CreateAccount'>) {
   const { signIn } = useAuth();
   
   return (
@@ -39,8 +39,10 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Login'
         <Button title='SIGN IN' onPress={signIn}/>
     </TouchableOpacity>
     <TouchableOpacity>
-        <Button title='create an account' onPress={
-          navigation.navigate("CreateAccount")
+        <Button title='create an account' onPress={()=>{
+          navigation.navigate('CreateAccount')
+        }
+          
         }/>
     </TouchableOpacity>
 </View>
