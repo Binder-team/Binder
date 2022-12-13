@@ -1,6 +1,6 @@
 // import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet,Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BookCard from '../components/BookCard';
 import { Book } from '../types';
@@ -8,19 +8,69 @@ import { getUsername } from '../components/userTokenManager';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import { ScrollView } from 'react-native-gesture-handler';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import axios from 'axios';
+import { Card } from 'react-native-paper';
 
 
 export type Props = {
   book: Book,
   BookItem: Function,
-  getUsername: Function
 
 }
 
-export default function MatchScreen({ book, BookItem, getUsername}: Props) {
+export default function MatchScreen({ book, BookItem }: Props) {
   const [matchedBooks, setMatchedBooks] = useState([]);
  
+
+  const getMatchedBooks = async () => {
+    try {
+ const fetchMatch = await axios.get(
+      `https://binderapp-server.herokuapp.com/api/matches/${getUsername()}`,
+      );
+      const matches = await fetchMatch.data;
+      console.log(matches);
+      setMatchedBooks(matches);
+    } catch (err)  {
+    console.log(err);  
+  } 
+}
+   
+
+  useEffect(() => {
+    getMatchedBooks();
+  },[])
+
+
+   const oneBook = ({item}) => (
+    <View style={styles.item}>
+      <View style={styles.bookContainer}>
+        
+        <Image
+          style={{
+            height: 80,
+            width: 80,
+          }}
+          source={{
+            uri: item.thumbnail_url,
+            width: 50,
+            height: 50,
+          }}
+        />
+      </View>
+      <View>
+        <Text style={styles.title}>Title:{item.title}</Text>
+        <Text>Author:{item.author}</Text>
+        <Text>Condition:{item.condition}</Text>
+        <Text>User:{}</Text>
+        <Text>Contact:{}</Text>
+         
+      </View>   
+    </View>
+  );
+  const itemSeparator = () => {
+    return <View style={styles.separator} />;
+  };
 
   return (
     <SafeAreaView style={styles.root}>
@@ -28,18 +78,25 @@ export default function MatchScreen({ book, BookItem, getUsername}: Props) {
       <Text style={{fontWeight:'bold', fontSize: 24}}>New Matches</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
-    <ScrollView>
+    
       <View style= {styles.matchContainer}>
         <Text>You got a match!</Text>
         <View >
-          
+          <FlatList
+              numColumns={2}
+              data={matchedBooks}
+              renderItem={oneBook}>
+                <Card style ={{margin: 20, padding: 10}} >
+                  <View>
+                    
+                  </View>
+                </Card>
 
-
+          </FlatList>
+        
         </View>
-
-
       </View>
-    </ScrollView>
+  
     
 
     </SafeAreaView>
@@ -68,9 +125,18 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
-  matchContainer :{
+  matchContainer:{
     justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+  }, 
+  bookContainer: {
+    backgroundColor: 'D9D9D9',
+    borderRadius: 100,
+    height: 89,
+    width: 89,
+    justifyContent: 'center',
+    alignItems: 'center',
+
   }
 });

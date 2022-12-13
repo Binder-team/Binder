@@ -148,7 +148,7 @@ const gestureHandler = useAnimatedGestureHandler ({
       //function for matching ... should be on screen 
 
       const onSwipeLeft =( bookObj: Book )=> {
-       console.warn('swipe left', bookObj.title)
+       console.log('swipe left', bookObj.title)
      }
       
      const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
