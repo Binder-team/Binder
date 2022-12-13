@@ -18,6 +18,7 @@ export type RootStackParamList = {
   Messages: undefined;
   NotFound: undefined;
   Login: undefined;
+  CreateAccount:undefined;
   MyPageTab:undefined;
 };
 
