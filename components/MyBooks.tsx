@@ -27,17 +27,15 @@ const MyBooks: React.FC<Props> = ({book, BookItem}) => {
   //it's going to be stored in the state, data, then
   //in the return statement, map through array to render
 
-  const handleFetch = async() => {
-    const fetchedUser = await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`);
-    const id = fetchedUser.data.id;
-    const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/user/${id}`);
-    const data = res.data;
-    setData(data);
-    console.log(data);
-  };
+
+  async function getUserBooks () {
+    const fetchedBooks = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`);
+    const books = fetchedBooks.data;
+    setData(books);
+  }
 
   useEffect(() => {
-    handleFetch();
+    getUserBooks();
   }, []);
   //map over data
   // const showBooks = data.map(obj => {

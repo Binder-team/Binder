@@ -63,27 +63,22 @@ const AddBooks = () => {
       const firstBook = fetchedData.data.items[1];
       const fetchedBook = await axios.get(`https://www.googleapis.com/books/v1/volumes/${firstBook.id}?key=${key}`);
       const bookData = fetchedBook.data.volumeInfo;
+      const default_image = 'https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fleadershiftinsights.com%2Fwp-content%2Fuploads%2F2019%2F07%2Fno-book-cover-available.jpg';
       console.log(bookData.title);
       console.log(bookData.authors.join(', '));
-      console.log(Number(condition));
       console.log(fetchedBook.data.id);
       try {
-          const fetchedUser = await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`);
-          const userId = fetchedUser.data.id;
-          await axios.post('https://binderapp-server.herokuapp.com/api/user_books', {
-            user_id: userId,
+          await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, {
             is_available: true,
             title: bookData.title,
-            author: bookData.authors.join(', '),
-            condition: Number(condition),
+            author: bookData.authors ? bookData.authors.join(', ') : 'n/a',
+            condition: condition,
             book_id: fetchedBook.data.id,
-            image_url: bookData.imageLinks.large ? bookData.imageLinks.large : null,
-            thumbnail_url: bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : null,
-
+            image_url: bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : default_image) : default_image,
+            thumbnail_url: bookData.imageLinks ? (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image) : default_image,
           });
       } catch (error) {
-        console.log(error + '🔥')
-        
+        console.log(error + ':fire:')
       }
     }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useContext, createContext  } from 'react';
 import { Alert } from 'react-native';
-import {setToken, getToken, setUsername, getUsername, setPassword, getPassword } from '../components/userTokenManager'
+import {setToken, getToken, setUsername, getUsername, setPassword, getPassword, getCity, getEmail, getPostalCode, resetToken } from '../components/userTokenManager'
 import axios from 'axios'
 const AuthContext = createContext({});
 import Navigation from '../navigation/index';
@@ -17,7 +17,6 @@ export const AuthProvider = ({children, setAuthenticated, authenticated}) => {
     const signIn =  async () => {
         try{
             const username = getUsername();
-            console.log("username in useAuth login", username)
             const res = await axios.post('https://binderapp-server.herokuapp.com/api/login', {username});
             const data = await res.data;
             if(res.status === 200) {
@@ -32,15 +31,41 @@ export const AuthProvider = ({children, setAuthenticated, authenticated}) => {
             Alert.alert("Could not find user, please try again!")
         }
     }
+const signOut = () => {
+    resetToken();
+    setAuthenticated(false);
+}
 
+const newUser = async () => {
+    try{
+        const username = getUsername();
+        const res = await axios.post('https://binderapp-server.herokuapp.com/api/users',{
+            username:username,
+            city:getCity(),
+            profile_url: 'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg',
+            email:getEmail(),
+            postal_code:getPostalCode(),
+            is_banned:false
+        });
+        const data = res.data;
+        console.log("new user data: ", data)
+        if(res.status === 200) {
+            signIn();
+        }
 
+    } catch {
+        Alert.alert("Could not sign up, please try again!")
+    }
+}
     return (
         <AuthContext.Provider
 
             value={
                 {
                     user: getToken(),
-                    signIn
+                    signIn,
+                    signOut,
+                    newUser
                 }
             }>
                 {children}
