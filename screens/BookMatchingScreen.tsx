@@ -16,7 +16,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Book } from '../types';
 import { getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword } from '../components/userTokenManager';
-
+import { Alert } from 'react-native';
 
 
 
@@ -62,7 +62,7 @@ const [bookData, setBookData] = useState([]); //where all user's books get store
 const [currentIndex, setCurrentIndex] = useState(0);
 const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 const [currentCard, setCurrentCard] = useState(bookData[currentIndex]);
-
+const [matchState, setMatchState] = useState();
 const currentProfile = bookData[currentIndex];
 const nextProfile = bookData[nextIndex];
 
@@ -87,7 +87,15 @@ const handleFetch = async() => {
    bookObj  );
    console.log("MATCH ", match.data);
    console.warn("swipe right: ", bookObj.title)
+   if( match.data > 0){
+    Alert.alert(`You got ${match.data} matches!`)
+    setMatchState(match.data);
+   }
 }
+
+// useEffect(()=>{
+//     Alert.alert("You got a match!")
+// },[matchState])
 
 const {width: screenWidth} = useWindowDimensions();
 
