@@ -38,11 +38,12 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Create
     <TouchableOpacity>
         <Button title='SIGN IN' onPress={signIn}/>
     </TouchableOpacity>
+    <Text>Don't have an account?</Text>
     <TouchableOpacity>
         <Button title='create an account' onPress={()=>{
           navigation.navigate('CreateAccount')
         }
-          
+        
         }/>
     </TouchableOpacity>
 </View>
