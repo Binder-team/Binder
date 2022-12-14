@@ -63,7 +63,7 @@ export default function MatchScreen({ book, BookItem }: Props) {
         <Text>Author:{item.author1}</Text>
         <Text>Condition:{item.condition1}</Text>
         <Text>User:{item.username1}</Text>
-        <Text>Contact:{item.email1}</Text> 
+        {/* <Text>Contact:{item.email1}</Text>  */}
       </View>  
       <View style={styles.bookContainer}>
         
@@ -84,8 +84,9 @@ export default function MatchScreen({ book, BookItem }: Props) {
         <Text>Author:{item.author2}</Text>
         <Text>Condition:{item.condition2}</Text>
         <Text>User:{item.username2}</Text>
-        <Text>Contact:{item.email2}</Text>
+        {/* <Text>Contact:{item.email2}</Text> */}
       </View>
+     
     </View>
   );
 
@@ -102,7 +103,10 @@ export default function MatchScreen({ book, BookItem }: Props) {
           <Text style={styles.text}>You got a match!</Text>
         </View>
       <View style= {styles.matchContainer}> 
-        <View >
+       
+       
+       
+        <View>
           <FlatList
               numColumns={4}
               data={matchedBooks}
