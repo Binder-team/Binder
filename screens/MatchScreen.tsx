@@ -20,6 +20,7 @@ export type Props = {
 }
 
 export default function MatchScreen({ book, BookItem }: Props) {
+
   const [matchedBooks, setMatchedBooks] = useState([]);
  
 
@@ -35,70 +36,82 @@ export default function MatchScreen({ book, BookItem }: Props) {
     console.log(err);  
   } 
 }
-   
+   //const matched =  [{"author1": "Leo Tolstoy", "author2": "John Green", "book1Id": 11, "book2Id": 2, "condition1": "7", "condition2": "10", "id": 852, "thumbnail1": "http://books.google.com/books/publisher/content?id=14OMEAAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE71uZt2FlO4Wbt6r-LWKb6ldD8lipyaKjqH7HA55Gx3PdnA7ysYLHXsMUCA_eEyzhExr-tWzhMRJup_0u-5RCbXvrBlzfGYrZX6pmzfdss9C2e-J7uG8sjK5aIAV3slXD-59xufI&source=gbs_api", "thumbnail2": "http://books.google.com/books/content?id=p0FWswEACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE713m1kdtscDsTxUJVnJHMNRuXQ1faJsIZ9cNCnpevvwzaICjFIJAd6rd8odjnKxGUXE_aM7-vlOwjhubp-fODqku5uKly_mKg0BSH69hgQgTNhiZeD_Yt7z33v_NRlpIj83kf1O&source=gbs_api", "title1": "Penguin Classics Anna Karenina", "title2": "Turtles All the Way Down", "user1Id": 4, "user2Id": 1, "username1": "Angelica", "username2": "Ed"}];
 
   useEffect(() => {
     getMatchedBooks();
   },[])
 
 
-   const oneBook = ({item}) => (
+   const tradeBook = ({ item }) => (
     <View style={styles.item}>
-      <View style={styles.bookContainer}>
-        
+      <View style={styles.bookContainer}> 
         <Image
           style={{
-            height: 80,
-            width: 80,
+             borderColor: 'black',
+            borderWidth: 2,
+            height: 100,
+            width: 100,
           }}
           source={{
-            uri: item.thumbnail_url,
+            uri: item.thumbnail1,
             width: 50,
             height: 50,
           }}
         />
+         <Text>Title:{item.title1}</Text>
+        <Text>Author:{item.author1}</Text>
+        <Text>Condition:{item.condition1}</Text>
+        <Text>User:{item.username1}</Text>
+        <Text>Contact:{item.email1}</Text> 
+      </View>  
+      <View style={styles.bookContainer}>
+        
+        <Image
+          style={{
+             borderColor: 'black',
+            borderWidth: 2,
+            height: 100,
+            width: 100,
+          }}
+          source={{
+            uri: item.thumbnail2,
+            width: 50,
+            height: 50,
+          }}
+        />
+        <Text>Title:{item.title2}</Text>
+        <Text>Author:{item.author2}</Text>
+        <Text>Condition:{item.condition2}</Text>
+        <Text>User:{item.username2}</Text>
+        <Text>Contact:{item.email2}</Text>
       </View>
-      <View>
-        <Text style={styles.title}>Title:{item.title}</Text>
-        <Text>Author:{item.author}</Text>
-        <Text>Condition:{item.condition}</Text>
-        <Text>User:{}</Text>
-        <Text>Contact:{}</Text>
-         
-      </View>   
     </View>
   );
+
+
   const itemSeparator = () => {
     return <View style={styles.separator} />;
   };
 
   return (
     <SafeAreaView style={styles.root}>
-
-      <Text style={{fontWeight:'bold', fontSize: 24}}>New Matches</Text>
+       <Text style={styles.title}>New Matches</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-
-    
-      <View style= {styles.matchContainer}>
-        <Text>You got a match!</Text>
+      <View>
+          <Text style={styles.text}>You got a match!</Text>
+        </View>
+      <View style= {styles.matchContainer}> 
         <View >
           <FlatList
-              numColumns={2}
+              numColumns={4}
               data={matchedBooks}
-              renderItem={oneBook}>
-                <Card style ={{margin: 20, padding: 10}} >
-                  <View>
-                    
-                  </View>
-                </Card>
-
-          </FlatList>
-        
+              renderItem={tradeBook}  
+              ItemSeparatorComponent={itemSeparator}
+               >            
+          </FlatList> 
         </View>
       </View>
-  
-    
-
     </SafeAreaView>
   );
 }
@@ -112,31 +125,51 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     padding: 10,
-    //alignItems: 'center',
-    //justifyContent: 'center',
+    justifyContent: 'center',
     //backgroundColor:'green',
   },
   title: {
+    alignSelf: 'flex-start',
+    justifyContent: 'center',
     fontSize: 20,
     fontWeight: 'bold',
   },
   separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    
   },
   matchContainer:{
+    width:'100%',
     justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    textAlign: 'center',
+    //backgroundColor:'red',
   }, 
   bookContainer: {
-    backgroundColor: 'D9D9D9',
-    borderRadius: 100,
-    height: 89,
-    width: 89,
+    //backgroundColor: 'D9D9D9',
+    borderRadius: 20,
+    // height: 300,
+    width: '50%',
     justifyContent: 'center',
+    // flexDirection: 'row',
     alignItems: 'center',
+    //backgroundColor: 'yellow',
 
-  }
+  },
+   item: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 13,
+    flexWrap: 'wrap',
+    //backgroundColor:'blue',
+   }, 
+   text: {
+    alignItems:'flex-start',
+    justifyContent: 'center',
+    fontSize: 20, 
+    fontWeight: 'bold', 
+    alignSelf: 'center'
+   }
+   
 });
