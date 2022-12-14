@@ -7,10 +7,7 @@ export default function AddBooksScreen() {
   const addBook = AddBooks();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add a book</Text>
-      <View>
         {addBook}
-      </View>
     </View>
   );
 }
@@ -20,6 +17,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    border: 0,
+    margin: 0,
+    height: '100%',
+    width: '100%'
   },
   title: {
     fontSize: 20,
