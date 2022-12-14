@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Platform, StyleSheet, Image, TouchableOpacity, View, Text, Button } from 'react-native';
+import { Platform, StyleSheet, Image, TouchableOpacity, View, Text, Button, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BookCard from '../components/BookCard';
 import { Book } from '../types';
@@ -47,7 +47,9 @@ const item = matchItem;
                 <Text>Author:{item.author1}</Text>
                 <Text>Condition:{item.condition1}</Text>
                 <Text>User:{item.username1}</Text>
-                <Text>Contact:{item.email1}</Text> 
+                <Text>Contact:</Text> 
+                <Button onPress={() => Linking.openURL(item.email1) }
+      title={item.email1} />
             </View>  
             <View style={styles.bookContainer}>
                 <Image
@@ -67,7 +69,9 @@ const item = matchItem;
                 <Text>Author:{item.author2}</Text>
                 <Text>Condition:{item.condition2}</Text>
                 <Text>User:{item.username2}</Text>
-                <Text>Contact:{item.email2}</Text>
+                <Text>Contact:</Text>
+                <Button onPress={() => Linking.openURL(item.email2) }
+      title={item.email2} />
             </View>
             <View>
                 <TouchableOpacity>
