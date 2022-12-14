@@ -11,7 +11,7 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { Card } from 'react-native-paper';
 import MatchScreen from '../screens/MatchScreen';
-const ConfirmExchange = ({matchItem, currentView}) => {
+const ConfirmExchange = ({matchItem, setCurrentView}) => {
     const [confirmed, setConfirmed] = useState<boolean>(false);
     const [matchedBooks, setMatchedBooks] = useState([]);
     
@@ -21,7 +21,12 @@ const item = matchItem;
         <View style={styles.item}> 
         
             <TouchableOpacity>
-                <Button title = 'back'>back to matches</Button>
+                <Button 
+                    title = 'back'
+                    onPress={()=> 
+                        setCurrentView("all matches")
+                    }
+                >back to matches</Button>
             </TouchableOpacity>
             <View style={styles.bookContainer}> 
                

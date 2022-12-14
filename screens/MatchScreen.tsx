@@ -147,7 +147,7 @@ export default function MatchScreen({ navigation }) {
           ):(
             <ConfirmExchange
               matchItem = {matchItem}
-              currentView = {currentView}
+              setCurrentView = {setCurrentView}
             />
           )}
         </View>
