@@ -55,15 +55,17 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
 
     <View style={{backgroundColor: 'white', height: '100%'}}>
       <Text style={styles.title}>My Profile</Text>
-      <Image style={styles.image}source={{uri:data["profile_url"]}}></Image>
+      <Image style={styles.image}source={{uri:data.profile_url}}></Image>
       <TouchableOpacity onPress={signOut}>
           <Text style={styles.logout}>Log out</Text>
         </TouchableOpacity>
       <View style={styles.profileContainer}>
-        <Text style={styles.username}>{data["username"]}</Text>
-        <Text>city: {data["city"]}</Text>
-        <Text>contact: {data["phone_number"]}</Text>
-        <Text>rating: {data["reputation"]}</Text>
+        <Text style={styles.username}>{data.username}</Text>
+        <Text>city: {data.city}</Text>
+        <Text>postal code: {data.postal_code}</Text>
+        <Text>contact: {data.phone_number}</Text>
+        <Text>email: {data.email}</Text>
+        <Text>rating: {data.reputation}</Text>
     </View>
       
 
