@@ -27,7 +27,7 @@ const AddBooks = () => {
         }
       });
     async function fetchBooks (): Promise<void> {
-      const key = 'AIzaSyAS32GEr_NB25nXnjTjbEBabB8xatzPznE';
+      const key = 'AIzaSyBN1ZgA46ECvqACR6mvRPOSSRbHmdtKCjI';
       const fetchedBooksResult = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitle}&printType=books&orderBy=relevance&key=${key}`);
       const booksResult = fetchedBooksResult.data.items;
       const booksArray = booksResult.slice(0, 2);

@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Button, Text, View, Image, StatusBar, useWindowDimensions, Pressable } from 'react-native';
-import { GestureDetector, GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import axios from 'axios';
 import BookCard from '../components/BookCard'
 import Animated, { 
@@ -178,7 +178,7 @@ useEffect(() => {
       <View style={styles.pageContainer}>
         {nextProfile && ( 
       <View style={styles.nextCardContainer}>
-        <Animated.View style={[styles.animatedCard, nextCardStyle]}>
+        <Animated.View style={[styles.animatedCard,nextCardStyle]}>
            <BookCard bookData={nextProfile} index={nextIndex}/>
         </Animated.View>
         </View>
