@@ -11,11 +11,30 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { Card } from 'react-native-paper';
 import MatchScreen from '../screens/MatchScreen';
-const ConfirmExchange = ({matchItem, setCurrentView}) => {
+
+interface Props {
+    item: {
+        thumbnail1:string,
+        title1: string,
+        author1: string,
+        condition1: string,
+        username1: string,
+        email1: string,
+        thumbnail2:string,
+        title2: string,
+        author2: string,
+        condition2: string,
+        username2: string,
+        email2: string
+    },
+    setCurrentView: Function
+}
+
+const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
     const [confirmed, setConfirmed] = useState<boolean>(false);
     const [matchedBooks, setMatchedBooks] = useState([]);
     
-const item = matchItem;
+
 
     return (
         <View style={styles.item}> 
@@ -81,7 +100,7 @@ const item = matchItem;
                         }}>Confirm exchange</Button>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Button title = 'cancel trade'>Cancel exchange</Button>
+                    <Button title = 'cancel'>Cancel</Button>
                 </TouchableOpacity>
             </View>
         </View>

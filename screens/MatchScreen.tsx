@@ -22,7 +22,7 @@ export default function MatchScreen({ navigation }) {
   const [acceptTrade, setAcceptTrade] = useState<boolean>(false);
   const [matchedBooks, setMatchedBooks] = useState<[]>([]);
   const [currentView, setCurrentView] = useState<string>("all matches");
-  const [matchItem, setMatchItem] = useState({})
+  const [item, setMatchItem] = useState({})
   const getMatchedBooks = async () => {
     try {
     const fetchMatch = await axios.get(
@@ -113,13 +113,10 @@ export default function MatchScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.root}>
-       <Text style={styles.title}>New Matches</Text>
-      {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
-      <View>
-          <Text style={styles.text}>You got a match!</Text>
-      </View>
-        
-        <View style={{ flexDirection: 'row', width: '100%' }}>
+      {/* <View>
+          <Text style={styles.text}>Your matches</Text>
+      </View> */}
+        {/* <View style={{ flexDirection: 'row', width: '100%' }}>
             <View style={styles.button}>
               <TouchableOpacity  onPress={() => setCurrentView("all matches")}>
               <Text>Matches</Text>       
@@ -130,25 +127,32 @@ export default function MatchScreen({ navigation }) {
                 <Text>Exchanges</Text>
               </TouchableOpacity>
             </View>
-        </View>
+        </View> */}
       <View style= {styles.matchContainer}> 
-       
-       
        
         <View>
           {currentView === "all matches"? (
-            <FlatList
-              numColumns={4}
-              data={matchedBooks}
-              renderItem={tradeCard}  
-              ItemSeparatorComponent={itemSeparator}
-            >            
-          </FlatList> 
+            <View>
+              <Text title = "matches" style = {styles.title}>You got a match!</Text>
+                <FlatList
+                  numColumns={4}
+                  data={matchedBooks}
+                  renderItem={tradeCard}  
+                  ItemSeparatorComponent={itemSeparator}
+                >            
+                </FlatList> 
+            </View>
+
+            
           ):(
-            <ConfirmExchange
-              matchItem = {matchItem}
-              setCurrentView = {setCurrentView}
+            <View>
+              <Text title = "confirm exchange" style = {styles.title}>Confirm your exchange</Text>
+               <ConfirmExchange
+                  matchItem = {item}
+                  setCurrentView = {setCurrentView}
             />
+            </View>
+           
           )}
         </View>
       </View>
@@ -197,7 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     textAlign: 'center',
-    //backgroundColor:'red',
+    backgroundColor:'red',
   }, 
   bookContainer: {
     //backgroundColor: 'D9D9D9',
