@@ -32,7 +32,7 @@ const AddBooks = () => {
       const fetchedBooksResult = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitle}&printType=books&orderBy=relevance&key=${key}`);
       const booksResult = fetchedBooksResult.data.items;
       if (booksResult.length >= 6) {
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 1; i++) {
           booksArray.push(booksResult[i]);
         }
       } else {
