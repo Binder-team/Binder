@@ -11,11 +11,64 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { Card } from 'react-native-paper';
 import MatchScreen from '../screens/MatchScreen';
-const ConfirmExchange = ({matchItem, setCurrentView}) => {
+
+interface Props {
+    item: {
+        thumbnail1:string,
+        title1: string,
+        author1: string,
+        condition1: string,
+        username1: string,
+        email1: string,
+        thumbnail2:string,
+        title2: string,
+        author2: string,
+        condition2: string,
+        username2: string,
+        email2: string
+    },
+    setCurrentView: Function
+}
+
+const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
     const [confirmed, setConfirmed] = useState<boolean>(false);
     const [matchedBooks, setMatchedBooks] = useState([]);
     
-const item = matchItem;
+    useEffect(()=>{
+        console.log(item)
+    },[])
+
+
+    //when 'confirm exchange' button is pressed
+  const sendConfirm = async () => {
+    try {
+      //sends a request to make isAccepted = true
+      const post = await axios.put(
+        `matches/exchange/user/${getUsername()}`, {item}
+      );
+      const data = await post.data;
+      if(data.status === 200) {
+        console.log("success!")
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+    const sendCancel = async () => {
+        try {
+        //sends a post request to cancel exchange
+        const post = await axios.put(
+            `matches/deny/user/${getUsername()}`, {item}
+        );
+        const data = await post.data;
+        if(data.status === 200) {
+            console.log("cancelled exchange")
+        }
+        } catch (err) {
+        console.log(err);
+        }
+    }
 
     return (
         <View style={styles.item}> 
@@ -43,10 +96,10 @@ const item = matchItem;
                     height: 50,
                 }}
             />
-                <Text>Title:{item.title1}</Text>
-                <Text>Author:{item.author1}</Text>
-                <Text>Condition:{item.condition1}</Text>
-                <Text>User:{item.username1}</Text>
+                <Text style = {styles.bookTitle}>Title: {item.title1}</Text>
+                <Text>Author: {item.author1}</Text>
+                <Text>Condition: {item.condition1}</Text>
+                <Text>User: {item.username1}</Text>
                 <Text>Contact:</Text> 
                 <Button onPress={() => Linking.openURL(item.email1) }
       title={item.email1} />
@@ -65,7 +118,7 @@ const item = matchItem;
                     height: 50,
                 }}
                 />
-                <Text>Title:{item.title2}</Text>
+                <Text style = {styles.bookTitle}>Title:{item.title2}</Text>
                 <Text>Author:{item.author2}</Text>
                 <Text>Condition:{item.condition2}</Text>
                 <Text>User:{item.username2}</Text>
@@ -75,13 +128,18 @@ const item = matchItem;
             </View>
             <View>
                 <TouchableOpacity>
-                    <Button title = 'confirm exchange' 
+                    <Button 
+                        title = 'confirm exchange' 
                         onpress={()=>{
                             setConfirmed(true)
+                            sendConfirm();
                         }}>Confirm exchange</Button>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Button title = 'cancel trade'>Cancel exchange</Button>
+                    <Button 
+                        title = 'cancel'
+                        onPress={()=>sendCancel(item)}
+                        >Cancel</Button>
                 </TouchableOpacity>
             </View>
         </View>
@@ -103,6 +161,9 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       backgroundColor:'green',
     },
+    bookTitle:{
+        fontWeight:'bold'
+      },
     title: {
       alignSelf: 'flex-start',
       justifyContent: 'center',
