@@ -22,10 +22,23 @@ export default function MatchScreen({ navigation }) {
   const [acceptTrade, setAcceptTrade] = useState<boolean>(false);
   const [matchedBooks, setMatchedBooks] = useState<[]>([]);
   const [currentView, setCurrentView] = useState<string>("all matches");
-  const [item, setMatchItem] = useState({})
+  const [item, setMatchItem] = useState({
+    thumbnail1:'',
+    title1: '',
+    author1: '',
+    condition1: '',
+    username1: '',
+    email1: '',
+    thumbnail2:'',
+    title2: '',
+    author2: '',
+    condition2: '',
+    username2: '',
+    email2: ''
+})
   const getMatchedBooks = async () => {
     try {
-    const fetchMatch = await axios.get(
+      const fetchMatch = await axios.get(
           `https://binderapp-server.herokuapp.com/api/matches/${getUsername()}`,
           );
           const matches = await fetchMatch.data;
@@ -36,6 +49,35 @@ export default function MatchScreen({ navigation }) {
       } 
   }
 
+//when accept button is pressed
+  const sendAccept = async () => {
+    try {
+      //sends a post request to make isAccepted = true
+      const post = await axios.post(
+        '', {}
+      );
+      const data = await post.data;
+      if(data.status === 200) {
+        console.log("success!")
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  const sendCancel = async (item) => {
+    try {
+      //sends a post request to cancel exchange
+      const post = await axios.post(
+        '', {}
+      );
+      const data = await post.data;
+      if(data.status === 200) {
+        console.log("cancelled exchange")
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   useEffect(() => {
     getMatchedBooks();
@@ -58,7 +100,7 @@ export default function MatchScreen({ navigation }) {
             height: 50,
           }}
         />
-        <Text>Title:{item.title1}</Text>
+        <Text style = {styles.bookTitle}>Title:{item.title1}</Text>
         <Text>Author:{item.author1}</Text>
         <Text>Condition:{item.condition1}</Text>
         <Text>User:{item.username1}</Text>
@@ -78,7 +120,7 @@ export default function MatchScreen({ navigation }) {
             height: 50,
           }}
         />
-        <Text>Title:{item.title2}</Text>
+        <Text style = {styles.bookTitle}>Title:{item.title2}</Text>
         <Text>Author:{item.author2}</Text>
         <Text>Condition:{item.condition2}</Text>
         <Text>User:{item.username2}</Text>
@@ -93,11 +135,17 @@ export default function MatchScreen({ navigation }) {
                 setAcceptTrade(true)
                 setMatchItem(item)
                 setCurrentView("confirm exchange view")
+                sendAccept();
               }}
               >Accept match</Button>
           </TouchableOpacity>
           <TouchableOpacity>
-            <Button title="deny">Deny</Button>
+            <Button 
+            title="deny"
+            onPress={()=>{
+              sendCancel(item)
+            }}
+            >Deny</Button>
           </TouchableOpacity>
         </View>
     </View>
@@ -148,7 +196,7 @@ export default function MatchScreen({ navigation }) {
             <View>
               <Text title = "confirm exchange" style = {styles.title}>Confirm your exchange</Text>
                <ConfirmExchange
-                  matchItem = {item}
+                  item = {item}
                   setCurrentView = {setCurrentView}
             />
             </View>
@@ -165,6 +213,9 @@ export default function MatchScreen({ navigation }) {
 
 
 const styles = StyleSheet.create({
+  bookTitle:{
+    fontWeight:'bold'
+  },
   buttonContainer:{
     flexDirection: 'row'
   },

@@ -34,7 +34,41 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
     const [confirmed, setConfirmed] = useState<boolean>(false);
     const [matchedBooks, setMatchedBooks] = useState([]);
     
+    useEffect(()=>{
+        console.log(item)
+    },[])
 
+
+    //when 'confirm exchange' button is pressed
+  const sendConfirm = async () => {
+    try {
+      //sends a request to make isAccepted = true
+      const post = await axios.post(
+        '', {}
+      );
+      const data = await post.data;
+      if(data.status === 200) {
+        console.log("success!")
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+    const sendCancel = async (item) => {
+        try {
+        //sends a post request to cancel exchange
+        const post = await axios.post(
+            '', {}
+        );
+        const data = await post.data;
+        if(data.status === 200) {
+            console.log("cancelled exchange")
+        }
+        } catch (err) {
+        console.log(err);
+        }
+    }
 
     return (
         <View style={styles.item}> 
@@ -62,10 +96,10 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
                     height: 50,
                 }}
             />
-                <Text>Title:{item.title1}</Text>
-                <Text>Author:{item.author1}</Text>
-                <Text>Condition:{item.condition1}</Text>
-                <Text>User:{item.username1}</Text>
+                <Text style = {styles.bookTitle}>Title: {item.title1}</Text>
+                <Text>Author: {item.author1}</Text>
+                <Text>Condition: {item.condition1}</Text>
+                <Text>User: {item.username1}</Text>
                 <Text>Contact:</Text> 
                 <Button onPress={() => Linking.openURL(item.email1) }
       title={item.email1} />
@@ -84,7 +118,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
                     height: 50,
                 }}
                 />
-                <Text>Title:{item.title2}</Text>
+                <Text style = {styles.bookTitle}>Title:{item.title2}</Text>
                 <Text>Author:{item.author2}</Text>
                 <Text>Condition:{item.condition2}</Text>
                 <Text>User:{item.username2}</Text>
@@ -94,13 +128,18 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
             </View>
             <View>
                 <TouchableOpacity>
-                    <Button title = 'confirm exchange' 
+                    <Button 
+                        title = 'confirm exchange' 
                         onpress={()=>{
                             setConfirmed(true)
+                            sendConfirm();
                         }}>Confirm exchange</Button>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Button title = 'cancel'>Cancel</Button>
+                    <Button 
+                        title = 'cancel'
+                        onPress={()=>sendCancel(item)}
+                        >Cancel</Button>
                 </TouchableOpacity>
             </View>
         </View>
@@ -122,6 +161,9 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       backgroundColor:'green',
     },
+    bookTitle:{
+        fontWeight:'bold'
+      },
     title: {
       alignSelf: 'flex-start',
       justifyContent: 'center',
