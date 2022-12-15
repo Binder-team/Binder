@@ -102,7 +102,7 @@ function BottomTabNavigator() {
         name="FindBookTab"
         component={BookMatchingScreen}
         options={({ navigation }: RootTabScreenProps<"FindBookTab">) => ({
-          title: "Find a book",
+          title: "Home",
         })}
       />
       <BottomTab.Screen
@@ -123,7 +123,7 @@ function BottomTabNavigator() {
         name="MatchTab"
         component={MatchScreen}
         options={{
-          title: "Your Matches",
+          title: "Matches",
         }}
       />
     </BottomTab.Navigator>

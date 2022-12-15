@@ -68,6 +68,7 @@ const AddBooks = () => {
       console.log(bookData.title);
       console.log(bookData.authors.join(', '));
       console.log(fetchedBook.data.id);
+      console.warn('Book submitted!')
       try {
           await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, {
             is_available: true,

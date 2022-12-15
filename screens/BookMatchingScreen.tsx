@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Button, Text, View, Image, StatusBar, useWindowDimensions, Pressable } from 'react-native';
 import { GestureDetector, GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import axios from 'axios';
@@ -64,9 +64,13 @@ const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 const [currentCard, setCurrentCard] = useState(bookData[currentIndex]);
 const [matchState, setMatchState] = useState();
 const currentProfile = bookData[currentIndex];
+console.log('current profile: ', currentProfile);
 const nextProfile = bookData[nextIndex];
+console.log('next profile: ', nextIndex);
 
 const[profile, setProfile] = useState(currentProfile);
+
+const swiperRef = useRef();
 
 
 const handleFetch = async() => {
@@ -144,6 +148,7 @@ const gestureHandler = useAnimatedGestureHandler ({
 
     if(Math.abs(event.velocityX )< SWIPE_VELOCITY) {
       sharedValue.value =withSpring(0);
+      console.log('🐱' ,sharedValue.value);
       return;
     }
     sharedValue.value = withSpring(
@@ -151,10 +156,6 @@ const gestureHandler = useAnimatedGestureHandler ({
       {},
       () =>runOnJS(setCurrentIndex)(currentIndex + 1)
       );  
-      
-
-      //function for matching ... should be on screen 
-
       
       
      const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
@@ -168,7 +169,7 @@ const gestureHandler = useAnimatedGestureHandler ({
 useEffect(() => {
   sharedValue.value = 0;
   setNextIndex(currentIndex + 1)
-  console.log(currentIndex);
+  //console.log(currentIndex + 1);
 }, [currentIndex, sharedValue]);
 
   return (
@@ -177,7 +178,7 @@ useEffect(() => {
         {nextProfile && ( 
       <View style={styles.nextCardContainer}>
         <Animated.View style={[styles.animatedCard,nextCardStyle]}>
-           <BookCard bookData={nextProfile} index={currentIndex}/>
+           <BookCard bookData={nextProfile} index={nextIndex} />
         </Animated.View>
         </View>
         )}
