@@ -44,7 +44,7 @@ const AddBooks = () => {
         const bookObj = {
           book_id: id,
           title: title,
-          is_available: true,
+          isAvailable: true,
           condition: condition,
           author: author,
           image_url: image,
