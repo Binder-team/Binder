@@ -31,8 +31,8 @@ const AddBooks = () => {
       const key = 'AIzaSyAS32GEr_NB25nXnjTjbEBabB8xatzPznE';
       const fetchedBooksResult = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitle}&printType=books&orderBy=relevance&key=${key}`);
       const booksResult = fetchedBooksResult.data.items;
-      if (booksResult.length >= 6) {
-        for (let i = 0; i < 6; i++) {
+      if (booksResult.length >= 10) {
+        for (let i = 0; i < 10; i++) {
           booksArray.push(booksResult[i]);
         }
       } else {
