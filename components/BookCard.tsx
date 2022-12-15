@@ -56,7 +56,7 @@ const books = [
 
  const BookCard =(props) => {
 
-  console.log('props ',props);
+  //console.log('props ',props);
 
   const [bookData, setBookData] = useState([
     {
@@ -103,7 +103,7 @@ const books = [
     const data = await res.data;
     setBookData(data);
 
-    //console.log(data);   
+    console.log(data);   
   };
 
   useEffect(()=>{
@@ -116,7 +116,7 @@ const books = [
     return (
         <View style={styles.card}>
             <ImageBackground 
-                source={{uri: `${bookData[ props.index]["thumbnail_url"]}` }}
+                source={{uri: `${bookData[props.index]["thumbnail_url"]}` }}
                 style={styles.cardImage}>
                     <View style={styles.cardInner}>
                        
@@ -124,7 +124,7 @@ const books = [
             </ImageBackground>  
 
              <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
-                        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>          
+                        <Text style={styles.description}>Condition: {bookData[props.index ]["condition"]}</Text>          
         </View>
     )
  }

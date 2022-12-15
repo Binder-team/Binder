@@ -56,7 +56,9 @@ const Swipe = ({
   onEnd,
   onSwipe, 
 }: Props) => {
+
 const [bookData, setBookData] = useState([]); //where all user's books get stored, as an array
+
 const currentIndexRef = useRef(0);
 const nextIndexRef = useRef(currentIndexRef.current + 1);
 //const [currentIndex, setCurrentIndex] = useState(0);
@@ -66,8 +68,8 @@ const [matchState, setMatchState] = useState();
 
 const currentProfile = bookData[currentIndexRef.current];
 console.log('current profile: ', currentProfile);
-const nextProfile = bookData[nextIndexRef.current];
-console.log('next profile: ', nextIndexRef);
+const nextProfile = bookData[currentIndexRef.current + 1];
+console.log('next profile: ', nextProfile);
 
 const[profile, setProfile] = useState(currentProfile);
 const [currentCard, setCurrentCard] = useState(bookData[currentIndexRef.current]);
@@ -105,7 +107,8 @@ const {width: screenWidth} = useWindowDimensions();
 const hiddenSreenWidth = 2 * screenWidth; 
 
 const sharedValue = useSharedValue(0);
-console.log(sharedValue);
+console.log('shared value:', sharedValue);
+
 const rotate = useDerivedValue(() =>  interpolate(
   sharedValue.value, [0, hiddenSreenWidth], [0, ROTATION]) +  'deg');
 
@@ -164,15 +167,13 @@ const gestureHandler = useAnimatedGestureHandler ({
 }
 );
 
-/*
-
 useEffect(() => {
   sharedValue.value = 0;
-  setProfile(nextProfile)
+  setProfile(currentProfile)
   
-  //console.log(currentIndex + 1);
-}, [nextProfile, sharedValue]);
-*/
+  console.log(currentProfile);
+}, [currentProfile, sharedValue]);
+
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <View style={styles.pageContainer}>
