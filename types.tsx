@@ -18,7 +18,9 @@ export type RootStackParamList = {
   Messages: undefined;
   NotFound: undefined;
   Login: undefined;
+  CreateAccount:undefined;
   MyPageTab:undefined;
+  ConfirmExchange: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
@@ -50,4 +52,14 @@ export type Book = {
   thumbnail_url: string;
   title: string;
   author: string;
+}
+
+export type matchedBooks = {
+  id: number,
+  user1Id : number,
+  user2Id: number,
+  username1: string,
+  username2: string,
+  book1Id: number,
+  book2Id: number,
 }
