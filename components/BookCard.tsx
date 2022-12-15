@@ -116,15 +116,15 @@ const books = [
     return (
         <View style={styles.card}>
             <ImageBackground 
-                source={{uri: `${bookData[ props.index]["thumbnail_url"]}` }}
+                source={{uri: `${bookData[index]["thumbnail_url"]}` }}
                 style={styles.cardImage}>
                     <View style={styles.cardInner}>
                        
                     </View>
             </ImageBackground>  
 
-             <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
-                        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>          
+             <Text style={styles.title}>{bookData[ index ]["title"]}</Text>
+                        <Text style={styles.description}>Condition: {bookData[ index ]["condition"]}</Text>          
         </View>
     )
  }
