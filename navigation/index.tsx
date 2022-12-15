@@ -20,6 +20,11 @@ import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../typ
 import { AuthProvider } from "../hooks/useAuth";
 // import LinkingConfiguration from "./LinkingConfiguration";
 
+
+//vector-icons
+import Icon from "react-native-vector-icons/FontAwesome5";
+import Icon2 from "react-native-vector-icons/Ionicons";
+
 export default function Navigation({
   colorScheme,
 }: {
@@ -93,6 +98,10 @@ function RootNavigator() {
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
+
+
+
+
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
@@ -107,28 +116,41 @@ function BottomTabNavigator() {
         name="FindBookTab"
         component={BookMatchingScreen}
         options={({ navigation }: RootTabScreenProps<"FindBookTab">) => ({
-          title: "Find a book",
+          title: "Home",
+          tabBarIcon: ({color, size}) => {
+            return <Icon name="home"/>
+          }
+          
         })}
       />
       <BottomTab.Screen
         name="AddBookTab"
         component={AddBooksScreen}
         options={{
-          title: "Add a book",
+          title: "Add a Book",
+          tabBarIcon: ({color, size}) => {
+            return <Icon2 name="add-circle-outline" />
+          }
         }}
       />
       <BottomTab.Screen
         name="MyPageTab"
         component={MyPageScreen}
         options={{
-          title: "My Page"
+          title: "Profile",
+          tabBarIcon: ({color, size}) => {
+            return <Icon name="user-circle"/>
+          }
         }}
       />
       <BottomTab.Screen
         name="MatchTab"
         component={MatchScreen}
         options={{
-          title: "Your Matches",
+          title: "X Change",
+          tabBarIcon: ({color, size }) => {
+            return <Icon name="book"/>
+          }
         }}
       />
 
@@ -136,6 +158,7 @@ function BottomTabNavigator() {
     
   );
 }
+
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/

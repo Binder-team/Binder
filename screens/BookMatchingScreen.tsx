@@ -177,7 +177,7 @@ useEffect(() => {
         {nextProfile && ( 
       <View style={styles.nextCardContainer}>
         <Animated.View style={[styles.animatedCard,nextCardStyle]}>
-           <BookCard bookData={nextProfile} index={currentIndex}/>
+           <BookCard bookData={nextProfile} index={nextIndex}/>
         </Animated.View>
         </View>
         )}
