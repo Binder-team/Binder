@@ -92,7 +92,7 @@ const handleFetch = async() => {
    console.log("MATCH ", match.data);
    console.log("swipe right: ", bookObj.title)
    if( match.data > 0){
-    Alert.alert(`You got ${match.data} matches!`)
+    Alert.alert(`You got a new match!`)
     setMatchState(match.data);
    }
 }
