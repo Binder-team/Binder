@@ -32,7 +32,7 @@ interface Props {
 
 const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
     const [confirmed, setConfirmed] = useState<boolean>(false);
-    const [matchedBooks, setMatchedBooks] = useState([]);
+    const [matchedBooks, setMatchedBooks] = useState<[]>([]);
     
     useEffect(()=>{
         console.log(item)
