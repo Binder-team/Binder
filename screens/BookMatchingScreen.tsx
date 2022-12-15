@@ -56,20 +56,18 @@ const Swipe = ({
   onEnd,
   onSwipe, 
 }: Props) => {
-
+const [bookData, setBookData] = useState([]); //where all user's books get stored, as an array
 const currentIndexRef = useRef(0);
 const nextIndexRef = useRef(currentIndexRef.current + 1);
-
-const [bookData, setBookData] = useState([]); //where all user's books get stored, as an array
 //const [currentIndex, setCurrentIndex] = useState(0);
 //const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 const [matchState, setMatchState] = useState();
 
 
 const currentProfile = bookData[currentIndexRef.current];
-//console.log('current profile: ', currentProfile);
+console.log('current profile: ', currentProfile);
 const nextProfile = bookData[nextIndexRef.current];
-//console.log('next profile: ', nextIndexRef);
+console.log('next profile: ', nextIndexRef);
 
 const[profile, setProfile] = useState(currentProfile);
 const [currentCard, setCurrentCard] = useState(bookData[currentIndexRef.current]);
@@ -107,6 +105,7 @@ const {width: screenWidth} = useWindowDimensions();
 const hiddenSreenWidth = 2 * screenWidth; 
 
 const sharedValue = useSharedValue(0);
+console.log(sharedValue);
 const rotate = useDerivedValue(() =>  interpolate(
   sharedValue.value, [0, hiddenSreenWidth], [0, ROTATION]) +  'deg');
 
@@ -155,7 +154,7 @@ const gestureHandler = useAnimatedGestureHandler ({
     sharedValue.value = withSpring(
       hiddenSreenWidth * Math.sign(event.velocityX),
       {},
-      () =>runOnJS(currentProfile)(currentIndexRef.current + 1)
+      () =>runOnJS(nextProfile)(nextIndexRef)
       );  
       
       
@@ -165,33 +164,32 @@ const gestureHandler = useAnimatedGestureHandler ({
 }
 );
 
-
 /*
+
 useEffect(() => {
   sharedValue.value = 0;
-  //setNextIndex(currentIndex + 1)
+  setProfile(nextProfile)
   
-  console.log(currentIndex + 1);
-}, [currentIndex, sharedValue]);
+  //console.log(currentIndex + 1);
+}, [nextProfile, sharedValue]);
 */
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <View style={styles.pageContainer}>
         {nextProfile && ( 
       <View style={styles.nextCardContainer}>
-        <Animated.View style={[styles.animatedCard,nextCardStyle]}>
-           <BookCard bookData={nextProfile} index={nextIndexRef.current} />
+        <Animated.View style={[styles.animatedCard, nextCardStyle]}>
+           <BookCard bookData={nextProfile} index={nextIndexRef} />
         </Animated.View>
         </View>
         )}
-
-        {currentProfile && (
+            {currentProfile && (
       <PanGestureHandler onGestureEvent={gestureHandler} >
           <Animated.View style={[styles.animatedCard,cardStyle]}>
-              <BookCard bookData={currentProfile}  index= {currentIndexRef.current}/> 
+              <BookCard bookData={currentProfile}  index= {currentIndexRef}/> 
           </Animated.View> 
       </PanGestureHandler>
-      )}
+      )}   
       </View>    
     
     </GestureHandlerRootView>

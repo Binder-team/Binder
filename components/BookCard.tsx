@@ -49,13 +49,15 @@ const books = [
 ]
 
 
-
  
    //===IMPORTANT===
   let index = 0;  //index should be declared outside of App to avoid duplicates.  
     //It's here for now and resets every time this loads
 
  const BookCard =(props) => {
+
+  console.log('props ',props);
+
   const [bookData, setBookData] = useState([
     {
         "id": 7,
@@ -114,7 +116,7 @@ const books = [
     return (
         <View style={styles.card}>
             <ImageBackground 
-                source={{uri: `${bookData[ props.index ]["thumbnail_url"]}` }}
+                source={{uri: `${bookData[ props.index]["thumbnail_url"]}` }}
                 style={styles.cardImage}>
                     <View style={styles.cardInner}>
                        
