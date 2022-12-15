@@ -16,7 +16,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Book } from '../types';
 import { getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword } from '../components/userTokenManager';
-
+import { Alert } from 'react-native';
 
 
 
@@ -62,7 +62,7 @@ const [bookData, setBookData] = useState([]); //where all user's books get store
 const [currentIndex, setCurrentIndex] = useState(0);
 const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 const [currentCard, setCurrentCard] = useState(bookData[currentIndex]);
-
+const [matchState, setMatchState] = useState();
 const currentProfile = bookData[currentIndex];
 const nextProfile = bookData[nextIndex];
 
@@ -86,8 +86,16 @@ const handleFetch = async() => {
   const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
    bookObj  );
    console.log("MATCH ", match.data);
-   console.warn("swipe right: ", bookObj.title)
+   console.log("swipe right: ", bookObj.title)
+   if( match.data > 0){
+    Alert.alert(`You got a new match!`)
+    setMatchState(match.data);
+   }
 }
+const onSwipeLeft =( bookObj: Book )=> {
+       console.log('swipe left', bookObj.title)
+     }
+
 
 const {width: screenWidth} = useWindowDimensions();
 
@@ -147,9 +155,7 @@ const gestureHandler = useAnimatedGestureHandler ({
 
       //function for matching ... should be on screen 
 
-      const onSwipeLeft =( bookObj: Book )=> {
-       console.warn('swipe left', bookObj.title)
-     }
+      
       
      const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
     onSwipe && runOnJS(onSwipe)(currentProfile);
