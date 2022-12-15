@@ -106,7 +106,7 @@ const {width: screenWidth} = useWindowDimensions();
 const hiddenSreenWidth = 2 * screenWidth; 
 
 const sharedValue = useSharedValue(0);
-console.log('shared value:', sharedValue);
+//console.log('shared value:', sharedValue);
 
 const rotate = useDerivedValue(() =>  interpolate(
   sharedValue.value, [0, hiddenSreenWidth], [0, ROTATION]) +  'deg');
@@ -170,7 +170,7 @@ useEffect(() => {
   sharedValue.value = 0;
   setProfile(currentProfile)
   
-  console.log(currentProfile);
+  //console.log(currentProfile);
 }, [currentProfile, sharedValue]);
 
   return (
