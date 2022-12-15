@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TouchableOpacity, Text, TextInput, StyleSheet, View, Button, Image} from "react-native";
+import { TouchableOpacity, Text, TextInput, StyleSheet, View, Button, Image, Alert} from "react-native";
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { getUsername } from "./userTokenManager";
@@ -66,7 +66,7 @@ const AddBooks = () => {
     async function onSubmit (book): Promise<void> {
       try {
           await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, book);
-          console.log(book, 'added!');
+          Alert.alert(book.title, ' has been added!');
       } catch (error) {
         console.log(error + ':fire:')
       }
@@ -119,7 +119,7 @@ const AddBooks = () => {
                       defaultValue={bookTitle}
                   />
                   )}
-              name="isbn"
+                name="isbn"
               />
             </View>
 
@@ -140,7 +140,7 @@ const AddBooks = () => {
                         />
                   )}
                   name="condition"
-              />
+            />
             </View>
           </View>
           <TouchableOpacity>
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   },
   book__results: {
     width: '100%',
-    height: '65%',
+    height: '80%',
     flexWrap: 'wrap',
   },
   condition: {
