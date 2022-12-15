@@ -54,7 +54,7 @@ export default function MatchScreen({ navigation }) {
     try {
       //sends a post request to make isAccepted = true
       const post = await axios.put(
-        `matches/accept/user/${getUsername()}`, {item}
+        `https://binderapp-server.herokuapp.com/api/matches/accept/user/${getUsername()}`, {item}
       );
       const data = await post.data;
       if(data.status === 200) {
@@ -69,7 +69,7 @@ export default function MatchScreen({ navigation }) {
     try {
       //sends a post request to cancel exchange
       const post = await axios.put(
-        `matches/deny/user/${getUsername()}`, {item}
+        `https://binderapp-server.herokuapp.com/api/matches/deny/user/${getUsername()}`, {item}
       );
       const data = await post.data;
       if(data.status === 200) {

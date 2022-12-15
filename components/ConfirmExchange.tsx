@@ -65,7 +65,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
         try {
         //sends a post request to cancel exchange
         const post = await axios.put(
-            `matches/deny/user/${getUsername()}`, {item}
+            `https://binderapp-server.herokuapp.com/api/matches/deny/user/${getUsername()}`, {item}
         );
         const data = await post.data;
         if(data.status === 200) {
