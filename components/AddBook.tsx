@@ -27,19 +27,11 @@ const AddBooks = () => {
         }
       });
     async function fetchBooks (): Promise<void> {
-      const booksArray = [];
-      const key = 'AIzaSyAS32GEr_NB25nXnjTjbEBabB8xatzPznE';
+      const key = 'AIzaSyBN1ZgA46ECvqACR6mvRPOSSRbHmdtKCjI';
       const fetchedBooksResult = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitle}&printType=books&orderBy=relevance&key=${key}`);
       const booksResult = fetchedBooksResult.data.items;
-      if (booksResult.length >= 10) {
-        for (let i = 0; i < 10; i++) {
-          booksArray.push(booksResult[i]);
-        }
-      } else {
-        for (const book of booksResult) {
-          booksArray.push(book);
-        }
-      }
+      const booksArray = booksResult.slice(0, 2);
+      
       const books = await Promise.all(booksArray.map(async (book) => {
         const fetchedBook = await axios.get(`https://www.googleapis.com/books/v1/volumes/${book.id}?key=${key}`);
         const bookData = fetchedBook.data.volumeInfo;
