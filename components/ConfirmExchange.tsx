@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Platform, StyleSheet, Image, TouchableOpacity, View, Text, Button, Linking } from 'react-native';
+import { Platform, StyleSheet, Image, TouchableOpacity, View, Text, Button, Linking, Alert} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BookCard from '../components/BookCard';
 import { Book } from '../types';
@@ -44,27 +44,30 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
     try {
       //sends a request to make isAccepted = true
       const post = await axios.put(
-        `matches/exchange/user/${getUsername()}`, {item}
+        `https://binderapp-server.herokuapp.com/api/matches/exchange/user/${getUsername()}`, {item}
       );
-      const data = await post.data;
-      if(data.status === 200) {
-        console.log("success!")
-      }
+    //   const data = await post.data;
+    //   if(data.status === 200) {
+    //     console.log("success!")
+    //   }
+    Alert.alert("exchange confirmed!")
     } catch (err) {
       console.log(err);
     }
   }
-
+//after 'confirm exchange' is pressed, the pop up user rating window will show,
+//
     const sendCancel = async () => {
         try {
         //sends a post request to cancel exchange
         const post = await axios.put(
-            `matches/deny/user/${getUsername()}`, {item}
+            `https://binderapp-server.herokuapp.com/api/matches/deny/user/${getUsername()}`, {item}
         );
         const data = await post.data;
-        if(data.status === 200) {
-            console.log("cancelled exchange")
-        }
+        // if(data.status === 200) {
+        //     console.log("cancelled exchange")
+        // }
+        Alert.alert("exchange successfully cancelled")
         } catch (err) {
         console.log(err);
         }
@@ -130,16 +133,16 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
                 <TouchableOpacity>
                     <Button 
                         title = 'confirm exchange' 
-                        onpress={()=>{
+                        onPress={()=>{
                             setConfirmed(true)
                             sendConfirm();
-                        }}>Confirm exchange</Button>
+                        }}/>
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <Button 
-                        title = 'cancel'
+                        title = 'cancel exchange'
                         onPress={()=>sendCancel(item)}
-                        >Cancel</Button>
+                        />
                 </TouchableOpacity>
             </View>
         </View>

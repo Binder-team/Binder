@@ -42,7 +42,7 @@ export default function MatchScreen({ navigation }) {
           `https://binderapp-server.herokuapp.com/api/matches/${getUsername()}`,
           );
           const matches = await fetchMatch.data;
-          console.log(matches);
+          console.log("✨ number of matches for current user:", matches.length);
           setMatchedBooks(matches);
         } catch (err)  {
         console.log(err);  
@@ -54,27 +54,25 @@ export default function MatchScreen({ navigation }) {
     try {
       //sends a post request to make isAccepted = true
       const post = await axios.put(
-        `matches/accept/user/${getUsername()}`, {item}
+        `https://binderapp-server.herokuapp.com/api/matches/accept/user/${getUsername()}`, {item}
       );
       const data = await post.data;
       if(data.status === 200) {
         console.log("success!")
       }
     } catch (err) {
-      console.log(err);
+      console.log("✨", err);
     }
   }
   
-  const sendCancel = async () => {
+  const sendDeny = async () => {
     try {
       //sends a post request to cancel exchange
       const post = await axios.put(
-        `matches/deny/user/${getUsername()}`, {item}
+        `https://binderapp-server.herokuapp.com/api/matches/deny/user/${getUsername()}`, {item}
       );
-      const data = await post.data;
-      if(data.status === 200) {
-        console.log("cancelled exchange")
-      }
+       console.log("cancelled exchange")
+      return post;
     } catch (err) {
       console.log(err);
     }
@@ -82,7 +80,7 @@ export default function MatchScreen({ navigation }) {
 
   useEffect(() => {
     getMatchedBooks();
-  },[acceptTrade])
+  },[])
 
 
   const tradeCard = ({ item }) => (
@@ -144,7 +142,7 @@ export default function MatchScreen({ navigation }) {
             <Button 
             title="deny"
             onPress={()=>{
-              sendCancel(item)
+              sendDeny()
             }}
             >Deny</Button>
           </TouchableOpacity>
@@ -181,21 +179,24 @@ export default function MatchScreen({ navigation }) {
        
         <View>
           {currentView === "all matches"? (
+           
             <View>
               <Text title = "matches" style = {styles.title}>You got a match!</Text>
-                <FlatList
-                  numColumns={4}
-                  data={matchedBooks}
-                  renderItem={tradeCard}  
-                  ItemSeparatorComponent={itemSeparator}
-                >            
-                </FlatList> 
+                <SafeAreaView>
+                  <FlatList
+                    numColumns={4}
+                    data={matchedBooks}
+                    renderItem={tradeCard}  
+                    ItemSeparatorComponent={itemSeparator}
+                  >            
+                  </FlatList> 
+                </SafeAreaView>
             </View>
 
             
           ):(
             <View>
-              <Text title = "confirm exchange" style = {styles.title}>Confirm your exchange</Text>
+              <Text title = "confirm exchange" style = {styles.title}>Confirm your exchange:</Text>
                <ConfirmExchange
                   item = {item}
                   setCurrentView = {setCurrentView}
