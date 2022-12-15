@@ -73,28 +73,30 @@ const AddBooks = () => {
     }
 
     const renderBook = ({item}) => (
-      <View 
-        style={styles.book__card}
-        >
-        <Image
-          style={styles.thumbnail}
-          source={{uri: item.thumbnail_url}}
-        />
-        <View
-          style={styles.book__info}>
-            <Text>{item.title}</Text>
-            <Text>{item.author}</Text>
-            <View style='add__button__container'>
-              <Button 
-                style={styles.add__button}
-                title="+"
-                onPress={(e) => {
-                  e.preventDefault();
-                  onSubmit(item);
-                }}
-              ></Button>
-            </View>
+      <View style={styles.book__card__container}>
+        <View 
+          style={styles.book__card}
+          >
+          <Image
+            style={styles.thumbnail}
+            source={{uri: item.thumbnail_url}}
+          />
+          <View
+            style={styles.book__info}>
+              <Text>{item.title}</Text>
+              <Text>{item.author}</Text>
           </View>
+        </View>
+        <View style={styles.add__button__container}>
+          <Button 
+            style={styles.add__button}
+            title="+"
+            onPress={(e) => {
+              e.preventDefault();
+              onSubmit(item);
+            }}
+          ></Button>
+        </View>
       </View>
     );
     
@@ -183,10 +185,15 @@ const styles = StyleSheet.create({
   condition: {
     width: '50%',
   },
+  book__card__container: {
+    width: '50%',
+    height: 350,
+    flexDirection: 'column',
+  },
   book__card: {
     flexDirection: 'column',
-    width: '47.5%',
-    height: '100%',
+    width: '100%',
+    height: '85%',
     borderWidth: .2,
     margin: 5,
     borderRadius: 10,
@@ -199,6 +206,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   thumbnail: {
+    marginTop: 5,
     borderRadius: 8,
     height: 200,
     width: 120,
@@ -216,6 +224,7 @@ const styles = StyleSheet.create({
     width: '50%',
   },
   add__button__container: {
+    marginTop: 0,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-start',
