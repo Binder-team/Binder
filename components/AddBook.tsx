@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TouchableOpacity, Text, TextInput, StyleSheet, View, Button, Image} from "react-native";
+import { TouchableOpacity, Text, TextInput, StyleSheet, View, Button, Image, Alert} from "react-native";
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { getUsername } from "./userTokenManager";
@@ -66,35 +66,37 @@ const AddBooks = () => {
     async function onSubmit (book): Promise<void> {
       try {
           await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, book);
-          console.log(book, 'added!');
+          Alert.alert(book.title, ' has been added!');
       } catch (error) {
         console.log(error + ':fire:')
       }
     }
 
     const renderBook = ({item}) => (
-      <View 
-        style={styles.book__card}
-        >
-        <Image
-          style={styles.thumbnail}
-          source={{uri: item.thumbnail_url}}
-        />
-        <View
-          style={styles.book__info}>
-            <Text>{item.title}</Text>
-            <Text>{item.author}</Text>
-            <View style='add__button__container'>
-              <Button 
-                style={styles.add__button}
-                title="+"
-                onPress={(e) => {
-                  e.preventDefault();
-                  onSubmit(item);
-                }}
-              ></Button>
-            </View>
+      <View style={styles.book__card__container}>
+        <View 
+          style={styles.book__card}
+          >
+          <Image
+            style={styles.thumbnail}
+            source={{uri: item.thumbnail_url}}
+          />
+          <View
+            style={styles.book__info}>
+              <Text>{item.title}</Text>
+              <Text>{item.author}</Text>
           </View>
+        </View>
+        <View style={styles.add__button__container}>
+          <Button 
+            style={styles.add__button}
+            title="+"
+            onPress={(e) => {
+              e.preventDefault();
+              onSubmit(item);
+            }}
+          ></Button>
+        </View>
       </View>
     );
     
@@ -119,7 +121,7 @@ const AddBooks = () => {
                       defaultValue={bookTitle}
                   />
                   )}
-              name="isbn"
+                name="isbn"
               />
             </View>
 
@@ -140,7 +142,7 @@ const AddBooks = () => {
                         />
                   )}
                   name="condition"
-              />
+            />
             </View>
           </View>
           <TouchableOpacity>
@@ -177,16 +179,21 @@ const styles = StyleSheet.create({
   },
   book__results: {
     width: '100%',
-    height: '65%',
+    height: '80%',
     flexWrap: 'wrap',
   },
   condition: {
     width: '50%',
   },
+  book__card__container: {
+    width: '50%',
+    height: 350,
+    flexDirection: 'column',
+  },
   book__card: {
     flexDirection: 'column',
-    width: '47.5%',
-    height: '100%',
+    width: '100%',
+    height: '85%',
     borderWidth: .2,
     margin: 5,
     borderRadius: 10,
@@ -199,6 +206,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   thumbnail: {
+    marginTop: 5,
     borderRadius: 8,
     height: 200,
     width: 120,
@@ -216,6 +224,7 @@ const styles = StyleSheet.create({
     width: '50%',
   },
   add__button__container: {
+    marginTop: 0,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-start',
