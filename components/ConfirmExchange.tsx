@@ -43,8 +43,8 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
   const sendConfirm = async () => {
     try {
       //sends a request to make isAccepted = true
-      const post = await axios.post(
-        '', {}
+      const post = await axios.put(
+        `matches/exchange/user/${getUsername()}`, {item}
       );
       const data = await post.data;
       if(data.status === 200) {
@@ -55,11 +55,11 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
     }
   }
 
-    const sendCancel = async (item) => {
+    const sendCancel = async () => {
         try {
         //sends a post request to cancel exchange
-        const post = await axios.post(
-            '', {}
+        const post = await axios.put(
+            `matches/deny/user/${getUsername()}`, {item}
         );
         const data = await post.data;
         if(data.status === 200) {
