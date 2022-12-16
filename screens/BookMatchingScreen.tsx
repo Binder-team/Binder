@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Button, Text, View, Image, StatusBar, useWindowDimensions, Pressable } from 'react-native';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import axios from 'axios';
@@ -57,17 +57,21 @@ const Swipe = ({
   onSwipe, 
 }: Props) => {
 
-
 const [bookData, setBookData] = useState([]); //where all user's books get stored, as an array
+// const currentIndexRef = useRef(0);
+// const nextIndexRef = useRef(currentIndexRef.current + 1);
 const [currentIndex, setCurrentIndex] = useState(0);
 const [nextIndex, setNextIndex] = useState(currentIndex + 1);
-const [currentCard, setCurrentCard] = useState(bookData[currentIndex]);
 const [matchState, setMatchState] = useState();
+
+
 const currentProfile = bookData[currentIndex];
+console.log('current profile: ', currentProfile);
 const nextProfile = bookData[nextIndex];
+console.log('next profile: ', nextIndex);
 
 const[profile, setProfile] = useState(currentProfile);
-
+const [currentCard, setCurrentCard] = useState(bookData[currentIndex]);
 
 const handleFetch = async() => {
     const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/swipe/${getUsername()}`);
@@ -102,6 +106,8 @@ const {width: screenWidth} = useWindowDimensions();
 const hiddenSreenWidth = 2 * screenWidth; 
 
 const sharedValue = useSharedValue(0);
+//console.log('shared value:', sharedValue);
+
 const rotate = useDerivedValue(() =>  interpolate(
   sharedValue.value, [0, hiddenSreenWidth], [0, ROTATION]) +  'deg');
 
@@ -144,17 +150,14 @@ const gestureHandler = useAnimatedGestureHandler ({
 
     if(Math.abs(event.velocityX )< SWIPE_VELOCITY) {
       sharedValue.value =withSpring(0);
+      console.log('🐱' ,sharedValue.value);
       return;
     }
     sharedValue.value = withSpring(
       hiddenSreenWidth * Math.sign(event.velocityX),
       {},
-      () =>runOnJS(setCurrentIndex)(currentIndex + 1)
+      () =>runOnJS(nextProfile)(nextIndex)
       );  
-      
-
-      //function for matching ... should be on screen 
-
       
       
      const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
@@ -163,13 +166,12 @@ const gestureHandler = useAnimatedGestureHandler ({
 }
 );
 
-
-
 useEffect(() => {
   sharedValue.value = 0;
-  setNextIndex(currentIndex + 1)
-  console.log(currentIndex);
-}, [currentIndex, sharedValue]);
+  setProfile(currentProfile)
+  
+  //console.log(currentProfile);
+}, [currentProfile, sharedValue]);
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
@@ -181,14 +183,13 @@ useEffect(() => {
         </Animated.View>
         </View>
         )}
-
-        {currentProfile && (
+            {currentProfile && (
       <PanGestureHandler onGestureEvent={gestureHandler} >
-          <Animated.View style={[styles.animatedCard,cardStyle]}>
+          <Animated.View style={[styles.animatedCard, cardStyle]}>
               <BookCard bookData={currentProfile}  index={currentIndex}/> 
           </Animated.View> 
       </PanGestureHandler>
-      )}
+      )}   
       </View>    
     
     </GestureHandlerRootView>

@@ -46,20 +46,6 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
 
 
     //when 'confirm exchange' button is pressed
-  const sendConfirm = async () => {
-    try {
-      //sends a request to make isAccepted = true
-      const post = await axios.put(
-        `matches/exchange/user/${getUsername()}`, item
-      );
-      const data = await post.data;
-      if(data.status === 200) {
-        console.log("success!")
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
 
   const sendCancel = async () => {
       try {
@@ -76,10 +62,10 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
       }
   }
 
-  openInbox({
-    message: "Choose which mail app to open:",
-    cancelLabel: "go back!",
-  });
+  // openInbox({
+  //   message: "Choose which mail app to open:",
+  //   cancelLabel: "go back!",
+  // });
 
     return (
         <View style={styles.item}> 
@@ -111,7 +97,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
                 <Text>Condition: {item.condition1}</Text>
                 <Text>User: {item.username1}</Text>
                 <Text>Contact:</Text> 
-                <Button onPress={() => Linking.openURL(`mailto:${item.email1}?subject=Book&x&change&exchange&offer&body=description`) }
+                <Button onPress={() => Linking.openURL(`mailto:${item.email1}?subject=Book&x&change&&body=description`) }
       title={item.email1} />
             </View>  
             <View style={styles.bookContainer}>
@@ -138,12 +124,12 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
             </View>
             <View>
                 <TouchableOpacity>
-            <Button title="Exchange" onPress={() => setOpenModal(true)}/>
-            <ReputationModal text='Rate your exchange!' buttonText='Close' visible={openModal} onClose={onClose}></ReputationModal>
+            <Button title="Confirm Exchange" onPress={() => setOpenModal(true)}/>
+            <ReputationModal item={item} text='Rate your exchange!' buttonText='Close' visible={openModal} onClose={onClose}></ReputationModal>
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <Button 
-                        title = 'cancel'
+                        title = 'cancel exchange'
                         onPress={()=>sendCancel(item)}
                         >Cancel</Button>
                 </TouchableOpacity>
