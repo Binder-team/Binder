@@ -55,19 +55,22 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
 
     <View style={{backgroundColor: 'white', height: '100%'}}>
       <Text style={styles.title}>My Profile</Text>
-      <Image style={styles.image}source={{uri:data.profile_url}}></Image>
-      <TouchableOpacity onPress={signOut}>
-          <Text style={styles.logout}>Log out</Text>
-        </TouchableOpacity>
-      <View style={styles.profileContainer}>
+      
+      
+      
+         <Image style={styles.image}source={{uri:data.profile_url}}></Image>
+         <View style={styles.containerText}>
+        
         <Text style={styles.username}>{data.username}</Text>
         <Text>city: {data.city}</Text>
         <Text>postal code: {data.postal_code}</Text>
         <Text>contact: {data.phone_number}</Text>
         <Text>email: {data.email}</Text>
         <Text>rating: {data.reputation}</Text>
-    </View>
-      
+        </View>
+   <TouchableOpacity onPress={signOut}>
+          <Text style={styles.logout}>Log out</Text>
+        </TouchableOpacity>
 
     <View style={{ flexDirection: 'row', width: '100%' }}>
       <View style={styles.button}>
@@ -104,22 +107,34 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
 }
 
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(
+  {
   logout:{
     width: 100,
     textAlign: 'center',
     backgroundColor: '#5B8B8B',
     padding: 1,
     alignItems: 'center',
-    borderRadius:25
+    borderRadius:25,
+    marginBottom:"1%"
   },
   image:{
     width:100,
     height:100,
     borderRadius:50,
+    
   },
   username:{
     fontSize: 20,
+  },
+  containerText: {
+    marginLeft: "40%",
+    marginTop: "-26%",
+    textAlign: "left",
+    fontFamily: "Montserrat",
+    fontWeight: 'bold',
+    lineHeight: 1.5,
+    display: "flex"
   },
   profile:{
     margin: 10
