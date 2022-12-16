@@ -76,7 +76,10 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
       }
   }
 
-  
+  // openInbox({
+  //   message: "Choose which mail app to open:",
+  //   cancelLabel: "go back!",
+  // });
 
     return (
         <View style={styles.item}> 

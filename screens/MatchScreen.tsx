@@ -1,5 +1,5 @@
 // import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Platform, StyleSheet,Image, TouchableOpacity, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BookCard from '../components/BookCard';
@@ -23,7 +23,7 @@ export default function MatchScreen({ navigation }) {
   const [matchedBooks, setMatchedBooks] = useState<[]>([]);
   const [currentView, setCurrentView] = useState<string>("all matches");
   const [numberMatches, setNumberMatches] = useState<number>(0);
-  const counter = 0;
+  let counter = useRef(0);
   const [item, setItem] = useState({
     thumbnail1:'',
     title1: '',
@@ -59,9 +59,7 @@ export default function MatchScreen({ navigation }) {
         `https://binderapp-server.herokuapp.com/api/matches/accept/user/${getUsername()}`, item
       );
       const data = await post.data;
-      if(data.status === 200) {
-        console.log("success!")
-      }
+      console.log("✨data:", data)
     } catch (err) {
       console.log(err);
     }
@@ -76,16 +74,32 @@ export default function MatchScreen({ navigation }) {
       const data = post.data;
       console.log("deleted match object:", data);
       console.log("cancelled exchange")
-      setNumberMatches(counter + 1)
+      counter.current++;
+      
     } catch (err) {
       console.log(err);
     }
   }
 
+
+
   useEffect(() => {
     getMatchedBooks();
+  },[]);
 
-  },[numberMatches])
+  // useEffect(() => {
+  //   getMatchedBooks();
+  // },[counter])
+
+
+
+  const handleCheckAccept = (item) => {
+    if(item.didUser1Accept && item.didUser2Accept) {
+      setCurrentView("confirm exchange view")
+      
+      counter++;
+    } 
+  }
 
 
   const tradeCard = ({ item }) => (
@@ -108,6 +122,9 @@ export default function MatchScreen({ navigation }) {
         <Text>Author:{item.author1}</Text>
         <Text>Condition:{item.condition1}</Text>
         <Text>User:{item.username1}</Text>
+        <Text>accepted?: {`${item.didUser1Accept}`}</Text>
+        <Text>exhanged?: {`${item.didUser1Exchange}`}</Text>
+
         {/* <Text>Contact:{item.email1}</Text>  */}
       </View>  
       <View style={styles.bookContainer}>
@@ -128,9 +145,10 @@ export default function MatchScreen({ navigation }) {
         <Text>Author:{item.author2}</Text>
         <Text>Condition:{item.condition2}</Text>
         <Text>User:{item.username2}</Text>
+        <Text>accepted?: {`${item.didUser2Accept}`}</Text>
+        <Text>exhanged?: {`${item.didUser2Exchange}`}</Text>
         {/* <Text>Contact:{item.email2}</Text> */}
       </View>
-        
         <View style = {styles.buttonContainer}>
           <TouchableOpacity>
             <Button 
@@ -138,7 +156,7 @@ export default function MatchScreen({ navigation }) {
               onPress={()=>{
                 setAcceptTrade(true)
                 setItem(item)
-                setCurrentView("confirm exchange view")
+                handleCheckAccept(item)
                 sendAccept(item)
               }}
               >Accept match</Button>
