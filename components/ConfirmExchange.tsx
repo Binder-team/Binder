@@ -76,10 +76,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
       }
   }
 
-  openInbox({
-    message: "Choose which mail app to open:",
-    cancelLabel: "go back!",
-  });
+  
 
     return (
         <View style={styles.item}> 
@@ -111,7 +108,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
                 <Text>Condition: {item.condition1}</Text>
                 <Text>User: {item.username1}</Text>
                 <Text>Contact:</Text> 
-                <Button onPress={() => Linking.openURL(`mailto:${item.email1}?subject=Book&x&change&exchange&offer&body=description`) }
+                <Button onPress={() => Linking.openURL(`mailto:${item.email1}?subject=Book&x&change&&body=description`) }
       title={item.email1} />
             </View>  
             <View style={styles.bookContainer}>
