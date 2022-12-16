@@ -111,7 +111,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
                 <Text>Condition: {item.condition1}</Text>
                 <Text>User: {item.username1}</Text>
                 <Text>Contact:</Text> 
-                <Button onPress={() => Linking.openURL(`mailto:${item.email1}?subject=sendmail&body=description`) }
+                <Button onPress={() => Linking.openURL(`mailto:${item.email1}?subject=Book&x&change&exchange&offer&body=description`) }
       title={item.email1} />
             </View>  
             <View style={styles.bookContainer}>

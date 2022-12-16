@@ -33,7 +33,7 @@ const MyBooks: React.FC<Props> = ({book, BookItem}) => {
     const fetchLikes = await axios.get(
       `https://binderapp-server.herokuapp.com/api/trade_table/liked/${getUsername()}`,
       );
-      const likedBookIds = fetchLikes.data.map((book) => book.book_id);
+      const likedBookIds = fetchLikes.data.map((book) => book.bookId);
       const likedBooks =  await Promise.all(likedBookIds.map(async id => {
         const bookObj = await axios.get(
           `https://binderapp-server.herokuapp.com/api/user_books/${id}`,
