@@ -22,7 +22,9 @@ export default function MatchScreen({ navigation }) {
   const [acceptTrade, setAcceptTrade] = useState<boolean>(false);
   const [matchedBooks, setMatchedBooks] = useState<[]>([]);
   const [currentView, setCurrentView] = useState<string>("all matches");
-  const [item, setMatchItem] = useState({
+  const [numberMatches, setNumberMatches] = useState<number>(0);
+  const counter = 0;
+  const [item, setItem] = useState({
     thumbnail1:'',
     title1: '',
     author1: '',
@@ -42,7 +44,7 @@ export default function MatchScreen({ navigation }) {
           `https://binderapp-server.herokuapp.com/api/matches/${getUsername()}`,
           );
           const matches = await fetchMatch.data;
-          console.log(matches);
+          console.log("how many matches: ",matches.length);
           setMatchedBooks(matches);
         } catch (err)  {
         console.log(err);  
@@ -50,11 +52,11 @@ export default function MatchScreen({ navigation }) {
   }
 
 //when accept button is pressed
-  const sendAccept = async () => {
+  const sendAccept = async (item) => {
     try {
       //sends a post request to make isAccepted = true
-      const post = await axios.post(
-        '', {}
+      const post = await axios.put(
+        `https://binderapp-server.herokuapp.com/api/matches/accept/user/${getUsername()}`, item
       );
       const data = await post.data;
       if(data.status === 200) {
@@ -64,16 +66,17 @@ export default function MatchScreen({ navigation }) {
       console.log(err);
     }
   }
+  
   const sendCancel = async (item) => {
     try {
       //sends a post request to cancel exchange
-      const post = await axios.post(
-        '', {}
+      const post = await axios.put(
+        `https://binderapp-server.herokuapp.com/api/matches/deny/user/${getUsername()}`, item
       );
-      const data = await post.data;
-      if(data.status === 200) {
-        console.log("cancelled exchange")
-      }
+      const data = post.data;
+      console.log("deleted match object:", data);
+      console.log("cancelled exchange")
+      setNumberMatches(counter + 1)
     } catch (err) {
       console.log(err);
     }
@@ -81,10 +84,11 @@ export default function MatchScreen({ navigation }) {
 
   useEffect(() => {
     getMatchedBooks();
-  },[acceptTrade])
+
+  },[numberMatches])
 
 
-   const tradeCard = ({ item }) => (
+  const tradeCard = ({ item }) => (
     <View style={styles.item}>
       <View style={styles.bookContainer}> 
         <Image
@@ -133,9 +137,9 @@ export default function MatchScreen({ navigation }) {
               title="accept"
               onPress={()=>{
                 setAcceptTrade(true)
-                setMatchItem(item)
+                setItem(item)
                 setCurrentView("confirm exchange view")
-                sendAccept();
+                sendAccept(item)
               }}
               >Accept match</Button>
           </TouchableOpacity>
@@ -183,7 +187,6 @@ export default function MatchScreen({ navigation }) {
             <View>
               <Text title = "matches" style = {styles.title}>You got a match!</Text>
                 <FlatList
-                  numColumns={4}
                   data={matchedBooks}
                   renderItem={tradeCard}  
                   ItemSeparatorComponent={itemSeparator}
