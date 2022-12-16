@@ -81,8 +81,7 @@ export default function MatchScreen({ navigation }) {
     }
   }
 
-
-
+  
   useEffect(() => {
     getMatchedBooks();
   },[]);
@@ -90,18 +89,6 @@ export default function MatchScreen({ navigation }) {
   // useEffect(() => {
   //   getMatchedBooks();
   // },[counter])
-
-
-
-  const handleCheckAccept = (item) => {
-    if(item.didUser1Accept && item.didUser2Accept) {
-      setCurrentView("confirm exchange view")
-      
-      counter++;
-    } 
-  }
-
-
   const tradeCard = ({ item }) => (
     <View style={styles.item}>
       <View style={styles.bookContainer}> 
@@ -151,15 +138,26 @@ export default function MatchScreen({ navigation }) {
       </View>
         <View style = {styles.buttonContainer}>
           <TouchableOpacity>
-            <Button 
-              title="accept"
-              onPress={()=>{
-                setAcceptTrade(true)
-                setItem(item)
-                handleCheckAccept(item)
-                sendAccept(item)
-              }}
-              >Accept match</Button>
+            {item.didUser1Accept && item.didUser2Accept 
+            ? (<Button 
+                title="see contact details"
+                onPress={()=>{
+                  setCurrentView("confirm exchange view")
+                  setItem(item)
+                }}
+              >
+              </Button>
+            ) : (
+              <Button 
+                title="accept"
+                onPress={()=>{
+                  setAcceptTrade(true)
+                  sendAccept(item)
+                  }
+                }
+              >
+              </Button>
+            )}
           </TouchableOpacity>
           <TouchableOpacity>
             <Button 
