@@ -11,6 +11,7 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { Card } from 'react-native-paper';
 import MatchScreen from '../screens/MatchScreen';
+import ReputationModal from './ReputationModal';
 
 interface Props {
     item: {
@@ -31,6 +32,7 @@ interface Props {
 }
 
 const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
+    const [openModal, setOpenModal] = useState(false);
     const [confirmed, setConfirmed] = useState<boolean>(false);
     const [matchedBooks, setMatchedBooks] = useState<[]>([]);
     
@@ -38,13 +40,17 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
         console.log(item)
     },[])
 
+    const onClose = () => {
+      setOpenModal(false);
+    }
+
 
     //when 'confirm exchange' button is pressed
   const sendConfirm = async () => {
     try {
       //sends a request to make isAccepted = true
-      const post = await axios.post(
-        '', {}
+      const post = await axios.put(
+        `matches/exchange/user/${getUsername()}`, {item}
       );
       const data = await post.data;
       if(data.status === 200) {
@@ -55,11 +61,11 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
     }
   }
 
-    const sendCancel = async (item) => {
+    const sendCancel = async () => {
         try {
         //sends a post request to cancel exchange
-        const post = await axios.post(
-            '', {}
+        const post = await axios.put(
+            `https://binderapp-server.herokuapp.com/api/matches/deny/user/${getUsername()}`, {item}
         );
         const data = await post.data;
         if(data.status === 200) {
@@ -72,7 +78,6 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
 
     return (
         <View style={styles.item}> 
-        
             <TouchableOpacity>
                 <Button 
                     title = 'back'
@@ -128,12 +133,8 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
             </View>
             <View>
                 <TouchableOpacity>
-                    <Button 
-                        title = 'confirm exchange' 
-                        onpress={()=>{
-                            setConfirmed(true)
-                            sendConfirm();
-                        }}>Confirm exchange</Button>
+            <Button title="Exchange" onPress={() => setOpenModal(true)}/>
+            <ReputationModal text='Rate your exchange!' buttonText='Close' visible={openModal} onClose={onClose}></ReputationModal>
                 </TouchableOpacity>
                 <TouchableOpacity>
                     <Button 
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
       flex: 1,
       padding: 10,
       justifyContent: 'center',
-      backgroundColor:'green',
+      // backgroundColor:'green',
     },
     bookTitle:{
         fontWeight:'bold'
@@ -189,7 +190,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       // flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: '#fff5cf',
+      // backgroundColor: '#fff5cf',
   
     },
      item: {
@@ -206,6 +207,14 @@ const styles = StyleSheet.create({
       fontSize: 20, 
       fontWeight: 'bold', 
       alignSelf: 'center'
+     },
+     app: {
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'blue',
+      flex: 1,
+      alignContent: 'center',
+      justifyContent: 'center',
      }
      
   });
