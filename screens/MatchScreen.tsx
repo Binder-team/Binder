@@ -109,9 +109,8 @@ export default function MatchScreen({ navigation }) {
         <Text>Author:{item.author1}</Text>
         <Text>Condition:{item.condition1}</Text>
         <Text>User:{item.username1}</Text>
-        <Text>accepted?: {`${item.didUser1Accept}`}</Text>
-        <Text>exhanged?: {`${item.didUser1Exchange}`}</Text>
-
+        {/* <Text>accepted?: {`${item.didUser1Accept}`}</Text>
+        <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
         {/* <Text>Contact:{item.email1}</Text>  */}
       </View>  
       <View style={styles.bookContainer}>
@@ -132,8 +131,8 @@ export default function MatchScreen({ navigation }) {
         <Text>Author:{item.author2}</Text>
         <Text>Condition:{item.condition2}</Text>
         <Text>User:{item.username2}</Text>
-        <Text>accepted?: {`${item.didUser2Accept}`}</Text>
-        <Text>exhanged?: {`${item.didUser2Exchange}`}</Text>
+        {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
+        <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
         {/* <Text>Contact:{item.email2}</Text> */}
       </View>
         <View style = {styles.buttonContainer}>
@@ -205,12 +204,13 @@ export default function MatchScreen({ navigation }) {
                 <FlatList
                   data={matchedBooks}
                   renderItem={tradeCard}  
+                  // extraData={matchedBooks}
                   ItemSeparatorComponent={itemSeparator}
                 >            
                 </FlatList> 
             </View>
 
-            
+          
           ):(
             <View>
               <Text title = "confirm exchange" style = {styles.title}>Confirm your exchange</Text>
