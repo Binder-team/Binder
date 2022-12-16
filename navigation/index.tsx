@@ -19,6 +19,7 @@ import ConfirmExchange from "../components/ConfirmExchange";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
 import { AuthProvider } from "../hooks/useAuth";
 // import LinkingConfiguration from "./LinkingConfiguration";
+import HeaderLogo from "../components/HeaderLogo";
 
 
 //vector-icons
@@ -51,7 +52,7 @@ export default function Navigation({
  * A root stack navigator is often used for displaying modals on top of all other content.
  * https://reactnavigation.org/docs/modal
  */
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>( );
 
 function RootNavigator() {
   
@@ -62,7 +63,8 @@ function RootNavigator() {
           <Stack.Screen
             name="Root"
             component={BottomTabNavigator}
-            options={{ headerShown: false }}
+            options={{headerTitle: (props => <HeaderLogo {...props}/>)}}
+            
           />
           <Stack.Screen
             name="ConfirmExchange"
@@ -93,6 +95,8 @@ function RootNavigator() {
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
 
+
+
 //the nav bar at the bottom is this
 
 
@@ -119,8 +123,8 @@ function BottomTabNavigator() {
           title: "Home",
           tabBarIcon: ({color, size}) => {
             return <Icon name="home"/>
-          }
-          
+          }   
+       
         })}
       />
       <BottomTab.Screen
@@ -157,7 +161,11 @@ function BottomTabNavigator() {
     </BottomTab.Navigator>
     
   );
+
 }
+
+
+
 
 
 /**
