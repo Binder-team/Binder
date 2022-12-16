@@ -50,11 +50,11 @@ export default function MatchScreen({ navigation }) {
   }
 
 //when accept button is pressed
-  const sendAccept = async () => {
+  const sendAccept = async (item) => {
     try {
       //sends a post request to make isAccepted = true
       const post = await axios.put(
-        `matches/accept/user/${getUsername()}`, {item}
+        `https://binderapp-server.herokuapp.com/api/matches/accept/user/${getUsername()}`, item
       );
       const data = await post.data;
       if(data.status === 200) {
@@ -65,11 +65,11 @@ export default function MatchScreen({ navigation }) {
     }
   }
   
-  const sendCancel = async () => {
+  const sendCancel = async (item) => {
     try {
       //sends a post request to cancel exchange
       const post = await axios.put(
-        `matches/deny/user/${getUsername()}`, {item}
+        `https://binderapp-server.herokuapp.com/api/matches/deny/user/${getUsername()}`, item
       );
       const data = await post.data;
       if(data.status === 200) {
@@ -136,7 +136,7 @@ export default function MatchScreen({ navigation }) {
                 setAcceptTrade(true)
                 setItem(item)
                 setCurrentView("confirm exchange view")
-                sendAccept()
+                sendAccept(item)
               }}
               >Accept match</Button>
           </TouchableOpacity>
