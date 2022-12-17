@@ -18,11 +18,16 @@ import Animated, {
 import { Book } from '../types';
 import { getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword } from '../components/userTokenManager';
 import { Alert } from 'react-native';
-import Like from '../assets/images/LIKE.png';
-import Nope from '../assets/images/nope.png';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Foundation from 'react-native-vector-icons/Foundation';
 
 
 
+
+
+
+const Like = require('../assets/images/LIKE.png');
+const Nope = require('../assets/images/nope.png');
 
 export enum SWIPE_DIRECTION {
   LEFT = 'left',
@@ -135,11 +140,11 @@ const nextCardStyle = useAnimatedStyle(() => ({
 
 
 const likeStyle = useAnimatedStyle(()=>({
-  opacity: interpolate(sharedValue.value, [0, hiddenSreenWidth/5], [0, 1])
+  opacity: interpolate(sharedValue.value, [0, hiddenSreenWidth/10], [0, 1])
 }));
 
 const nopeStyle = useAnimatedStyle(()=> ({
-  opacity: interpolate(sharedValue.value, [0, -hiddenSreenWidth/5], [0, 1])
+  opacity: interpolate(sharedValue.value, [0, -hiddenSreenWidth/10], [0, 1])
 }));
 
 const gestureHandler = useAnimatedGestureHandler ({
@@ -206,7 +211,11 @@ const gestureHandler = useAnimatedGestureHandler ({
           </Animated.View> 
       </PanGestureHandler>
       )}
-      </View> 
+       <View style={styles.vectorContainer}>
+        <Foundation name="x-circle" size={50} color="#FF4500" style={{padding: 10, marginRight: 30}} />
+         <Ionicons name="heart-circle-outline" size={50} color="#32CD32"  style={{padding: 10, marginLeft: 30}}/>
+       </View>
+      </View>    
     </GestureHandlerRootView>
   );
 }
@@ -242,10 +251,16 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     position: 'absolute',
-    top: 5,
+    top: 1,
     zIndex: 1,
     elevation: 50,
   },
+  vectorContainer: {
+    alignItems:'center',
+    flexDirection: 'row', 
+    paddingTop: 40,
+    
+  }
   
 });
 
