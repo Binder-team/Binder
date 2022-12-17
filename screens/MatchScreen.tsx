@@ -85,8 +85,7 @@ export default function MatchScreen({ navigation }) {
               {/* <Text>Contact:{item.email2}</Text> */}
             </View>
             <View style = {styles.buttonContainer}>
-              
-                {item.didUser1Accept && item.didUser2Accept 
+                {(item.didUser1Accept && item.didUser2Accept) 
                 ? (<TouchableOpacity 
                     activeOpacity={.3}
                     style = {styles.button}
@@ -98,13 +97,21 @@ export default function MatchScreen({ navigation }) {
                   >
                     <Text style={styles.buttonText}>see contact details</Text>
                   </TouchableOpacity>
-                ) : ( 
+                ) : (item.username1===getUsername() && item.didUser1Accept || item.username2===getUsername() && item.didUser2Accept
+                ) ? (
+                  <TouchableOpacity 
+                        activeOpacity={.3}
+                        style={styles.button}
+                        title="pending"> 
+                      <Text style={styles.buttonText}>Pending</Text>
+                  </TouchableOpacity>
+                ):( 
+
                   <TouchableOpacity 
                     activeOpacity={.3}
                     style={styles.button}
                     title="accept"
-                    onPress={()=>{
-                      
+                    onPress={()=>{       
                       setAcceptTrade(true)
                       sendAccept(item)
                       }
@@ -113,8 +120,6 @@ export default function MatchScreen({ navigation }) {
                   <Text style={styles.buttonText}>Accept</Text>
                   </TouchableOpacity>
                 )}
-              
-              
                 <TouchableOpacity
                   activeOpacity={0.6}
                   style={styles.denyButton}
@@ -146,7 +151,7 @@ export default function MatchScreen({ navigation }) {
       console.log(item);
       const data = put.data;
       setAcceptTrade(true);
-      counter ++;
+      counter++;
       setRerender(counter);
 
     } catch (err) {
@@ -205,6 +210,8 @@ export default function MatchScreen({ navigation }) {
                <ConfirmExchange
                   item = {item}
                   setCurrentView = {setCurrentView}
+                  setRerender={setRerender}
+                  counter={counter}
             />
             </View>
              
@@ -228,7 +235,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  
   bookTitle:{
     fontSize:16,
     justifyContent:'center',
@@ -255,6 +261,7 @@ const styles = StyleSheet.create({
     elevation:5,
     shadowColor: 'black',
   },
+  
   denyButton: {
     flex: 1,
     width: 10, 
@@ -282,12 +289,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
+    width:'100%',
     alignSelf: 'flex-start',
     justifyContent: 'center',
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
     paddingHorizontal:10,
-    color:'#283747'
+    color:'#F3F3F3',
+    backgroundColor:'#283747',
+    paddingBottom:10
   },
   separator: {
     
@@ -311,9 +321,8 @@ const styles = StyleSheet.create({
     // flexDirection: 'row',
     alignItems: 'center',
     backgroundColor:'#F3F3F3',
-    
   },
-   item: {
+  item: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -321,11 +330,11 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     backgroundColor:'#F3F3F3',
     borderRadius: 15,
-    marginTop: 16,
-    marginBottom: 20,
-    paddingBottom:50,
+    marginTop: 0,
+    marginBottom: 0,
+    paddingBottom:30,
     paddingHorizontal:10
-   }, 
+  }, 
    text: {
     alignItems:'flex-start',
     justifyContent: 'center',
