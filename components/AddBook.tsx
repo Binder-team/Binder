@@ -6,6 +6,8 @@ import { getUsername } from "./userTokenManager";
 import SelectDropdown from "react-native-select-dropdown";
 import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 type BookData = {
     isbn: string;
     title: string;
@@ -30,7 +32,7 @@ const AddBooks = () => {
       const key = 'AIzaSyBN1ZgA46ECvqACR6mvRPOSSRbHmdtKCjI';
       const fetchedBooksResult = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitle}&printType=books&orderBy=relevance&key=${key}`);
       const booksResult = fetchedBooksResult.data.items;
-      const booksArray = booksResult.slice(0, 2);
+      const booksArray = booksResult.slice(0, 6);
       
       const books = await Promise.all(booksArray.map(async (book) => {
         const fetchedBook = await axios.get(`https://www.googleapis.com/books/v1/volumes/${book.id}?key=${key}`);
@@ -118,7 +120,7 @@ const AddBooks = () => {
             </View>
 
             <View style={styles.condition}>
-              <Text>Set Condition: </Text>
+              {/* <Text>Set Condition: </Text> */}
               <Controller
                   control={control}
                   rules={{
@@ -126,11 +128,27 @@ const AddBooks = () => {
                   }}
                   render={({ field: { onChange, onBlur, value } }) => (
                   <SelectDropdown
-                        style = {styles.dropDown}
+                        //style = {styles.dropDown}
                         data={conditions}
                         onSelect={(selectedItem, index)=>{
                           setCondition(selectedItem);
                         }}
+                         defaultButtonText={'Select condition'}
+                        // buttonTextAfterSelection={(selectedItem, index) => {
+                        //   return selectedItem;
+                        // }}
+                        // rowTextForSelection={(item, index) => {
+                        //   return item.title;
+                        // }}
+                        buttonStyle={styles.dropdown4BtnStyle}
+                        buttonTextStyle={styles.dropdown4BtnTxtStyle}
+                        renderDropdownIcon={isOpened => {
+                          return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                        }}
+                        dropdownIconPosition={'right'}
+                        dropdownStyle={styles.dropdown4DropdownStyle}
+                        rowStyle={styles.dropdown4RowStyle}
+                        rowTextStyle={styles.dropdown4RowTxtStyle}
                         />
                   )}
                   name="condition"
@@ -158,6 +176,7 @@ const AddBooks = () => {
 
 const styles = StyleSheet.create({
   input__container: {
+    backgroundColor:"#F3F3F3",
     border: 0,
     margin: 0,
     flexDirection: 'column',
@@ -165,7 +184,7 @@ const styles = StyleSheet.create({
     height: '90%',
   },
   book__search: {
-    flexDirection: 'row',
+    flexDirection:'row',
     height: '15%',
     width: '100%',
   },
@@ -204,6 +223,7 @@ const styles = StyleSheet.create({
     width: 120,
   },
   dropDown:{
+    color:"brown"
   },
   baseText: {
     fontFamily: "Cochin",
@@ -230,6 +250,19 @@ const styles = StyleSheet.create({
     height: 2,
     width: '100%',
   },
+  
+  dropdown4BtnStyle: {
+    width: '95%',
+    height: 50,
+    backgroundColor: '#FFF',
+    borderRadius: 6.5,
+    borderWidth: 1,
+    borderColor: '#444',
+  },
+  dropdown4BtnTxtStyle: {color: '#444', textAlign: 'left'},
+  dropdown4DropdownStyle: {backgroundColor: '#EFEFEF'},
+  dropdown4RowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
+  dropdown4RowTxtStyle: {color: '#444', textAlign: 'left'},
 });
 
 export default AddBooks;
