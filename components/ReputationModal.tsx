@@ -22,13 +22,14 @@ interface ReputationModalProps {
         condition2: string,
         username2: string,
         email2: string
-    },
-}
-
+    }, 
+} 
+  
 const ReputationModal = (props: ReputationModalProps) => {
     const [defaultRating, setDefaultRating] = useState(2);
     const [maxRating, setMaxRating] = useState([1,2,3,4,5]);
     const {text, buttonText, onClose, visible, item} = props;
+    const [rerender, setRerender] = useState<number>(0);
 
     const starImgFilled = 'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
     const starImgCorner = 'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
@@ -36,11 +37,11 @@ const ReputationModal = (props: ReputationModalProps) => {
     const sendConfirm = async (item) => {
         try {
           //sends a request to make isAccepted = true
-          const post = await axios.put(
+          const put = await axios.put(
             `https://binderapp-server.herokuapp.com/api/matches/exchange/user/${getUsername()}`, item
           );
-          console.log(item);
-          const data = await post.data;
+          const data = await put.data;
+          setRerender(data);
         } catch (err) {
           console.log(err);
         }

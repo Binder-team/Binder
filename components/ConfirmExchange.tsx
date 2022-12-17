@@ -35,7 +35,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
     const [openModal, setOpenModal] = useState(false);
     const [confirmed, setConfirmed] = useState<boolean>(false);
     const [matchedBooks, setMatchedBooks] = useState<[]>([]);
-    
+    const [rerender, setRerender] = useState<number>(0);
     useEffect(()=>{
         console.log(item)
     },[])
@@ -50,10 +50,11 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
   const sendCancel = async () => {
       try {
       //sends a post request to cancel exchange
-      const post = await axios.put(
+      const put = await axios.put(
           `https://binderapp-server.herokuapp.com/api/matches/deny/user/${getUsername()}`, item
       );
-      const data = await post.data;
+      const data = await put.data;
+      setRerender(data)
       if(data.status === 200) {
           console.log("cancelled exchange")
       }
@@ -61,12 +62,16 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
       console.log(err);
       }
   }
+  const emailTitle = `Book x Change Match`
 
-  // openInbox({
-  //   message: "Choose which mail app to open:",
-  //   cancelLabel: "go back!",
-  // });
-
+  const emailBodyUser2 = `Hello, \n\n\nThank you for accepting the book match! \n\n Below are the details of my book: 
+    \n\n${item.title1}, \nby ${item.author1}, \nin ${item.condition1} condition \n\nand I am interested in your book:
+    \n\n${item.title2}, \nby ${item.author2}, \nin ${item.condition2} condition\n\nPlease let me know you preferred method of exchanging. I look forward to hearing back from you!\n\nWith regards, \n\n${item.username1}`
+    
+  const emailBodyUser1 = `Hello, \n\n\nThank you for accepting the book match! \n\n Below are the details of my book: 
+    \n\n${item.title2}, \nby ${item.author2}, \nin ${item.condition2} condition \n\nand I am interested in your book:
+    \n\n${item.title1}, \nby ${item.author1}, \nin ${item.condition1} condition\n\nPlease let me know you preferred method of exchanging. I look forward to hearing back from you!\n\nWith regards, \n\n${item.username2}`
+    
     return (
         <View style={styles.item}> 
             <TouchableOpacity>
@@ -75,10 +80,12 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
                     onPress={()=> 
                         setCurrentView("all matches")
                     }
-                >back to matches</Button>
+                ></Button>
             </TouchableOpacity>
-            <View style={styles.bookContainer}> 
-               
+            
+          <>
+            {getUsername()!==item.username1?(
+              <View style={styles.bookContainer}> 
                 <Image
                 style={{
                     borderColor: 'black',
@@ -91,37 +98,43 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView}) => {
                     width: 50,
                     height: 50,
                 }}
-            />
+              />  
                 <Text style = {styles.bookTitle}>Title: {item.title1}</Text>
                 <Text>Author: {item.author1}</Text>
                 <Text>Condition: {item.condition1}</Text>
                 <Text>User: {item.username1}</Text>
                 <Text>Contact:</Text> 
-                <Button onPress={() => Linking.openURL(`mailto:${item.email1}?subject=Book&x&change&&body=description`) }
+                <Button onPress={() => Linking.openURL(`mailto:${item.email1}?subject=${emailTitle}&x&change&&body=${emailBodyUser1}`) }
                 title={item.email1} />
             </View>  
+            ):(
             <View style={styles.bookContainer}>
                 <Image
-                style={{
-                    borderColor: 'black',
-                    borderWidth: 2,
-                    height: 100,
-                    width: 100,
-                }}
-                source={{
-                    uri: item.thumbnail2,
-                    width: 50,
-                    height: 50,
-                }}
+                  style={{
+                      borderColor: 'black',
+                      borderWidth: 2,
+                      height: 100,
+                      width: 100,
+                  }}
+                  source={{
+                      uri: item.thumbnail2,
+                      width: 50,
+                      height: 50,
+                  }}
                 />
                 <Text style = {styles.bookTitle}>Title:{item.title2}</Text>
                 <Text>Author:{item.author2}</Text>
                 <Text>Condition:{item.condition2}</Text>
                 <Text>User:{item.username2}</Text>
                 <Text>Contact:</Text>
-                <Button onPress={() => Linking.openURL(`mailto:${item.email2}?subject=Book&x&change&&body=description`) }
-      title={item.email2} />
+                <Button onPress={() => Linking.openURL(`mailto:${item.email2}?subject=${emailTitle}&x&change&&body=${emailBodyUser2}`) }
+                title={item.email2} />
             </View>
+          )
+            }
+          </>  
+            
+            
             <View>
                 <TouchableOpacity>
             <Button title="Confirm Exchange" onPress={() => setOpenModal(true)}/>
@@ -175,18 +188,18 @@ const styles = StyleSheet.create({
     }, 
     bookContainer: {
       //backgroundColor: 'D9D9D9',
-      borderRadius: 20,
-      height: 300,
-      width: '50%',
+      borderRadius: 5,
+      height: 400,
+      width: '100%',
       justifyContent: 'center',
       // flexDirection: 'row',
       alignItems: 'center',
-      // backgroundColor: '#fff5cf',
+      backgroundColor: '#fff5cf',
   
     },
      item: {
       width: '100%',
-    //   flexDirection: 'row',
+    // flexDirection: 'row',
       alignItems: 'center',
       paddingVertical: 13,
       flexWrap: 'wrap',
