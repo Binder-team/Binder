@@ -5,7 +5,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { useState } from "react";
 import { ColorSchemeName, Pressable } from "react-native";
-
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import NotFoundScreen from "../screens/NotFoundScreen";
@@ -16,9 +15,15 @@ import MyPageScreen from "../screens/MyPageScreen";
 import MatchScreen from "../screens/MatchScreen";
 import LoginScreen from "../screens/LoginScreen";
 import CreateAccountScreen from "../screens/CreatAccountScreen";
+import ConfirmExchange from "../components/ConfirmExchange";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
 import { AuthProvider } from "../hooks/useAuth";
 // import LinkingConfiguration from "./LinkingConfiguration";
+
+
+//vector-icons
+import Icon from "react-native-vector-icons/FontAwesome5";
+import Icon2 from "react-native-vector-icons/Ionicons";
 
 export default function Navigation({
   colorScheme,
@@ -59,6 +64,11 @@ function RootNavigator() {
             component={BottomTabNavigator}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="ConfirmExchange"
+            component={ConfirmExchange}
+            options={{ title: 'Confirm exchange' }}
+          />
         </>
         ):(
         <>
@@ -73,8 +83,6 @@ function RootNavigator() {
               options={{title: 'Create a new account'}} 
           />
          </> 
-          
-          
         )}
     </Stack.Navigator>
   );
@@ -90,6 +98,10 @@ function RootNavigator() {
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
+
+
+
+
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
@@ -104,34 +116,49 @@ function BottomTabNavigator() {
         name="FindBookTab"
         component={BookMatchingScreen}
         options={({ navigation }: RootTabScreenProps<"FindBookTab">) => ({
-          title: "Find a book",
+          title: "Home",
+          tabBarIcon: ({color, size}) => {
+            return <Icon name="home"/>
+          }
+          
         })}
       />
       <BottomTab.Screen
         name="AddBookTab"
         component={AddBooksScreen}
         options={{
-          title: "Add a book",
+          title: "Add a Book",
+          tabBarIcon: ({color, size}) => {
+            return <Icon2 name="add-circle-outline" />
+          }
         }}
       />
       <BottomTab.Screen
         name="MyPageTab"
         component={MyPageScreen}
         options={{
-          title: "My Page"
+          title: "Profile",
+          tabBarIcon: ({color, size}) => {
+            return <Icon name="user-circle"/>
+          }
         }}
       />
       <BottomTab.Screen
         name="MatchTab"
         component={MatchScreen}
         options={{
-          title: "Your Matches",
+          title: "X Change",
+          tabBarIcon: ({color, size }) => {
+            return <Icon name="book"/>
+          }
         }}
       />
+
     </BottomTab.Navigator>
     
   );
 }
+
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/

@@ -13,7 +13,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackScreenProps } from '../types';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
-// import { Image } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
+
 
 
 export type Props = {
@@ -24,11 +24,11 @@ export type Props = {
   navigation: Function
 }
 
-const MyPageScreen = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
+const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   const [data, setData] = useState({});
   const [currentView, setCurrentView] = useState<string>("myBooks");
   const [logout, setLogout] = useState<boolean>(false);
-  
+  const {signOut} = useAuth();
   const  getProfile = async() => {
     const res = await axios.post(`https://binderapp-server.herokuapp.com/api/users/info`, 
     {
@@ -42,6 +42,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
   useEffect(()=>{
     console.log(getProfile());
     console.log(getUsername());
+    console.log(logout)
     console.log(`../assets/images/${getUsername()}.jpeg`)
   },[]) 
  
@@ -50,41 +51,39 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
-        
-      
-      </View>
-      <View style={{backgroundColor: 'white', height: '100%'}}>
+    </View>
+
+    <View style={{backgroundColor: 'white', height: '100%'}}>
       <Text style={styles.title}>My Profile</Text>
-      <Image style={styles.image}source={{uri:'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'}}></Image>
-      <TouchableOpacity 
-            onPress={() => {
-            resetToken();
-            // navigation.navigate('Login');
-            setLogout(true);
-            }}
-      >
+      
+      
+      
+         <Image style={styles.image}source={{uri:data.profile_url}}></Image>
+         <View style={styles.containerText}>
+        
+        <Text style={styles.username}>{data.username}</Text>
+        <Text>city: {data.city}</Text>
+        <Text>postal code: {data.postal_code}</Text>
+        <Text>contact: {data.phone_number}</Text>
+        <Text>email: {data.email}</Text>
+        <Text>rating: {data.reputation}</Text>
+        </View>
+   <TouchableOpacity onPress={signOut}>
           <Text style={styles.logout}>Log out</Text>
         </TouchableOpacity>
-      <View style={styles.profileContainer}>
-        <Text style={styles.username}>{data["username"]}</Text>
-        <Text>city: {data["city"]}</Text>
-        <Text>contact: {data["phone_number"]}</Text>
-        <Text>rating: {data["reputation"]}</Text>
-      </View>
-      
 
-      <View style={{ flexDirection: 'row' }}>
-        <View style={styles.button}>
+    <View style={{ flexDirection: 'row', width: '100%' }}>
+      <View style={styles.button}>
           <TouchableOpacity  onPress={() => setCurrentView("myBooks")}>
           <Text>My Books</Text>       
           </TouchableOpacity>         
-        </View>      
-        <View  style={styles.button}>
+      </View>      
+      <View  style={styles.button}>
           <TouchableOpacity  onPress={() =>setCurrentView("likedBooks")} >
             <Text>Liked Books</Text>
           </TouchableOpacity>
-        </View>
       </View>
+    </View>
 
       <View>
         {currentView === "myBooks"? (
@@ -108,22 +107,34 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'MyPageTab'>) => {
 }
 
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(
+  {
   logout:{
     width: 100,
     textAlign: 'center',
     backgroundColor: '#5B8B8B',
     padding: 1,
     alignItems: 'center',
-    borderRadius:25
+    borderRadius:25,
+    marginBottom:"1%"
   },
   image:{
     width:100,
     height:100,
     borderRadius:50,
+    
   },
   username:{
     fontSize: 20,
+  },
+  containerText: {
+    marginLeft: "40%",
+    marginTop: "-26%",
+    textAlign: "left",
+    fontFamily: "Montserrat",
+    fontWeight: 'bold',
+    lineHeight: 1.5,
+    display: "flex"
   },
   profile:{
     margin: 10
@@ -135,6 +146,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%'
   },
   title: {
     fontSize: 20,
