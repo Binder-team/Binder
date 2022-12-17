@@ -44,7 +44,7 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 export type Book = {
   id: number;
   user_id: number;
-  book_id: string;
+  bookId: string;
   is_available: boolean;
   isbn: string;
   condition: number;
@@ -62,4 +62,27 @@ export type matchedBooks = {
   username2: string,
   book1Id: number,
   book2Id: number,
+}
+
+export type Trade = {
+  sender: number,
+  receiver: number,
+  book_id: number,
+  id: number,
+  isMatched: boolean,
+  isAccepted: boolean,
+  isExchanged: boolean,
+}
+
+export type User = {
+  id: number,
+  profile_url: string,
+  username: string,
+  postal_code: string,
+  city: string,
+  email: string,
+}
+
+export type Rating = {
+  score: number,
 }
