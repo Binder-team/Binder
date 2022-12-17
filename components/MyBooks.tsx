@@ -69,7 +69,7 @@ const MyBooks: React.FC<Props> = ({book, BookItem}) => {
             width: 50,
             height: 50,
           }}
-        />
+        /> 
       </View>
       <View>
         <Text style={styles.title}>Title:{item.title}</Text>

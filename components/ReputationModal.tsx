@@ -9,6 +9,8 @@ interface ReputationModalProps {
     buttonText: string;
     visible: boolean;
     onClose: () => void;
+    setRerender: (arg0:number) => void;
+    counter: number;
     item: {
         thumbnail1:string,
         title1: string,
@@ -25,8 +27,9 @@ interface ReputationModalProps {
     }, 
 } 
   
-const ReputationModal = (props: ReputationModalProps) => {
-    const {text, buttonText, onClose, visible, item} = props;
+const ReputationModal = (props: ReputationModalProps, ) => {
+    const {text, buttonText, onClose, visible, item, setRerender} = props;
+    let {counter} = props;
     const starImgFilled = 'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
     const starImgCorner = 'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
 
@@ -42,7 +45,8 @@ const ReputationModal = (props: ReputationModalProps) => {
           );
           const matches = fetchedMatch.data;
           console.log(matches);
-
+          counter++;
+          setRerender(counter)
         } catch (err) {
           console.log(err);
         }
