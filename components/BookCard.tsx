@@ -84,11 +84,10 @@ const processNextBook = async() => {
                 //defaultSource={{uri: `${bookData[ props.index ]["thumbnail_url"]}` }}
                  />
                     <View style={styles.cardInner}>
+                       <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
+                        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>    
                     </View>  
-
-
-            <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
-                        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>          
+                        
         </View>
     );
 };
@@ -96,32 +95,36 @@ const processNextBook = async() => {
 
 const styles = StyleSheet.create({
     card: {
-        width: '100%',
-        height: '100%',
-        borderRadius: 15,
-       backgroundColor: '#fefefe',
-        shadowColor: '#000',
-        shadowOffset: {
+      //position:"absolute",
+      flex: 1,
+      width: '100%',
+      height: '100%',
+      borderRadius: 10,
+      backgroundColor: '#fefefe',
+      shadowColor: '#000',
+      shadowOffset: {
             width: 0,
             height: 10,
-        },
-        shadowOpacity: 0.36,
-        shadowRadius: 6.68,
-        elevation: 5,  
+      },
+      shadowOpacity: 0.36,
+      shadowRadius: 6.68,
+      elevation: 5,
+      //borderColor: 'lightgrey',
+        
         
     },
     cardImage: {
         width: '100%',
         height: 400,
-        //borderRadius: 10,
-        //overflow: 'hidden',
+        borderRadius: 10,
+        overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center',
         resizeMode: 'contain',
-        marginTop: 5,
+        //marginTop: 2,
     },
     cardInner: {
-        padding: 3,
+        padding: 1,
     },
     title: {
         fontSize: 20,

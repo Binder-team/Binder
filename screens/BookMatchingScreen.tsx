@@ -127,7 +127,7 @@ const nextCardStyle = useAnimatedStyle(() => ({
     {
     scale: interpolate(sharedValue.value,
       [-hiddenSreenWidth, 0, hiddenSreenWidth],
-        [1, 0.7, 1]
+        [1, 0.5, 1]
         ),
     },  
   ],
@@ -189,7 +189,7 @@ const gestureHandler = useAnimatedGestureHandler ({
         {nextProfile && (
       <View style={styles.nextCardContainer}>
         <Animated.View style={[styles.animatedCard,nextCardStyle]}>
-          <BookCard bookData={nextProfile} index={currentIndex+1}/>
+          <BookCard bookData={nextProfile} index={currentIndex+ 1}/>
         </Animated.View>
         </View>
         )}
@@ -230,11 +230,13 @@ const styles = StyleSheet.create({
     backgroundColor:'#F3F3F3',
   },
   animatedCard: {
+    position:'absolute',
     width: '90%',
     height: '70%',
-    //flex: 1,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    //marginTop: 10,
     //backgroundColor:'blue',
   },
   
@@ -253,12 +255,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 1,
     zIndex: 1,
-    elevation: 50,
+    elevation: 20,
   },
   vectorContainer: {
-    alignItems:'center',
+    alignItems:'flex-end',
     flexDirection: 'row', 
-    paddingTop: 40,
+    paddingTop: 600,
     
   }
   
