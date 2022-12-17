@@ -12,11 +12,14 @@ import Animated, {
   interpolate,
   withSpring,
   runOnJS, 
-  event
+  event,
+  withDelay
 } from 'react-native-reanimated';
 import { Book } from '../types';
 import { getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword } from '../components/userTokenManager';
 import { Alert } from 'react-native';
+import Like from '../assets/images/LIKE.png';
+import Nope from '../assets/images/nope.png';
 
 
 
@@ -64,8 +67,8 @@ const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 const [currentCard, setCurrentCard] = useState(bookData[currentIndex]);
 const [matchState, setMatchState] = useState();
 const currentProfile = bookData[currentIndex];
-const nextProfile = bookData[nextIndex];
-
+const nextProfile = bookData[currentIndex+1];
+const translateX = useSharedValue(0);
 const[profile, setProfile] = useState(currentProfile);
 
 
@@ -73,7 +76,6 @@ const handleFetch = async() => {
     const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/swipe/${getUsername()}`);
     const data = await res.data;
     setBookData(data);
-    //console.log(data);  
   };
 
   useEffect(()=>{
@@ -84,17 +86,17 @@ const handleFetch = async() => {
       //handlerFunction
   async function onSwipeRight (bookObj: Book) {
   const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
-   bookObj  );
-   console.log("MATCH ", match.data);
-   console.log("swipe right: ", bookObj.title)
-   if( match.data > 0){
+  bookObj  );
+  console.log("MATCH ", match.data);
+  console.log("swipe right: ", bookObj.title)
+  if( match.data > 0){
     Alert.alert(`You got a new match!`)
     setMatchState(match.data);
-   }
+  }
 }
 const onSwipeLeft =( bookObj: Book )=> {
-       console.log('swipe left', bookObj.title)
-     }
+      console.log('swipe left', bookObj.title)
+    }
 
 
 const {width: screenWidth} = useWindowDimensions();
@@ -119,7 +121,7 @@ const nextCardStyle = useAnimatedStyle(() => ({
   transform: [
     {
     scale: interpolate(sharedValue.value,
-       [-hiddenSreenWidth, 0, hiddenSreenWidth],
+      [-hiddenSreenWidth, 0, hiddenSreenWidth],
         [1, 0.7, 1]
         ),
     },  
@@ -131,16 +133,25 @@ const nextCardStyle = useAnimatedStyle(() => ({
   )
 }))
 
+
+const likeStyle = useAnimatedStyle(()=>({
+  opacity: interpolate(sharedValue.value, [0, hiddenSreenWidth/5], [0, 1])
+}));
+
+const nopeStyle = useAnimatedStyle(()=> ({
+  opacity: interpolate(sharedValue.value, [0, -hiddenSreenWidth/5], [0, 1])
+}));
+
 const gestureHandler = useAnimatedGestureHandler ({
   onStart: (_, context: AnimatedGHContext) =>{
-    //console.log('Touch start');
     context.startX = sharedValue.value;
   },
   onActive: (event, context: AnimatedGHContext) => {
     sharedValue.value = event.translationX;
     //console.log('Touch x: ', event.translationX);
+
   },
-  onEnd: (event)=>{
+  onEnd: (event) => {
 
     if(Math.abs(event.velocityX )< SWIPE_VELOCITY) {
       sharedValue.value =withSpring(0);
@@ -149,35 +160,31 @@ const gestureHandler = useAnimatedGestureHandler ({
     sharedValue.value = withSpring(
       hiddenSreenWidth * Math.sign(event.velocityX),
       {},
-      () =>runOnJS(setCurrentIndex)(currentIndex + 1)
-      );  
-      
-
+      () =>runOnJS(setCurrentIndex)(currentIndex + 1), 
+      );
       //function for matching ... should be on screen 
+      
+    const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
 
-      
-      
-     const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
     onSwipe && runOnJS(onSwipe)(currentProfile);
+    runOnJS(setNextIndex)(nextIndex + 1);
   },
-}
-);
+});
 
-
-
-useEffect(() => {
+  useEffect(() => {
   sharedValue.value = 0;
-  setNextIndex(currentIndex + 1)
-  console.log(currentIndex);
-}, [currentIndex, sharedValue]);
+  }, [currentIndex, translateX]);
+
+
+
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <View style={styles.pageContainer}>
-        {nextProfile && ( 
+        {nextProfile && (
       <View style={styles.nextCardContainer}>
         <Animated.View style={[styles.animatedCard,nextCardStyle]}>
-           <BookCard bookData={nextProfile} index={nextIndex}/>
+          <BookCard bookData={nextProfile} index={currentIndex+1}/>
         </Animated.View>
         </View>
         )}
@@ -185,12 +192,21 @@ useEffect(() => {
         {currentProfile && (
       <PanGestureHandler onGestureEvent={gestureHandler} >
           <Animated.View style={[styles.animatedCard,cardStyle]}>
+            <Animated.Image 
+                source={Like}
+                style={[styles.like, {left: 10}, likeStyle]}
+                resizeMode="contain"
+           />
+           <Animated.Image
+               source={Nope}
+               style={[styles.like, {right: 10}, nopeStyle]}
+               resizeMode="contain"
+               />
               <BookCard bookData={currentProfile}  index={currentIndex}/> 
           </Animated.View> 
       </PanGestureHandler>
       )}
-      </View>    
-    
+      </View> 
     </GestureHandlerRootView>
   );
 }
@@ -202,7 +218,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    //backgroundColor:'red'
+    backgroundColor:'#F3F3F3',
   },
   animatedCard: {
     width: '90%',
@@ -212,15 +228,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     //backgroundColor:'blue',
   },
+  
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
     //width: '100%',
     //height: '70%',
     justifyContent: 'center',
     alignItems: 'center',
+   // backgroundColor:'red',
   
   },
+  like: {
+    width: 120,
+    height: 120,
+    position: 'absolute',
+    top: 5,
+    zIndex: 1,
+    elevation: 50,
+  },
+  
 });
-
 
 export default Swipe;

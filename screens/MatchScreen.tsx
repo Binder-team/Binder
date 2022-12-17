@@ -1,6 +1,7 @@
 // import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState, useRef } from 'react';
-import { Platform, StyleSheet,Image, TouchableOpacity, Button } from 'react-native';
+import { Platform, StyleSheet,Image, TouchableOpacity, } from 'react-native';
+import { Button } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BookCard from '../components/BookCard';
 import { Book } from '../types';
@@ -47,88 +48,90 @@ export default function MatchScreen({ navigation }) {
           );
           const matches = await fetchMatch.data;
           const mappedMatches = matches.map(item => {
-            return (
-            <View style={styles.item}>
+          return (
+          <View style={styles.item}>
             <View style={styles.bookContainer}> 
               <Image
-                style={{
-                  borderColor: 'black',
-                  borderWidth: 2,  
-                  height: 100,
-                  width: 100,
-                }}
+                style={styles.avatarContainer}
                 source={{
                   uri: item.thumbnail1,
                   width: 50,
                   height: 50,
                 }}
               />
-              <Text style = {styles.bookTitle}>Title:{item.title1}</Text>
-              <Text>Author:{item.author1}</Text>
-              <Text>Condition:{item.condition1}</Text>
-              <Text>User:{item.username1}</Text>
-              <Text>accepted?: {`${item.didUser1Accept}`}</Text>
-              <Text>exhanged?: {`${item.didUser1Exchange}`}</Text>
+              <Text style = {styles.bookTitle}>{item.title1}</Text>
+              <Text style={styles.text}>Author: {item.author1}</Text>
+              <Text style={styles.text}>Condition: {item.condition1}</Text>
+              <Text style={styles.text}>User: {item.username1}</Text>
+              {/* <Text>accepted?: {`${item.didUser1Accept}`}</Text>
+              <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
               {/* <Text>Contact:{item.email1}</Text>  */}
             </View>  
             <View style={styles.bookContainer}>
               <Image
-                style={{
-                  borderColor: 'black',
-                  borderWidth: 2,
-                  height: 100,
-                  width: 100,
-                }}
+                style={styles.avatarContainer}
                 source={{
                   uri: item.thumbnail2,
                   width: 50,
                   height: 50,
                 }}
               />
-              <Text style = {styles.bookTitle}>Title:{item.title2}</Text>
-              <Text>Author:{item.author2}</Text>
-              <Text>Condition:{item.condition2}</Text>
-              <Text>User:{item.username2}</Text>
-              <Text>accepted?: {`${item.didUser2Accept}`}</Text>
-              <Text>exhanged?: {`${item.didUser2Exchange}`}</Text>
+              <Text style = {styles.bookTitle}>{item.title2}</Text>
+              <Text style={styles.text}>Author: {item.author2}</Text>
+              <Text style={styles.text}>Condition: {item.condition2}</Text>
+              <Text style={styles.text}>User: {item.username2}</Text>
+              {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
+              <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
               {/* <Text>Contact:{item.email2}</Text> */}
             </View>
-              <View style = {styles.buttonContainer}>
-                <TouchableOpacity>
-                  {item.didUser1Accept && item.didUser2Accept 
-                  ? (<Button 
-                      title="see contact details"
-                      onPress={()=>{
-                        setCurrentView("confirm exchange view")
-                        setItem(item)
-                      }}
-                    >
-                    </Button>
-                  ) : ( 
-                    <Button 
-                      title="accept"
-                      onPress={()=>{
-                        setAcceptTrade(true)
-                        sendAccept(item)
-                        }
+            <View style = {styles.buttonContainer}>
+              
+                {item.didUser1Accept && item.didUser2Accept 
+                ? (<TouchableOpacity 
+                    activeOpacity={.3}
+                    style = {styles.button}
+                    title="see contact details"
+                    onPress={()=>{
+                      setCurrentView("confirm exchange view")
+                      setItem(item)
+                    }}
+                  >
+                    <Text style={styles.buttonText}>see contact details</Text>
+                  </TouchableOpacity>
+                ) : ( 
+                  <TouchableOpacity 
+                    activeOpacity={.3}
+                    style={styles.button}
+                    title="accept"
+                    onPress={()=>{
+                      
+                      setAcceptTrade(true)
+                      sendAccept(item)
                       }
-                    > 
-                    </Button>
-                  )}
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Button 
+                    }
+                  > 
+                  <Text style={styles.buttonText}>Accept</Text>
+                  </TouchableOpacity>
+                )}
+              
+              
+                <TouchableOpacity
+                  activeOpacity={0.6}
+                  style={styles.denyButton}
                   title="deny"
                   onPress={()=>{
                     sendCancel(item)
                   }}
-                  >Deny</Button>
-                </TouchableOpacity>
+                  >
+                    <Text style={styles.buttonText}>Deny</Text>
+                  </TouchableOpacity>
+            
               </View> 
-              </View>
+          </View>
            )
           });
-          setMatchedBooks(mappedMatches)
+          console.log(Array.isArray(mappedMatches))
+            setMatchedBooks(mappedMatches)
         } catch (err)  {
         console.log(err);  
       } 
@@ -185,32 +188,14 @@ export default function MatchScreen({ navigation }) {
   
   return (
     <SafeAreaView style={styles.root}>
-      {/* <View>
-          <Text style={styles.text}>Your matches</Text>
-      </View> */}
-        {/* <View style={{ flexDirection: 'row', width: '100%' }}>
-            <View style={styles.button}>
-              <TouchableOpacity  onPress={() => setCurrentView("all matches")}>
-              <Text>Matches</Text>       
-              </TouchableOpacity>         
-            </View>      
-            <View  style={styles.button}>
-              <TouchableOpacity  onPress={() =>setCurrentView("confirm exchange view")} >
-                <Text>Exchanges</Text>
-              </TouchableOpacity>
-            </View>
-        </View> */}
+      
+      
+        
       <View style= {styles.matchContainer}>
         <View>
           {currentView === "all matches"? ( 
             <View>
               <Text title = "matches" style = {styles.title}>Your matches:</Text>
-                {/* <FlatList
-                  data={matchedBooks}
-                  renderItem={tradeCard}  
-                  extraData={matchedBooks}
-                  ItemSeparatorComponent={itemSeparator}
-                />             */}
                 <ScrollView>{matchedBooks}</ScrollView>
             </View>
       
@@ -235,57 +220,98 @@ export default function MatchScreen({ navigation }) {
 
 
 const styles = StyleSheet.create({
+  avatarContainer: {
+    backgroundColor: 'D9D9D9',
+    borderRadius: 10,
+    height: 120,
+    width: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  
   bookTitle:{
-    fontWeight:'bold'
+    fontSize:16,
+    justifyContent:'center',
+    textAlign:'center',
+    fontWeight:'bold',
+    paddingVertical:10,
+    height: 75
   },
   buttonContainer:{
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginHorizontal:20,
+    justifyContent: 'space-evenly',
+    backgroundColor:'#F3F3F3',
   },
   button: {
     flex: 1,
-    width: '100%', 
+    width: 10, 
     height: 40,
-    backgroundColor: '#5B8B8B',
-    padding: 10,
+    backgroundColor:'#3C1874',
+    justifyContent: 'center',
     alignItems: 'center',
-    borderRadius:15
+    borderRadius:5,
+    marginHorizontal: 5,
+    elevation:5,
+    shadowColor: 'black',
+  },
+  denyButton: {
+    flex: 1,
+    width: 10, 
+    height: 40,
+    backgroundColor:'#932432',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius:5,
+    marginHorizontal: 5,
+    elevation:5,
+    shadowColor: 'black',
+  },
+  buttonText: {
+    fontSize: 15,
+    color: '#F3F3F3',
+    lineHeight: 18,
+    fontWeight: '400'
   },
   root: {
+    backgroundColor: '#283747',
     width: '100%',
     height: '100%',
     flex: 1,
-    padding: 10,
+    padding: 0,
     justifyContent: 'center',
-    backgroundColor:'#ffeebf',
   },
   title: {
     alignSelf: 'flex-start',
     justifyContent: 'center',
     fontSize: 20,
     fontWeight: 'bold',
+    paddingHorizontal:10,
+    color:'#283747'
   },
   separator: {
     
   },
   matchContainer:{
+    backgroundColor: '#283747',
     width:'100%',
     height: '100%',
     justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
     textAlign: 'center',
-    backgroundColor:'#f5e6ff',
+    padding: 5,
+    paddingBottom: 10,
   }, 
   bookContainer: {
-    //backgroundColor: 'D9D9D9',
     borderRadius: 20,
-    // height: 300,
+    height: '90%',
     width: '50%',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     // flexDirection: 'row',
     alignItems: 'center',
-    //backgroundColor: 'yellow',
-
+    backgroundColor:'#F3F3F3',
+    
   },
    item: {
     width: '100%',
@@ -293,13 +319,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 13,
     flexWrap: 'wrap',
-    //backgroundColor:'blue',
+    backgroundColor:'#F3F3F3',
+    borderRadius: 15,
+    marginTop: 16,
+    marginBottom: 20,
+    paddingBottom:50,
+    paddingHorizontal:10
    }, 
    text: {
     alignItems:'flex-start',
     justifyContent: 'center',
-    fontSize: 20, 
-    fontWeight: 'bold', 
+    fontSize: 14, 
+    fontWeight: '500', 
     alignSelf: 'center'
    }
    
