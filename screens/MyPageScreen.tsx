@@ -170,10 +170,14 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
             </View>
           ): (
             <View style={styles.books__shelf__container}>
-              
-              <ScrollView contentContainerStyle={styles.book__shelf}>
-                {likedBooks}
-              </ScrollView>
+              <DataTable>
+                <DataTable.Header>
+                  <DataTable.Title>Liked Books</DataTable.Title>
+                </DataTable.Header>
+                <ScrollView contentContainerStyle={styles.book__shelf}>
+                  {likedBooks}
+                </ScrollView>
+              </DataTable>
             </View>
           )}
         </Card>
@@ -227,14 +231,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     width: '100%',
-    height: '65%',
+    height: '60%',
   },
   books__shelf__container: {
     width: '100%',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'column',
     flexWrap: 'wrap',
+    height: '100%'
   },
   book__shelf: {
     width: '100%',
