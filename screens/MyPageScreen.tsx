@@ -1,6 +1,6 @@
 import React, { useEffect, useState }from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import { Button, Card, Title, ToggleButton } from 'react-native-paper';
+import { Button, Card, DataTable, Title, ToggleButton } from 'react-native-paper';
 import { Book, Rating, User } from '../types';
 import { getUsername} from '../components/userTokenManager';
 import { RootStackScreenProps } from '../types';
@@ -8,6 +8,7 @@ import axios from 'axios';
 import useAuth from '../hooks/useAuth';
 import { Text } from '../components/Themed';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { DataTableHeader } from 'react-native-paper/lib/typescript/components/DataTable/DataTableHeader';
 
 const starImgFilled = 'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
 const starImgCorner = 'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
@@ -157,64 +158,26 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
         <Card style={styles.books__container} mode='outlined'>
           {toggleView === "MyBooks"
           ? (
-            <ScrollView style={styles.books__shelf}>
-              {userBooks}
-            </ScrollView>
+            <View style={styles.books__shelf__container}>
+              <DataTable>
+                <DataTable.Header>
+                  <DataTable.Title>My Books</DataTable.Title>
+                </DataTable.Header>
+                <ScrollView contentContainerStyle={styles.book__shelf}>
+                  {userBooks}
+                </ScrollView>
+              </DataTable>
+            </View>
           ): (
-            <ScrollView style={styles.books__shelf}>
-              {likedBooks}
-            </ScrollView>
+            <View style={styles.books__shelf__container}>
+              
+              <ScrollView contentContainerStyle={styles.book__shelf}>
+                {likedBooks}
+              </ScrollView>
+            </View>
           )}
         </Card>
     </View>
-
-  //   {/* <View style={{backgroundColor: 'white', height: '100%'}}>
-  //     <Text style={styles.title}>My Profile</Text>
-  //     <Image style={styles.image}source={{uri:userInfo.profile_url}}></Image>
-  //     <View style={styles.containerText}>
-  //     <Text style={styles.username}>{data.username}</Text>
-  //     <Text>city: {data.city}</Text>
-  //     <Text>postal code: {data.postal_code}</Text>
-  //     <Text>contact: {data.phone_number}</Text>
-  //     <Text>email: {data.email}</Text>
-  //     <Text>rating: {data.reputation}</Text>
-  //   </View>
-        
-  //   <TouchableOpacity onPress={signOut}>
-  //     <Text style={styles.logout}>Log out</Text>
-  //   </TouchableOpacity>
-
-  //   <View style={{ flexDirection: 'row', width: '100%' }}>
-  //     <View style={styles.button}>
-  //         <TouchableOpacity  onPress={() => setCurrentView("myBooks")}>
-  //         <Text>My Books</Text>       
-  //         </TouchableOpacity>         
-  //     </View>      
-  //     <View  style={styles.button}>
-  //         <TouchableOpacity  onPress={() =>setCurrentView("likedBooks")} >
-  //           <Text>Liked Books</Text>
-  //         </TouchableOpacity>
-  //     </View>
-  //   </View>
-
-  //   <View>
-  //     {currentView === "myBooks"? (
-  //       <MyBooks book={{
-  //           id: 0,
-  //           user_id: 0,
-  //           book_id: '',
-  //           is_available: false,
-  //           isbn: '',
-  //           condition: 0,
-  //           image_url: '',
-  //           thumbnail_url: '',
-  //           title: '',
-  //           author: ''
-  //         }} BookItem={undefined}/>
-  //     ): (<LikedBooks/>)}
-  //   </View>
-  // </View>
-  // </View> */}
   )
 }
 
@@ -264,9 +227,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     width: '100%',
+    height: '65%',
   },
-  books__shelf: {
+  books__shelf__container: {
+    width: '100%',
     justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+  },
+  book__shelf: {
+    width: '100%',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
