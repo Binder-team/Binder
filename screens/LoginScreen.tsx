@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect, ChangeEvent } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, Button } from 'react-native';
-import EditScreenInfo from '../components/EditScreenInfo';
+import { StyleSheet, TouchableOpacity, Image} from 'react-native';
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
 import { setToken, getToken, getUsername, setUsername, setPassword, getPassword } from '../components/userTokenManager';
 import axios from 'axios';
 import Navigation from '../navigation';
 import useAuth from '../hooks/useAuth';
 import { RootStackScreenProps } from '../types';
+import ButtonForm from '../components/ButtonForm';
+import FormInput from '../components/FormInput';
+
 
 
 export default function LoginScreen({ navigation }: RootStackScreenProps<'CreateAccount'>) {
@@ -15,39 +16,42 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Create
   
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Please enter your username:</Text>
-      <TextInput
-        placeholder='enter username'
-        onChange={(e)=>{
+           <Image
+           style={styles.logo}
+           resizeMode={'contain'}
+           source={require('../assets/images/logo-transparent.png')}
+           />
+      <FormInput
+        //value={username}
+        placeholderText="Enter Username"
+        onChange={(e) => {
           setUsername(e.nativeEvent.text)
-        }}
-      >
-      </TextInput>
-      <Text style={styles.title}>Please enter your password:</Text>
-      <TextInput
-        placeholder='password'
-        secureTextEntry={true} 
-        onChange={(e)=>setPassword(e.nativeEvent.text)
-       }
-      >
-      </TextInput>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      
-    
-    
-    <TouchableOpacity>
-        <Button title='SIGN IN' onPress={signIn}/>
+         }}
+        autoCapitalize='none'
+        autoCorrect={false}
+       />
+         <FormInput
+           // value={password}
+            placeholderText="Enter Password"
+             secureTextEntry={true}
+             onChange={(e)=> {
+              setPassword(e.nativeEvent.text);
+            }}
+            />
+             <TouchableOpacity>
+        <ButtonForm title='Sign In' onPress={signIn}/>
     </TouchableOpacity>
-    <Text>Don't have an account?</Text>
+    <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+    <Text>New user? Join here!</Text>
     <TouchableOpacity>
-        <Button title='create an account' onPress={()=>{
+        <ButtonForm title='Create an Account' onPress={()=>{
           navigation.navigate('CreateAccount')
-        }
-        
-        }/>
+        }}/>
     </TouchableOpacity>
-</View>
-  );
+    </View> 
+
+
+  )
 }
  
 const styles = StyleSheet.create({
@@ -55,14 +59,24 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 150,
+    backgroundColor:'#F3F3F3',
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
   },
+   logo: {
+    flex: 1,
+    alignSelf: 'center',
+    width:'70%',
+   // height: 10,
+   // aspectRatio: 1,
+    resizeMode: 'contain',  
+   },
   separator: {
-    marginVertical: 30,
-    height: 1,
+    marginVertical: 15,
+    height: 3,
     width: '80%',
   },
 });
