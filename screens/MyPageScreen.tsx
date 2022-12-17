@@ -1,20 +1,16 @@
 import React, { useEffect, useState }from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { white } from 'react-native-paper/lib/typescript/styles/colors';
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View, Image } from 'react-native';
-// import { RootTabScreenProps } from '../types';
-import  LikedBooks from '../components/LikedBooks'
-import MyBooks from '../components/MyBooks';
-import BookItem from '../components/BookItem';
-import { Book, RootStackParamList } from '../types';
-import { resetToken, getUsername, username, getToken } from '../components/userTokenManager';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View, StyleSheet, Image } from 'react-native';
+import { Button, Card, Title, ToggleButton } from 'react-native-paper';
+import { Book, Rating, User } from '../types';
+import { getUsername} from '../components/userTokenManager';
 import { RootStackScreenProps } from '../types';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
+import { Text } from '../components/Themed';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 
-
+const starImgFilled = 'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
+const starImgCorner = 'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
 
 export type Props = {
   book: Book;
@@ -25,146 +21,275 @@ export type Props = {
 }
 
 const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
-  const [data, setData] = useState({});
-  const [currentView, setCurrentView] = useState<string>("myBooks");
+  const [toggleView, setToggleView] = useState('MyBooks');
+  const [defaultRating, setDefaultRating] = useState(5);
+  const [maxRating, setMaxRating] = useState([1,2,3,4,5]);
+  const [userBooks, setUserBooks] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
+  const [likedBooks, setLikedBooks] = useState([]);
   const [logout, setLogout] = useState<boolean>(false);
   const {signOut} = useAuth();
-  const  getProfile = async() => {
-    const res = await axios.post(`https://binderapp-server.herokuapp.com/api/users/info`, 
+  const  getUserInfo = async() => {
+    const fetchedUserInfo = await axios.post(`https://binderapp-server.herokuapp.com/api/users/info`, 
     {
       "username": getUsername()
     });
-    const data = res.data;
-    setData(data);
-    console.log(data);
-    return data;
+    const info = fetchedUserInfo.data;
+    setUserInfo(info);
   }
   useEffect(()=>{
-    console.log(getProfile());
-    console.log(getUsername());
-    console.log(logout)
-    console.log(`../assets/images/${getUsername()}.jpeg`)
-  },[]) 
- 
+    getUserRating();
+    getUserBooks();
+    getUserInfo();
+    getLikedBooks();
+  },[]);
 
+  const getUserRating = async () => {
+    const fetchedRatings = await axios.get(`https://binderapp-server.herokuapp.com/api/reputation/user/average/${getUsername()}`);
+    const scoreArray = fetchedRatings.data.map((rating: Rating) => rating.score);
+    const score = Math.min(scoreArray.reduce((acc: number, curr: number) => acc + curr, 0) / scoreArray.length);
+    setDefaultRating(score);
+  }
+
+  const getUserBooks = async () => {
+    const fetchedBooks = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`);
+    const books = fetchedBooks.data.map((book: Book) => {
+      return (
+        <Card style={styles.book__card}>
+          <Image 
+            style={styles.thumbnail}
+            source={
+              {
+                uri: book.thumbnail_url, 
+                width: 50,
+                height: 50,
+              }
+            }
+          ></Image>
+          <Text style={styles.book__title}>{book.title}</Text>
+        </Card>
+      );
+    });
+    setUserBooks(books);
+  };
+
+  const getLikedBooks = async () => {
+    const fetchLikes = await axios.get(
+      `https://binderapp-server.herokuapp.com/api/trade_table/liked/${getUsername()}`,
+      );
+      const likedBookIds = fetchLikes.data.map((book: Book) => book.bookId);
+      const likedBooks =  await Promise.all(likedBookIds.map(async (id : string) => {
+        const bookObj = await axios.get(
+          `https://binderapp-server.herokuapp.com/api/user_books/${id}`,
+          );
+          return bookObj.data;
+      }));
+    const books = likedBooks.map((book) => {
+      return (
+        <Card style={styles.book__card} mode='outlined'>
+          <Image 
+            style={styles.thumbnail}
+            source={
+              {
+                uri: book.thumbnail_url, 
+                width: 50,
+                height: 50,
+              }
+            }
+          ></Image>
+          <Text style={styles.book__title}>{book.title}</Text>
+        </Card>
+      );
+    });
+    setLikedBooks(books);
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.profile}>
+        <Card style={styles.profile__container} mode='outlined'>
+          <View style={styles.profile__column1}>
+            <Card.Content>
+              <Image style={styles.image}source={{uri:userInfo.profile_url}} ></Image>
+              <Title>{userInfo.username}</Title>
+              <View style={styles.strRating}>
+                {
+                  maxRating.map((item, key) => {
+                    return (
+                      <Image
+                          style={styles.starImg}
+                          source={
+                              item <= defaultRating
+                                  ? {uri: starImgFilled}
+                                  : {uri: starImgCorner}
+                          }>
+                        </Image>
+                      );
+                  })
+                }
+              </View>
+                <Text> {defaultRating} / 5</Text>
+            </Card.Content>
+
+            <View style={styles.profile__column2}>
+              <Button icon="pin">Location</Button>
+              <Text>{userInfo.city}</Text>
+              <Text>postal code: {userInfo.postal_code}</Text>
+              <Button icon="email">Email</Button>
+              <Text>{userInfo.email}</Text>
+              <Card.Actions>
+
+                <TouchableOpacity>
+                  <Button icon="account-edit">Edit</Button>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={signOut}>
+                  <Button icon="logout">Logout
+                  </Button>
+                </TouchableOpacity>
+
+              </Card.Actions>
+            </View>
+          </View>
+        </Card>
+        <ToggleButton.Row onValueChange={value => setToggleView(value)} value={toggleView}>
+          <ToggleButton style={styles.toggleButton} icon="book" value="MyBooks" />
+          <ToggleButton style={styles.toggleButton} icon="cards-playing-heart-multiple" value="LikedBooks" />
+        </ToggleButton.Row>
+        <Card style={styles.books__container} mode='outlined'>
+          {toggleView === "MyBooks"
+          ? (
+            <ScrollView style={styles.books__shelf}>
+              {userBooks}
+            </ScrollView>
+          ): (
+            <ScrollView style={styles.books__shelf}>
+              {likedBooks}
+            </ScrollView>
+          )}
+        </Card>
     </View>
 
-    <View style={{backgroundColor: 'white', height: '100%'}}>
-      <Text style={styles.title}>My Profile</Text>
-      
-      
-      
-         <Image style={styles.image}source={{uri:data.profile_url}}></Image>
-         <View style={styles.containerText}>
+  //   {/* <View style={{backgroundColor: 'white', height: '100%'}}>
+  //     <Text style={styles.title}>My Profile</Text>
+  //     <Image style={styles.image}source={{uri:userInfo.profile_url}}></Image>
+  //     <View style={styles.containerText}>
+  //     <Text style={styles.username}>{data.username}</Text>
+  //     <Text>city: {data.city}</Text>
+  //     <Text>postal code: {data.postal_code}</Text>
+  //     <Text>contact: {data.phone_number}</Text>
+  //     <Text>email: {data.email}</Text>
+  //     <Text>rating: {data.reputation}</Text>
+  //   </View>
         
-        <Text style={styles.username}>{data.username}</Text>
-        <Text>city: {data.city}</Text>
-        <Text>postal code: {data.postal_code}</Text>
-        <Text>contact: {data.phone_number}</Text>
-        <Text>email: {data.email}</Text>
-        <Text>rating: {data.reputation}</Text>
-        </View>
-   <TouchableOpacity onPress={signOut}>
-          <Text style={styles.logout}>Log out</Text>
-        </TouchableOpacity>
+  //   <TouchableOpacity onPress={signOut}>
+  //     <Text style={styles.logout}>Log out</Text>
+  //   </TouchableOpacity>
 
-    <View style={{ flexDirection: 'row', width: '100%' }}>
-      <View style={styles.button}>
-          <TouchableOpacity  onPress={() => setCurrentView("myBooks")}>
-          <Text>My Books</Text>       
-          </TouchableOpacity>         
-      </View>      
-      <View  style={styles.button}>
-          <TouchableOpacity  onPress={() =>setCurrentView("likedBooks")} >
-            <Text>Liked Books</Text>
-          </TouchableOpacity>
-      </View>
-    </View>
+  //   <View style={{ flexDirection: 'row', width: '100%' }}>
+  //     <View style={styles.button}>
+  //         <TouchableOpacity  onPress={() => setCurrentView("myBooks")}>
+  //         <Text>My Books</Text>       
+  //         </TouchableOpacity>         
+  //     </View>      
+  //     <View  style={styles.button}>
+  //         <TouchableOpacity  onPress={() =>setCurrentView("likedBooks")} >
+  //           <Text>Liked Books</Text>
+  //         </TouchableOpacity>
+  //     </View>
+  //   </View>
 
-      <View>
-        {currentView === "myBooks"? (
-          <MyBooks book={{
-              id: 0,
-              user_id: 0,
-              book_id: '',
-              is_available: false,
-              isbn: '',
-              condition: 0,
-              image_url: '',
-              thumbnail_url: '',
-              title: '',
-              author: ''
-            }} BookItem={undefined}/>
-        ): (<LikedBooks/>)}
-      </View>
-    </View>
-    </View>
+  //   <View>
+  //     {currentView === "myBooks"? (
+  //       <MyBooks book={{
+  //           id: 0,
+  //           user_id: 0,
+  //           book_id: '',
+  //           is_available: false,
+  //           isbn: '',
+  //           condition: 0,
+  //           image_url: '',
+  //           thumbnail_url: '',
+  //           title: '',
+  //           author: ''
+  //         }} BookItem={undefined}/>
+  //     ): (<LikedBooks/>)}
+  //   </View>
+  // </View>
+  // </View> */}
   )
 }
 
 
-const styles = StyleSheet.create(
-  {
-  logout:{
-    width: 100,
-    textAlign: 'center',
-    backgroundColor: '#5B8B8B',
-    padding: 1,
+const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    borderRadius:25,
-    marginBottom:"1%"
+    padding: 5,
+  },
+  profile__container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    width: '100%',
+    height: '35%',
+    padding: 7,
+    borderRadius: 25,
+  },
+  profile__column1: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '50%',
+  },
+  profile__column2: {
+    justifyContent: 'center',
+    width: '100%',
   },
   image:{
     width:100,
     height:100,
+    borderWidth: 10,
     borderRadius:50,
-    
   },
-  username:{
-    fontSize: 20,
+  starImg: {
+    width: 25,
+    height: 25,
+    resizeMode: 'cover',
   },
-  containerText: {
-    marginLeft: "40%",
-    marginTop: "-26%",
-    textAlign: "left",
-    fontFamily: "Montserrat",
-    fontWeight: 'bold',
-    lineHeight: 1.5,
-    display: "flex"
+  strRating: {
+    flexDirection: 'row',
   },
-  profile:{
-    margin: 10
+  books__container: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '100%',
   },
-  profileContainer:{
-    margin:15
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
+  books__shelf: {
     justifyContent: 'center',
-    width: '100%'
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  button: {
-    flex: 1,
-    width: '100%', 
-    height: 40,
-    backgroundColor: '#5B8B8B',
-    padding: 10,
     alignItems: 'center',
-    borderRadius:25
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  book__card: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 250,
+    width: 116,
+    margin: 5,
+  },
+  book__title: {
+    marginTop: 10,
+    fontWeight: 'bold'
+  },
+  thumbnail: {
+    marginTop: 5,
+    borderRadius: 8,
+    height: 170,
+    width: 100,
+  },
+  toggleButton: {
+    width: '49%'
   },
 });
 
