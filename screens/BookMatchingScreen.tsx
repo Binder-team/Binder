@@ -12,7 +12,8 @@ import Animated, {
   interpolate,
   withSpring,
   runOnJS, 
-  event
+  event,
+  withDelay
 } from 'react-native-reanimated';
 import { Book } from '../types';
 import { getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword } from '../components/userTokenManager';
@@ -71,8 +72,8 @@ const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 const [currentCard, setCurrentCard] = useState(bookData[currentIndex]);
 const [matchState, setMatchState] = useState();
 const currentProfile = bookData[currentIndex];
-const nextProfile = bookData[nextIndex];
-
+const nextProfile = bookData[currentIndex+1];
+const translateX = useSharedValue(0);
 const[profile, setProfile] = useState(currentProfile);
 
 
@@ -80,7 +81,6 @@ const handleFetch = async() => {
     const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/swipe/${getUsername()}`);
     const data = await res.data;
     setBookData(data);
-    //console.log(data);  
   };
 
   useEffect(()=>{
@@ -91,17 +91,17 @@ const handleFetch = async() => {
       //handlerFunction
   async function onSwipeRight (bookObj: Book) {
   const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
-   bookObj  );
-   console.log("MATCH ", match.data);
-   console.log("swipe right: ", bookObj.title)
-   if( match.data > 0){
+  bookObj  );
+  console.log("MATCH ", match.data);
+  console.log("swipe right: ", bookObj.title)
+  if( match.data > 0){
     Alert.alert(`You got a new match!`)
     setMatchState(match.data);
-   }
+  }
 }
 const onSwipeLeft =( bookObj: Book )=> {
-       console.log('swipe left', bookObj.title)
-     }
+      console.log('swipe left', bookObj.title)
+    }
 
 
 const {width: screenWidth} = useWindowDimensions();
@@ -126,7 +126,7 @@ const nextCardStyle = useAnimatedStyle(() => ({
   transform: [
     {
     scale: interpolate(sharedValue.value,
-       [-hiddenSreenWidth, 0, hiddenSreenWidth],
+      [-hiddenSreenWidth, 0, hiddenSreenWidth],
         [1, 0.7, 1]
         ),
     },  
@@ -149,14 +149,14 @@ const nopeStyle = useAnimatedStyle(()=> ({
 
 const gestureHandler = useAnimatedGestureHandler ({
   onStart: (_, context: AnimatedGHContext) =>{
-    //console.log('Touch start');
     context.startX = sharedValue.value;
   },
   onActive: (event, context: AnimatedGHContext) => {
     sharedValue.value = event.translationX;
     //console.log('Touch x: ', event.translationX);
+
   },
-  onEnd: (event)=>{
+  onEnd: (event) => {
 
     if(Math.abs(event.velocityX )< SWIPE_VELOCITY) {
       sharedValue.value =withSpring(0);
@@ -165,35 +165,31 @@ const gestureHandler = useAnimatedGestureHandler ({
     sharedValue.value = withSpring(
       hiddenSreenWidth * Math.sign(event.velocityX),
       {},
-      () =>runOnJS(setCurrentIndex)(currentIndex + 1)
-      );  
-      
-
+      () =>runOnJS(setCurrentIndex)(currentIndex + 1), 
+      );
       //function for matching ... should be on screen 
-
-   
       
-     const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
-    onSwipe && runOnJS(onSwipe)(currentProfile);
-  },
-}
-);
+    const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
 
-useEffect(() => {
+    onSwipe && runOnJS(onSwipe)(currentProfile);
+    runOnJS(setNextIndex)(nextIndex + 1);
+  },
+});
+
+  useEffect(() => {
   sharedValue.value = 0;
-  setNextIndex(currentIndex + 1)
-  console.log(currentIndex);
-}, [currentIndex, sharedValue]);
+  }, [currentIndex, translateX]);
+
 
 
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <View style={styles.pageContainer}>
-        {nextProfile && ( 
+        {nextProfile && (
       <View style={styles.nextCardContainer}>
         <Animated.View style={[styles.animatedCard,nextCardStyle]}>
-           <BookCard bookData={nextProfile} index={nextIndex}/>
+          <BookCard bookData={nextProfile} index={currentIndex+1}/>
         </Animated.View>
         </View>
         )}
@@ -220,7 +216,6 @@ useEffect(() => {
          <Ionicons name="heart-circle-outline" size={50} color="#32CD32"  style={{padding: 10, marginLeft: 30}}/>
        </View>
       </View>    
-    
     </GestureHandlerRootView>
   );
 }
@@ -268,6 +263,5 @@ const styles = StyleSheet.create({
   }
   
 });
-
 
 export default Swipe;
