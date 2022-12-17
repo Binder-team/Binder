@@ -1,13 +1,14 @@
 import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import { Dimensions } from 'react-native';
+import { onChange } from 'react-native-reanimated';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export type Props = {
-    labelValue: string;
-    placeholderText: string;
+    labelValue: string,
+    placeholderText: string,
 }
 
 export default function FormInput ({ labelValue, placeholderText, ...rest }: Props) {
