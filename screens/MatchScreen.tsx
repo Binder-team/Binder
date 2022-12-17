@@ -274,10 +274,11 @@ const styles = StyleSheet.create({
     fontWeight: '400'
   },
   root: {
+    backgroundColor: '#283747',
     width: '100%',
     height: '100%',
     flex: 1,
-    padding: 5,
+    padding: 0,
     justifyContent: 'center',
   },
   title: {
@@ -292,7 +293,7 @@ const styles = StyleSheet.create({
     
   },
   matchContainer:{
-    borderRadius: 20,
+    backgroundColor: '#283747',
     width:'100%',
     height: '100%',
     justifyContent: 'center',
@@ -319,7 +320,7 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     flexWrap: 'wrap',
     backgroundColor:'#F3F3F3',
-    borderRadius: 20,
+    borderRadius: 15,
     marginTop: 16,
     marginBottom: 20,
     paddingBottom:50,
