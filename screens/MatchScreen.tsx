@@ -21,6 +21,7 @@ export type Props = {
 export default function MatchScreen({ navigation }) {
   const [acceptTrade, setAcceptTrade] = useState<boolean>(false);
   const [matchedBooks, setMatchedBooks] = useState<[]>([]);
+  const [alteredArray, setAlteredArray] = useState<[]>(matchedBooks);
   const [currentView, setCurrentView] = useState<string>("all matches");
   const [numberMatches, setNumberMatches] = useState<number>();
   // const [rerender, setRerender] = useState<number>();
@@ -71,7 +72,7 @@ export default function MatchScreen({ navigation }) {
   
   const sendCancel = async (item) => {
     try {
-      //sends a post request to cancel exchange
+      
       const put = await axios.put(
         `https://binderapp-server.herokuapp.com/api/matches/deny/user/${getUsername()}`, item
       );
@@ -79,6 +80,10 @@ export default function MatchScreen({ navigation }) {
       console.log("cancelled exchange")
       counter++;
       setNumberMatches(data);
+      const index = matchedBooks.indexOf(item);
+      const removed = matchedBooks.splice(index, 1)
+      setMatchedBooks([...removed]);
+        
       // setRerender(data);
     } catch (err) {
       console.log(err);
@@ -168,6 +173,7 @@ export default function MatchScreen({ navigation }) {
             title="deny"
             onPress={()=>{
               sendCancel(item)
+              console.log("array index: ",matchedBooks.indexOf(item))
             }}
             >Deny</Button>
           </TouchableOpacity>
@@ -207,8 +213,7 @@ export default function MatchScreen({ navigation }) {
                 <FlatList
                   data={matchedBooks}
                   renderItem={tradeCard}  
-                  
-                  
+                  extraData={matchedBooks}
                   ItemSeparatorComponent={itemSeparator}
                 />            
                 
