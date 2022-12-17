@@ -4,58 +4,11 @@ import { Book } from '../types';
 import axios from 'axios';
 import { getUsername } from './userTokenManager';
 
-
-
-//Fake data 
-const profiles = [
-  {
-    name:"Count of Monte Cristo",
-    condition: "1",
-    pic:"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn2.penguin.com.au%2Fcovers%2Foriginal%2F9789380028675.jpg&f=1&nofb=1&ipt=82eb3a11bd69c8e84218313a81993eb033b2f3d6997979e94ea97548923218fd&ipo=images"
-  },
-  {
-    name:"Hitch Hiker's Guide to the Galaxy",
-    condition: "10",
-    pic:"../assets/images/splash.png"
-  },
-  {
-    name:"Foundation",
-    condition: "5",
-    pic:"https://www.exampleimagelink2.png"
-  },
-  {
-    name:"Wild Cards",
-    condition: "3",
-    pic:"https://www.exampleimagelink2.png"
-  }
-]
-
-
-const books = [
-
-  {
-    "id": 0,
-    "user_id": 3,
-    "book_id": "0",
-    "is_available": true,
-    "isbn": "9780439023481",
-    "condition": 7,
-    "image_url": null,
-    "thumbnail_url": "http://books.google.com/books/content?id=Yz8Fnw0PlEQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-    "title": "The Hunger Games",
-    "author": "Suzanne Collins"
-  }
-
-]
-
-
-
- 
    //===IMPORTANT===
   let index = 0;  //index should be declared outside of App to avoid duplicates.  
     //It's here for now and resets every time this loads
 
- const BookCard =(props) => {
+const BookCard =(props) => {
   const [bookData, setBookData] = useState([
     {
         "id": 7,
@@ -94,22 +47,34 @@ const books = [
         "author": "Haruki Murakami"
     }
   ]);
-  //const [profile, setProfile] = useState(bookData[0]);  //where all user's books get stored, as an array
+
+//changing to work by shift (or popping) the previous entry.  Should stop flicker
 
   const handleFetch = async() => {
     const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/swipe/${getUsername()}`);
     const data = await res.data;
     setBookData(data);
-
-    //console.log(data);   
   };
+
+const processNextBook = async() => {
+  console.log("💦💤");
+  console.log(bookData[0].title)
+  bookData.shift();
+  console.log(bookData[0].title);
+  console.log("💦💤");
+};
 
   useEffect(()=>{
     handleFetch();
+    //console.log(bookData[0].title);
+    //console.log(bookData);
+    console.log("❣");
   },[]);
 
-  const [bookPosition, setBookPosition] = useState(bookData[0]);
-
+  useEffect(()=>{
+    //processNextBook();
+    console.log("BookCards L76",props.index);
+  },[props.index]);
 
     return (
         <View style={styles.card}>
@@ -117,18 +82,18 @@ const books = [
                 source={{uri: `${bookData[ props.index ]["thumbnail_url"]}` }}
                 style={styles.cardImage}>
                     <View style={styles.cardInner}>
-                       
+                      
                     </View>
             </ImageBackground>  
 
-             <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
+            <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
                         <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>          
         </View>
-    )
- }
+    );
+};
 
 
- const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     card: {
         width: '100%',
         height: '100%',
@@ -164,7 +129,7 @@ const books = [
         color: 'black',
         lineHeight: 25,
     }   
- });
+});
 
- export default BookCard;
+export default BookCard;
 
