@@ -17,6 +17,8 @@ import Animated, {
 import { Book } from '../types';
 import { getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword } from '../components/userTokenManager';
 import { Alert } from 'react-native';
+import Like from '../assets/images/LIKE.png';
+import Nope from '../assets/images/nope.png';
 
 
 
@@ -131,6 +133,15 @@ const nextCardStyle = useAnimatedStyle(() => ({
   )
 }))
 
+
+const likeStyle = useAnimatedStyle(()=>({
+  opacity: interpolate(sharedValue.value, [0, hiddenSreenWidth/5], [0, 1])
+}));
+
+const nopeStyle = useAnimatedStyle(()=> ({
+  opacity: interpolate(sharedValue.value, [0, -hiddenSreenWidth/5], [0, 1])
+}));
+
 const gestureHandler = useAnimatedGestureHandler ({
   onStart: (_, context: AnimatedGHContext) =>{
     //console.log('Touch start');
@@ -155,7 +166,7 @@ const gestureHandler = useAnimatedGestureHandler ({
 
       //function for matching ... should be on screen 
 
-      
+   
       
      const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
     onSwipe && runOnJS(onSwipe)(currentProfile);
@@ -163,13 +174,13 @@ const gestureHandler = useAnimatedGestureHandler ({
 }
 );
 
-
-
 useEffect(() => {
   sharedValue.value = 0;
   setNextIndex(currentIndex + 1)
   console.log(currentIndex);
 }, [currentIndex, sharedValue]);
+
+
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
@@ -185,6 +196,16 @@ useEffect(() => {
         {currentProfile && (
       <PanGestureHandler onGestureEvent={gestureHandler} >
           <Animated.View style={[styles.animatedCard,cardStyle]}>
+            <Animated.Image 
+                source={Like}
+                style={[styles.like, {left: 10}, likeStyle]}
+                resizeMode="contain"
+           />
+           <Animated.Image
+               source={Nope}
+               style={[styles.like, {right: 10}, nopeStyle]}
+               resizeMode="contain"
+               />
               <BookCard bookData={currentProfile}  index={currentIndex}/> 
           </Animated.View> 
       </PanGestureHandler>
@@ -202,7 +223,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    //backgroundColor:'red'
+    backgroundColor:'#F3F3F3',
   },
   animatedCard: {
     width: '90%',
@@ -212,14 +233,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     //backgroundColor:'blue',
   },
+  
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
     //width: '100%',
     //height: '70%',
     justifyContent: 'center',
     alignItems: 'center',
+   // backgroundColor:'red',
   
   },
+  like: {
+    width: 120,
+    height: 120,
+    position: 'absolute',
+    top: 5,
+    zIndex: 1,
+    elevation: 50,
+  },
+  
 });
 
 

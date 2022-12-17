@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Text, View, ImageBackground, StyleSheet, Image} from 'react-native';
+import {Text, View,  StyleSheet, Image} from 'react-native';
 import { Book } from '../types';
 import axios from 'axios';
 import { getUsername } from './userTokenManager';
@@ -113,13 +113,14 @@ const books = [
 
     return (
         <View style={styles.card}>
-            <ImageBackground 
+            <Image 
+                style={styles.cardImage}
                 source={{uri: `${bookData[ props.index ]["thumbnail_url"]}` }}
-                style={styles.cardImage}>
+                //defaultSource={{uri: `${bookData[ props.index ]["thumbnail_url"]}` }}
+                 />
                     <View style={styles.cardInner}>
                        
-                    </View>
-            </ImageBackground>  
+                    </View>  
 
              <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
                         <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>          
@@ -132,37 +133,44 @@ const books = [
     card: {
         width: '100%',
         height: '100%',
-        borderRadius: 10,
-        backgroundColor: '#fefefe',
+        borderRadius: 15,
+       backgroundColor: '#fefefe',
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
-            height: 5,
+            height: 10,
         },
         shadowOpacity: 0.36,
         shadowRadius: 6.68,
-        elevation: 11,  
+        elevation: 5,  
         
     },
     cardImage: {
         width: '100%',
-        height: '100%',
-        borderRadius: 10,
-        overflow: 'hidden',
-        justifyContent: 'flex-end',
+        height: 400,
+        //borderRadius: 10,
+        //overflow: 'hidden',
+        justifyContent: 'center',
+        alignItems: 'center',
+        resizeMode: 'contain',
+        marginTop: 5,
     },
     cardInner: {
-        padding: 10,
+        padding: 3,
     },
     title: {
-        fontSize: 30,
+        fontSize: 20,
         color: 'black',
         fontWeight: 'bold',
+        padding: 5,
+        marginLeft: 10,
     }, 
     description: {
         fontSize: 18,
         color: 'black',
-        lineHeight: 25,
+        lineHeight: 20,
+        padding: 5,
+        marginLeft: 10,
     }   
  });
 
