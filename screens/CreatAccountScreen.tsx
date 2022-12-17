@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect, ChangeEvent } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, Button } from 'react-native';
-import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
 import {  
     getUsername, 
     setUsername, 
@@ -16,6 +14,8 @@ import {
 import axios from 'axios';
 import Navigation from '../navigation';
 import useAuth from '../hooks/useAuth';
+import ButtonForm from '../components/ButtonForm';
+import FormInput from '../components/FormInput';
 
 
 export default function CreateAccountScreen({navigation}) {
@@ -33,54 +33,44 @@ export default function CreateAccountScreen({navigation}) {
     
   
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Enter a username:</Text>
-      <TextInput
-        placeholder='enter username'
+     <View style={styles.container}>
+      <Text style={styles.title}>Create an Account</Text>
+      <FormInput
+        placeholder='Enter Username'
         onChange={(e)=>{
           setUsername(e.nativeEvent.text)
         }}
-      >
-      </TextInput>
-      <Text style={styles.title}>Enter a password:</Text>
-      <TextInput
-        placeholder='password'
+      />
+      <FormInput
+        placeholder='Password'
         secureTextEntry={true} 
         onChange={(e)=>setPassword(e.nativeEvent.text)
        }
-      >
-      </TextInput>
-      <Text style={styles.title}>City:</Text>
-      <TextInput
-        placeholder='city'
+      />
+      <FormInput
+        placeholder='City'
         onChange={(e)=>setCity(e.nativeEvent.text)
        }
-      ></TextInput>
-    <Text style={styles.title}>Postal code:</Text>
-      <TextInput
+      />
+      <FormInput
         placeholder='i.e 123-4567'
         onChange={(e)=>setPostalCode(e.nativeEvent.text)
        }
-      ></TextInput>
+     />
       
-      <Text style={styles.title}>Email:</Text>
-      <TextInput
-        placeholder='email'
+      <FormInput
+        placeholder='E-mail'
         onChange={(e)=>setEmail(e.nativeEvent.text)
        }
-      >
-      </TextInput>
-     
-      
-    
-    
+      />    
     <TouchableOpacity>
-        <Button title='SIGN UP' onPress={newUser}/>
+        <ButtonForm title='Sign up' onPress={newUser}/>
     </TouchableOpacity>
     <TouchableOpacity>
-        <Button title='go back' onPress={()=> navigation.goBack()}/>
+        <ButtonForm title='Go back' onPress={()=> navigation.goBack()}/>
     </TouchableOpacity>
 </View>
+
   );
 }
 
@@ -89,10 +79,12 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
+      backgroundColor:'#F3F3F3',
     },
     title: {
       fontSize: 20,
       fontWeight: 'bold',
+      padding: 20,
     },
     separator: {
       marginVertical: 30,
