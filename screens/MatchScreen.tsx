@@ -13,6 +13,7 @@ import axios from 'axios';
 import { Card } from 'react-native-paper';
 import ConfirmExchange from '../components/ConfirmExchange';
 import { RootStackParamList } from '../types';
+
 export type Props = {
   book: Book,
   BookItem: Function,
@@ -55,8 +56,6 @@ export default function MatchScreen({ navigation }) {
                 style={styles.avatarContainer}
                 source={{
                   uri: item.thumbnail1,
-                  width: 50,
-                  height: 50,
                 }}
               />
               <Text style = {styles.bookTitle}>{item.title1}</Text>
@@ -72,8 +71,6 @@ export default function MatchScreen({ navigation }) {
                 style={styles.avatarContainer}
                 source={{
                   uri: item.thumbnail2,
-                  width: 50,
-                  height: 50,
                 }}
               />
               <Text style = {styles.bookTitle}>{item.title2}</Text>
@@ -95,7 +92,7 @@ export default function MatchScreen({ navigation }) {
                       setItem(item)
                     }}
                   >
-                    <Text style={styles.buttonText}>see contact details</Text>
+                    <Text style={styles.buttonText}>See contact details</Text>
                   </TouchableOpacity>
                 ) : (item.username1===getUsername() && item.didUser1Accept || item.username2===getUsername() && item.didUser2Accept
                 ) ? (
@@ -192,15 +189,12 @@ export default function MatchScreen({ navigation }) {
   };
   
   return (
-    <SafeAreaView style={styles.root}>
-      
-      
-        
-      <View style= {styles.matchContainer}>
+    <SafeAreaView >    
+      <View style= {styles.pageContainer}>
         <View>
           {currentView === "all matches"? ( 
             <View>
-              <Text title = "matches" style = {styles.title}>Your matches:</Text>
+              <Text title = "matches" style = {styles.title}>My matches:</Text>
                 <ScrollView>{matchedBooks}</ScrollView>
             </View>
       
@@ -227,13 +221,48 @@ export default function MatchScreen({ navigation }) {
 
 
 const styles = StyleSheet.create({
+  pageContainer:{
+    backgroundColor: '#F9F2ED',
+    width:'100%',
+    height: '100%',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    textAlign: 'center',
+    padding: 5,
+    paddingBottom: 10,
+  },
+   item: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 13,
+    flexWrap: 'wrap',
+    backgroundColor:'#F9F2ED',
+    marginTop: 0,
+    marginBottom: 0,
+    paddingBottom: 30,
+    paddingHorizontal: 20
+  }, 
+   bookContainer: {
+    borderRadius: 20,
+    height: '90%',
+    width: '50%',
+    alignItems: 'center',
+    backgroundColor:'#F9F2ED',
+    resizeMode:'cover',
+    borderColor: 'black',
+  },
   avatarContainer: {
-    backgroundColor: 'D9D9D9',
-    borderRadius: 10,
-    height: 120,
-    width: 120,
+    backgroundColor: '#F9F2ED',
+    borderRadius: 2,
+    height: 170,
+    width: 130,
     justifyContent: 'center',
     alignItems: 'center',
+    resizeMode: 'cover',
+    marginTop: 5,
+    
   },
   bookTitle:{
     fontSize:16,
@@ -253,20 +282,19 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 10, 
     height: 40,
-    backgroundColor:'#3C1874',
+    backgroundColor:'#3AB0FF',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
     marginHorizontal: 5,
     elevation:5,
-    shadowColor: 'black',
-  },
-  
+    shadowColor: '#000',
+  }, 
   denyButton: {
     flex: 1,
     width: 10, 
     height: 40,
-    backgroundColor:'#932432',
+    backgroundColor:'#F87474',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -276,17 +304,9 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 15,
-    color: '#F3F3F3',
+    color: 'white',
     lineHeight: 18,
     fontWeight: '400'
-  },
-  root: {
-    backgroundColor: '#283747',
-    width: '100%',
-    height: '100%',
-    flex: 1,
-    padding: 0,
-    justifyContent: 'center',
   },
   title: {
     width:'100%',
@@ -295,52 +315,19 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     paddingHorizontal:10,
-    color:'#F3F3F3',
-    backgroundColor:'#283747',
+    color:'#DC5F00',
+    backgroundColor:'#F9F2ED',
     paddingBottom:10
   },
-  separator: {
-    
+  separator: {  
   },
-  matchContainer:{
-    backgroundColor: '#283747',
-    width:'100%',
-    height: '100%',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    textAlign: 'center',
-    padding: 5,
-    paddingBottom: 10,
-  }, 
-  bookContainer: {
-    borderRadius: 20,
-    height: '90%',
-    width: '50%',
-    // justifyContent: 'center',
-    // flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor:'#F3F3F3',
-  },
-  item: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 13,
-    flexWrap: 'wrap',
-    backgroundColor:'#F3F3F3',
-    borderRadius: 15,
-    marginTop: 0,
-    marginBottom: 0,
-    paddingBottom:30,
-    paddingHorizontal:10
-  }, 
    text: {
     alignItems:'flex-start',
-    justifyContent: 'center',
     fontSize: 14, 
-    fontWeight: '500', 
-    alignSelf: 'center'
+    fontWeight: '350', 
+    alignSelf: 'flex-start',
+    marginLeft: 30,
+
    }
    
 });
