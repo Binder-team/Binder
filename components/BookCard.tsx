@@ -3,6 +3,7 @@ import {Text, View,  StyleSheet, Image} from 'react-native';
 import { Book } from '../types';
 import axios from 'axios';
 import { getUsername } from './userTokenManager';
+import { Card } from 'react-native-paper';
 
    //===IMPORTANT===
   let index = 0;  //index should be declared outside of App to avoid duplicates.  
@@ -77,26 +78,36 @@ const processNextBook = async() => {
   },[props.index]);
 
     return (
-        <View style={styles.card}>
+      <View style={styles.container}>
+        <Card style={styles.card}>
             <Image 
                 style={styles.cardImage}
-                source={{uri: `${bookData[ props.index ]["thumbnail_url"]}` }}
-                //defaultSource={{uri: `${bookData[ props.index ]["thumbnail_url"]}` }}
+                source={{uri: `${bookData[ props.index ]["image_url"]}` }}
                  />
-                    <View style={styles.cardInner}>
-                       <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
-                        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text>    
-                    </View>  
+                     
                         
+        </Card>
+        <View style={styles.cardInner}>
+         <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
+        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text> 
         </View>
+                          
+                    </View> 
+        
     );
 };
 
 
 const styles = StyleSheet.create({
+
+  container:{
+    flex:1,
+    width:'100%',
+    height:'100%'
+  },
     card: {
       //position:"absolute",
-      flex: 1,
+      //flex: 1,
       width: '100%',
       height: '100%',
       borderRadius: 10,
@@ -109,13 +120,13 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.36,
       shadowRadius: 6.68,
       elevation: 5,
-      //borderColor: 'lightgrey',
+      borderColor: 'lightgrey',
         
         
     },
     cardImage: {
         width: '100%',
-        height: 400,
+        height: '100%',
         borderRadius: 10,
         overflow: 'hidden',
         justifyContent: 'center',
@@ -124,7 +135,8 @@ const styles = StyleSheet.create({
         //marginTop: 2,
     },
     cardInner: {
-        padding: 1,
+        justifyContent:'center',
+        alignItems:'center',
     },
     title: {
         fontSize: 20,
