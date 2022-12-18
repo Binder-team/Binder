@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Platform, StyleSheet, Image, TouchableOpacity, View, Text, Button, Linking } from 'react-native';
+import { Platform, StyleSheet, Image, TouchableOpacity, View, Text, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BookCard from '../components/BookCard';
 import { Book } from '../types';
 import { getUsername } from '../components/userTokenManager';
-
 import EditScreenInfo from '../components/EditScreenInfo';
 // import {} from '../components/Themed';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
-import { Card } from 'react-native-paper';
+import { Card, Button } from 'react-native-paper';
 import MatchScreen from '../screens/MatchScreen';
 import ReputationModal from './ReputationModal';
 import { openInbox } from 'react-native-email-link';
@@ -74,7 +73,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
     \n\n${item.title1}, \nby ${item.author1}, \nin ${item.condition1} condition\n\nPlease let me know you preferred method of exchanging. I look forward to hearing back from you!\n\nWith regards, \n\n${item.username2}`
     
     return (
-        <View style={styles.item}> 
+      <View style={styles.item}> 
         <View style={styles.backContainer}>
           <TouchableOpacity 
               style={styles.backButton}
@@ -99,10 +98,10 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                 }}
               />  
                 <Text style = {styles.bookTitle}>Title: {item.title1}</Text>
-                <Text>Author: {item.author1}</Text>
-                <Text>Condition: {item.condition1}</Text>
-                <Text>User: {item.username1}</Text>
-                <Text>Contact:</Text> 
+                <Text style={styles.text}>Author: {item.author1}</Text>
+                <Text style={styles.text}>Condition: {item.condition1}</Text>
+                <Text style={styles.text}>User: {item.username1}</Text>
+                <Text style={styles.emailText}>Send an email:</Text> 
                 <View style = {styles.emailContainer}>
                   <TouchableOpacity style={styles.emailButton}>
                     <Text 
@@ -113,7 +112,6 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                     </Text>
                 </TouchableOpacity>
                 </View>
-                
             </View>  
             ):(
             <View style={styles.bookContainer}>
@@ -126,10 +124,10 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                   }}
                 />
                 <Text style = {styles.bookTitle}>Title:{item.title2}</Text>
-                <Text>Author:{item.author2}</Text>
-                <Text>Condition:{item.condition2}</Text>
-                <Text>User:{item.username2}</Text>
-                <Text>Contact:</Text>
+                <Text style={styles.text}>Author:{item.author2}</Text>
+                <Text style={styles.text}>Condition:{item.condition2}</Text>
+                <Text style={styles.text}>User:{item.username2}</Text>
+                <Text style={styles.emailText}>Send an email: </Text>
                 <View style = {styles.emailContainer}>
                   <TouchableOpacity style={styles.emailButton}>
                   <Text 
@@ -149,10 +147,12 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
             
             
             <View style = {styles.buttonContainer}>
-              <TouchableOpacity style={styles.button}>
-                <Text title="Confirm Exchange" 
-                style={styles.buttonText}
-                onPress={() => setOpenModal(true)}>Confirm your exchange</Text>
+              <TouchableOpacity style={styles.confirmButton}>
+                  <Button title="Confirm Exchange" 
+                  
+                  onPress={() => setOpenModal(true)}>
+                    <Text style={styles.buttonText}>Confirm exchange</Text>
+                  </Button>
                   <ReputationModal 
                       item={item} 
                       text='Rate your exchange!' 
@@ -164,7 +164,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                   ></ReputationModal>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <TouchableOpacity
+                    <Button
 
                       style={styles.denyButton}
                         title = 'cancel exchange'
@@ -172,7 +172,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                         }
                     >
                         <Text style={styles.buttonText}>Cancel</Text>
-                    </TouchableOpacity>
+                    </Button>
                 </TouchableOpacity>
             </View>
         </View>
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
   button:{
     flex: 1,
     width: 100, 
-    height: 20,
+    height: 40,
     backgroundColor:'#3C1874',
     justifyContent: 'center',
     alignItems: 'center',
@@ -194,11 +194,23 @@ const styles = StyleSheet.create({
     elevation:5,
     shadowColor: 'black',
   },  
+  confirmButton:{
+    flex: 1,
+    width: 100,
+    height: 45,
+    backgroundColor:'#3AB0FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius:5,
+    marginHorizontal: 5,
+    elevation:5,
+    shadowColor: 'black',
+  },
   denyButton: {
     flex: 1,
-    width: 100, 
+    width: 100,
     height: 40,
-    backgroundColor:'#932432',
+    backgroundColor:'#F87474',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -210,7 +222,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 100, 
     height: 20,
-    backgroundColor:'#3C1874',
+    backgroundColor:'#3AB0FF',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -221,22 +233,27 @@ const styles = StyleSheet.create({
   backContainer:{
     display:'flex',
     justifyContent:'center',
-    alignContent:'center',
+    alignItem:'center',
+    
     // backgroundColor:'blue',
     width:200,
-    height:40
+    height:50,
+    paddingBottom:15,
   },
   buttonText: {
-    fontSize: 15,
+    fontSize: 13,
     color: '#F3F3F3',
     lineHeight: 18,
-    fontWeight: '400',
-    
-  },buttonContainer:{
+    fontWeight: '500',
+  },
+  buttonContainer:{
+    height:50,
+    width:300,
     flexDirection: 'row',
     marginHorizontal:20,
     justifyContent: 'space-evenly',
     backgroundColor:'#F3F3F3',
+    paddingTop:5
   },
   root: {
     width: '100%',
@@ -248,13 +265,19 @@ const styles = StyleSheet.create({
   avatarContainer: {
     backgroundColor: 'D9D9D9',
     borderRadius: 10,
-    height: 120,
-    width: 120,
+    height: 175,
+    width: 130,
+    objectFit: 'contain',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom:20
   },
   bookTitle:{
-      fontWeight:'bold'
+      fontWeight:'500',
+      width:'100%',
+      color:'black',
+      fontSize: 18,
+      paddingBottom:10
     },
   title: {
     alignSelf: 'flex-start',
@@ -263,20 +286,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   emailContainer:{
+    alignItems:'center',
+    marginTop:10,
     height: 50,
-    width: '50%',
-
-
+    width: 250,
   },
   emailButton: {
     flex: 1,
-    width: 100, 
+    width: '100%', 
     height: 5,
-    backgroundColor:'#3C1874',
+    backgroundColor:'#3AB0FF',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
-    marginHorizontal: 5,
+    marginHorizontal: 10,
+    marginBottom:15,
     elevation:5,
     shadowColor: 'black',
   },
@@ -299,7 +323,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F3F3F3',
+    backgroundColor: '#F3F3F3'
   },
   item: {
     width: '100%',
@@ -311,13 +335,23 @@ const styles = StyleSheet.create({
     backgroundColor:'#F3F3F3',
     
     }, 
-    text: {
-      alignItems:'flex-start',
-      justifyContent: 'center',
-      fontSize: 14, 
-      fontWeight: '500', 
-      alignSelf: 'center'
-    },
+  text: {
+    alignItems:'flex-start',
+    justifyContent: 'center',
+    fontSize: 17, 
+    fontWeight: '400', 
+    alignSelf: 'center',
+    color:'black'
+  },
+  emailText:{
+    alignItems:'flex-start',
+    justifyContent: 'center',
+    fontSize: 17, 
+    fontWeight: '500', 
+    alignSelf: 'center',
+    color:'black',
+    paddingTop: 15
+  }
     // app: {
     // width: '100%',
     // height: '100%',

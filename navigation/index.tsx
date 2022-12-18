@@ -43,7 +43,7 @@ export default function Navigation({
       <AuthProvider 
         setAuthenticated={setAuthenticated}
         authenticated={authenticated}
-      >
+    >
         <RootNavigator/>
       </AuthProvider>
     </NavigationContainer>
@@ -120,7 +120,7 @@ function BottomTabNavigator() {
         options={({
           title: "Home",
           tabBarIcon: ({color, size}) => {
-            return <Icon name="home" />
+            return <Icon name="home"/>
           }
           
         })}
