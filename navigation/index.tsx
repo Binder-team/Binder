@@ -122,7 +122,7 @@ function BottomTabNavigator() {
         options={({
           title: "Home",
           tabBarIcon: ({color, size}) => {
-            return <Icon name="home" />
+            return <Icon name="home"/>
           }
           
         })}

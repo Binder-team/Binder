@@ -211,8 +211,8 @@ const gestureHandler = useAnimatedGestureHandler ({
       </PanGestureHandler>
       )}
        <View style={styles.vectorContainer}>
-        <Entypo name="cross" size={30} color="#FF4500" style={{padding: 10, marginRight: 90}} />
-         <Entypo name="check" size={30} color="#32CD32"  style={{padding: 10, marginLeft: 90}}/>
+        <Entypo name="cross" size={50} color="#FF4500" style={{padding: 10, marginRight: 100}} />
+         <Entypo name="check" size={50} color="#32CD32"  style={{padding: 10, marginLeft: 100}}/>
        </View>
       </View>    
     </GestureHandlerRootView>
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    backgroundColor:'#F3F3F3',
+    backgroundColor:'#F9F2ED',
   },
   animatedCard: {
     position:'absolute',
@@ -237,16 +237,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     //marginTop: 10,
     //backgroundColor:'blue',
-  },
-  
+  }, 
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
-    //width: '100%',
-    //height: '70%',
     justifyContent: 'center',
     alignItems: 'center',
-   // backgroundColor:'red',
-  
   },
   like: {
     width: 120,
