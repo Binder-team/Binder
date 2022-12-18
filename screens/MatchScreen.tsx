@@ -13,6 +13,7 @@ import axios from 'axios';
 import { Card } from 'react-native-paper';
 import ConfirmExchange from '../components/ConfirmExchange';
 import { RootStackParamList } from '../types';
+import { ScreenContainer } from 'react-native-screens';
 
 export type Props = {
   book: Book,
@@ -83,28 +84,30 @@ export default function MatchScreen({ navigation }) {
             </View>
             <View style = {styles.buttonContainer}>
                 {(item.didUser1Accept && item.didUser2Accept) 
-                ? (<TouchableOpacity 
+                ? (<Button
                     activeOpacity={.3}
                     style = {styles.button}
                     title="see contact details"
+                    mode="contained"
                     onPress={()=>{
                       setCurrentView("confirm exchange view")
                       setItem(item)
                     }}
                   >
-                    <Text style={styles.buttonText}>See contact details</Text>
-                  </TouchableOpacity>
+                    <Text style={styles.buttonText}>Contact</Text>
+                  </Button>
                 ) : (item.username1===getUsername() && item.didUser1Accept || item.username2===getUsername() && item.didUser2Accept
                 ) ? (
-                  <TouchableOpacity 
+                  <Button
                         activeOpacity={.3}
                         style={styles.button}
-                        title="pending"> 
+                        title="pending"
+                        mode="contained"> 
                       <Text style={styles.buttonText}>Pending</Text>
-                  </TouchableOpacity>
+                  </Button>
                 ):( 
 
-                  <TouchableOpacity 
+                  <Button
                     activeOpacity={.3}
                     style={styles.button}
                     title="accept"
@@ -115,9 +118,9 @@ export default function MatchScreen({ navigation }) {
                     }
                   > 
                   <Text style={styles.buttonText}>Accept</Text>
-                  </TouchableOpacity>
+                  </Button>
                 )}
-                <TouchableOpacity
+                <Button
                   activeOpacity={0.6}
                   style={styles.denyButton}
                   title="deny"
@@ -126,7 +129,7 @@ export default function MatchScreen({ navigation }) {
                   }}
                   >
                     <Text style={styles.buttonText}>Deny</Text>
-                  </TouchableOpacity>
+                  </Button>
             
               </View> 
           </View>
@@ -277,36 +280,40 @@ const styles = StyleSheet.create({
     marginHorizontal:20,
     justifyContent: 'space-evenly',
     backgroundColor:'#F3F3F3',
+    marginTop: 5,
   },
   button: {
     flex: 1,
-    width: 10, 
-    height: 40,
-    backgroundColor:'#3AB0FF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius:5,
+    //width: 10, 
+    //height: 35,
+    backgroundColor:'#1EAE98',
+    //justifyContent: 'center',
+   // alignItems: 'center',
+   // borderRadius:5,
     marginHorizontal: 5,
     elevation:5,
     shadowColor: '#000',
+   // mode:'contained'
   }, 
   denyButton: {
     flex: 1,
-    width: 10, 
-    height: 40,
-    backgroundColor:'#F87474',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius:5,
+    //width: 10, 
+    //height: 35,
+    backgroundColor:'#D82148',
+    //justifyContent: 'center',
+    //alignItems: 'center',
+    //borderRadius:5,
     marginHorizontal: 5,
     elevation:5,
-    shadowColor: 'black',
+    shadowColor: '000',
   },
   buttonText: {
     fontSize: 15,
     color: 'white',
     lineHeight: 18,
-    fontWeight: '400'
+    fontWeight: '400',
+    resizeMode: 'contained'
+
   },
   title: {
     width:'100%',
@@ -315,7 +322,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     paddingHorizontal:10,
-    color:'#DC5F00',
+    color:'#283747',
     backgroundColor:'#F9F2ED',
     paddingBottom:10
   },

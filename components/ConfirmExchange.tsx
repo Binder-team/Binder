@@ -75,7 +75,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
     return (
       <View style={styles.item}> 
         <View style={styles.backContainer}>
-          <TouchableOpacity 
+          <Button
               style={styles.backButton}
                 title = 'back'
                 onPress={()=> 
@@ -83,7 +83,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                 }
             >
               <Text style={styles.buttonText}>Back</Text>
-            </TouchableOpacity>
+            </Button>
         </View>
             
           <>
@@ -103,14 +103,14 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                 <Text style={styles.text}>User: {item.username1}</Text>
                 <Text style={styles.emailText}>Send an email:</Text> 
                 <View style = {styles.emailContainer}>
-                  <TouchableOpacity style={styles.emailButton}>
+                  <Button style={styles.emailButton}>
                     <Text 
                     style={styles.buttonText}
                     onPress={
                       () => Linking.openURL(`mailto:${item.email1}?subject=${emailTitle}&x&change&&body=${emailBodyUser1}`) }>
                       {item.email1}
                     </Text>
-                </TouchableOpacity>
+                </Button>
                 </View>
             </View>  
             ):(
@@ -129,14 +129,14 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                 <Text style={styles.text}>User:{item.username2}</Text>
                 <Text style={styles.emailText}>Send an email: </Text>
                 <View style = {styles.emailContainer}>
-                  <TouchableOpacity style={styles.emailButton}>
+                  <Button style={styles.emailButton}>
                   <Text 
                   style={styles.buttonText}
                   onPress={
                     () => Linking.openURL(`mailto:${item.email2}?subject=${emailTitle}&x&change&&body=${emailBodyUser2}`) }>
                     {item.email2}
                   </Text>
-                </TouchableOpacity>
+                </Button>
                 </View>
                 
                 
@@ -184,9 +184,9 @@ export default ConfirmExchange;
 const styles = StyleSheet.create({
   button:{
     flex: 1,
-    width: 100, 
-    height: 40,
-    backgroundColor:'#3C1874',
+    //width: 100, 
+    //height: 40,
+    backgroundColor:'#1EAE98',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -196,9 +196,9 @@ const styles = StyleSheet.create({
   },  
   confirmButton:{
     flex: 1,
-    width: 100,
-    height: 45,
-    backgroundColor:'#3AB0FF',
+    //width: 100,
+    //height: 45,
+    backgroundColor:'#1EAE98',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -208,9 +208,9 @@ const styles = StyleSheet.create({
   },
   denyButton: {
     flex: 1,
-    width: 100,
-    height: 40,
-    backgroundColor:'#F87474',
+    //width: 100,
+    //height: 40,
+    backgroundColor:'#D82148',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -221,8 +221,8 @@ const styles = StyleSheet.create({
   backButton: {
     flex: 1,
     width: 100, 
-    height: 20,
-    backgroundColor:'#3AB0FF',
+    height: 10,
+    backgroundColor:'#1EAE98',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -234,8 +234,7 @@ const styles = StyleSheet.create({
     display:'flex',
     justifyContent:'center',
     alignItem:'center',
-    
-    // backgroundColor:'blue',
+    backgroundColor:'#F9F2ED',
     width:200,
     height:50,
     paddingBottom:15,
@@ -252,7 +251,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal:20,
     justifyContent: 'space-evenly',
-    backgroundColor:'#F3F3F3',
+    backgroundColor:'#F9F2ED',
     paddingTop:5
   },
   root: {
@@ -260,10 +259,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     justifyContent: 'center',
-    // backgroundColor:'green',
+    //backgroundColor:'green',
   },
   avatarContainer: {
-    backgroundColor: 'D9D9D9',
+    backgroundColor: '#D9D9D9',
     borderRadius: 10,
     height: 175,
     width: 130,
@@ -277,7 +276,8 @@ const styles = StyleSheet.create({
       width:'100%',
       color:'black',
       fontSize: 18,
-      paddingBottom:10
+      paddingBottom:10,
+      marginLeft: 30,
     },
   title: {
     alignSelf: 'flex-start',
@@ -290,12 +290,13 @@ const styles = StyleSheet.create({
     marginTop:10,
     height: 50,
     width: 250,
+    backgroundColor:'#F9F2ED'
   },
   emailButton: {
     flex: 1,
     width: '100%', 
     height: 5,
-    backgroundColor:'#3AB0FF',
+    backgroundColor:'#1EAE98',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -313,17 +314,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     textAlign: 'center',
-    backgroundColor:'red',
+    //backgroundColor:'red',
   }, 
   bookContainer: {
-    //backgroundColor: 'D9D9D9',
     borderRadius: 5,
     height: 400,
     width: '100%',
     justifyContent: 'center',
     // flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F3F3F3'
+    backgroundColor: '#F9F2ED'
   },
   item: {
     width: '100%',
@@ -332,16 +332,18 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal:15,
     flexWrap: 'wrap',
-    backgroundColor:'#F3F3F3',
+    backgroundColor:'##F9F2ED',
     
     }, 
   text: {
     alignItems:'flex-start',
-    justifyContent: 'center',
+    //justifyContent: 'center',
     fontSize: 17, 
     fontWeight: '400', 
-    alignSelf: 'center',
-    color:'black'
+    alignSelf: 'flex-start',
+    color:'black',
+    marginLeft: 30
+
   },
   emailText:{
     alignItems:'flex-start',
