@@ -1,6 +1,7 @@
 // import { FontAwesome } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {NavigationContainer, DefaultTheme, DarkTheme,} from "@react-navigation/native";
+//import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs"
+import {NavigationContainer, DefaultTheme, DarkTheme, TabActions,} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { useState } from "react";
@@ -18,12 +19,14 @@ import CreateAccountScreen from "../screens/CreatAccountScreen";
 import ConfirmExchange from "../components/ConfirmExchange";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
 import { AuthProvider } from "../hooks/useAuth";
+import { BottomNavigation, Text } from "react-native-paper";
 // import LinkingConfiguration from "./LinkingConfiguration";
 
 
 //vector-icons
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Icon2 from "react-native-vector-icons/Ionicons";
+
 
 export default function Navigation({
   colorScheme,
@@ -96,14 +99,13 @@ function RootNavigator() {
 //the nav bar at the bottom is this
 
 
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
-
-
-
+const BottomTab = createMaterialBottomTabNavigator();
 
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+
+  
 
   return (
     <BottomTab.Navigator
@@ -115,10 +117,10 @@ function BottomTabNavigator() {
       <BottomTab.Screen
         name="FindBookTab"
         component={BookMatchingScreen}
-        options={({ navigation }: RootTabScreenProps<"FindBookTab">) => ({
+        options={({
           title: "Home",
           tabBarIcon: ({color, size}) => {
-            return <Icon name="home"/>
+            return <Icon name="home" />
           }
           
         })}
@@ -157,6 +159,8 @@ function BottomTabNavigator() {
     </BottomTab.Navigator>
     
   );
+
+  
 }
 
 
