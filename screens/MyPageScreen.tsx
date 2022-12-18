@@ -142,13 +142,14 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
                 <TouchableOpacity>
                   <Button icon="account-edit">Edit</Button>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={signOut}>
-                  <Button icon="logout">Logout
+                <TouchableOpacity>
+                  <Button 
+                  onPress={signOut}
+                  icon="logout">Logout
                   </Button>
                 </TouchableOpacity>
-
               </Card.Actions>
-            </View>
+            </View> 
           </View>
         </Card>
         <ToggleButton.Row onValueChange={value => setToggleView(value)} value={toggleView}>

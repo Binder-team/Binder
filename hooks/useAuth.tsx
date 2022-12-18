@@ -40,10 +40,10 @@ export const AuthProvider = ({children, setAuthenticated, authenticated}) => {
             Alert.alert("Could not find user, please try again!")
         }
     }
-const signOut = () => {
-    resetToken();
-    setAuthenticated(false);
-}
+    const signOut = () => {
+        resetToken();
+        setAuthenticated(false);
+    }
 
 const newUser = async () => {
     try{
