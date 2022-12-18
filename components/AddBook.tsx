@@ -4,8 +4,10 @@ import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { getUsername } from "./userTokenManager";
 import SelectDropdown from "react-native-select-dropdown";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Card, Searchbar } from "react-native-paper";
+import { Book } from "../types";
 type BookData = {
     isbn: string;
     title: string;
@@ -14,10 +16,11 @@ type BookData = {
 
 
 const AddBooks = () => {
-  const [bookResults, setBookResults] = useState<[]>([]);
-  const [bookTitle, setBookTitle] = useState('');
+  const [bookResults, setBookResults] = useState([]);
+  const [bookTitleQuery, setBookTitleQuery] = useState<string>('');
   const [condition, setCondition] = useState('');
   const conditions = ["Like new", "Great", "Very good", "Fine", "Poor"];
+  const [searchQuery, setSearchQuery] = useState('');
   
   const { control, handleSubmit, formState: { errors } } = useForm<BookData>({
     defaultValues: {
@@ -28,130 +31,88 @@ const AddBooks = () => {
       });
     async function fetchBooks (): Promise<void> {
       const key = 'AIzaSyBN1ZgA46ECvqACR6mvRPOSSRbHmdtKCjI';
-      const fetchedBooksResult = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitle}&printType=books&orderBy=relevance&key=${key}`);
+      const fetchedBooksResult = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitleQuery}&printType=books&orderBy=relevance&key=${key}`);
       const booksResult = fetchedBooksResult.data.items;
       const booksArray = booksResult.slice(0, 2);
       
-      const books = await Promise.all(booksArray.map(async (book) => {
+      const books = await Promise.all(booksArray.map(async (book : Book) => {
         const fetchedBook = await axios.get(`https://www.googleapis.com/books/v1/volumes/${book.id}?key=${key}`);
         const bookData = fetchedBook.data.volumeInfo;
         const default_image = 'https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fleadershiftinsights.com%2Fwp-content%2Fuploads%2F2019%2F07%2Fno-book-cover-available.jpg';
-        const id = fetchedBook.data.id;
-        const title = bookData.title;
-        const author = bookData.authors ? bookData.authors.join(', ') : 'n/a';
-        const image = bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : default_image) : default_image;
-        const thumbnail = bookData.imageLinks ? (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image) : default_image;
         const bookObj = {
-          book_id: id,
-          title: title,
+          book_id: fetchedBook.data.id,
+          title: bookData.title,
           isAvailable: true,
           condition: condition,
-          author: author,
-          image_url: image,
-          thumbnail_url: thumbnail,
+          author: bookData.authors ? bookData.authors.join(', ') : 'n/a',
+          image_url: bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : default_image) : default_image,
+          thumbnail_url: bookData.imageLinks ? (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image) : default_image,
         }
         return bookObj;
       }));
-      setBookResults(books);
+      const bookCards = books.map((book: Book) => {
+        return (
+          <Card style={styles.book__card__container} mode="outlined">
+            <View style={styles.book__card}>
+              <View  style={styles.book__image__container}>
+                <Image
+                  style={styles.thumbnail}
+                  source={{uri: book.thumbnail_url}}
+                  />
+              </View>
+              <View style={styles.book__info__container}>
+                <View style={styles.book__info}>
+                    <Text style={styles.titleText}>{book.title}</Text>
+                    <Text>{book.author}</Text>
+                </View>
+                <View style={styles.add__button__container}>
+                  <Button 
+                    style={styles.add__button}
+                    title="+"
+                    onPress={(e) => {
+                      e.preventDefault();
+                      onSubmit(book);
+                  }}></Button>
+                </View>
+              </View>
+            </View>
+        </Card>
+      )});
+      setBookResults(bookCards);
     }
+
     
-    async function onSubmit (book): Promise<void> {
+    async function onSubmit (book : Book): Promise<void> {
       try {
-          await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, book);
-          Alert.alert(book.title, ' has been added!');
+        await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, book);
+        Alert.alert(book.title, ' has been added!');
       } catch (error) {
         console.log(error + ':fire:')
       }
     }
 
-    const renderBook = ({item}) => (
-      <View style={styles.book__card__container}>
-        <View 
-          style={styles.book__card}
-          >
-          <Image
-            style={styles.thumbnail}
-            source={{uri: item.thumbnail_url}}
-          />
-          <View
-            style={styles.book__info}>
-              <Text>{item.title}</Text>
-              <Text>{item.author}</Text>
-          </View>
-        </View>
-        <View style={styles.add__button__container}>
-          <Button 
-            style={styles.add__button}
-            title="+"
-            onPress={(e) => {
-              e.preventDefault();
-              onSubmit(item);
-            }}
-          ></Button>
-        </View>
-      </View>
-    );
+    const onChangeSearch = (query: string) => setBookTitleQuery(query);
     
-    const itemSeparator = () => {
-      return <View style={styles.separator} />;
-    };
-
     return (
       <View style={styles.input__container}>
-          <View style={styles.book__search}>
-            <View style={styles.input}>
-              <Controller
-                  control={control}
-                  rules={{
-                  required: true,
-                  }}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                      placeholder='Enter your book title'
-                      onBlur={onBlur}
-                      onChangeText={(text) => setBookTitle(text)}
-                      defaultValue={bookTitle}
-                  />
-                  )}
-                name="isbn"
-              />
-            </View>
-
-            <View style={styles.condition}>
-              <Text>Set Condition: </Text>
-              <Controller
-                  control={control}
-                  rules={{
-                  required: true,
-                  }}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                  <SelectDropdown
-                        style = {styles.dropDown}
-                        data={conditions}
-                        onSelect={(selectedItem, index)=>{
-                          setCondition(selectedItem);
-                        }}
-                        />
-                  )}
-                  name="condition"
+        <View style={styles.title__input__container}>
+          <View style={styles.title__input} >
+            <Searchbar
+              placeholder="Enter book title"
+              onChangeText={onChangeSearch}
+              value={bookTitleQuery}
+              onIconPress={fetchBooks}
             />
-            </View>
           </View>
-          <TouchableOpacity>
-            <Button title='SEARCH' onPress={fetchBooks}/>
-          </TouchableOpacity>
-          <SafeAreaView>
-            <FlatList 
-              style={styles.book__results}
-              persistentScrollbar
-              data={bookResults}
-              numColumns={2}
-              renderItem={renderBook}
-              ItemSeparatorComponent={itemSeparator}
-              showsHorizontalScrollIndicator={false}
-              >
-            </FlatList>
-          </SafeAreaView>
+        </View >
+        <View style={styles.book__results__container}>
+          {bookResults}
+          <ScrollView
+            style={styles.book__results}
+          >
+          </ScrollView>
+
+        </View>
       </View>
   );
 };
@@ -162,58 +123,79 @@ const styles = StyleSheet.create({
     margin: 0,
     flexDirection: 'column',
     width: '100%',
-    height: '90%',
+    height: '100%',
   },
-  book__search: {
-    flexDirection: 'row',
-    height: '15%',
+  title__input__container: {
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '100%',
+    height: '15%',
+    backgroundColor: '#479cff',
   },
-  book__results: {
+  title__input: {
+    height: 50,
+    width: '60%',
+  },
+  book__results__container: {
     width: '100%',
     height: '80%',
-    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+   book__results: {
+    flexDirection: 'row',
+    width: '100%',
+    height: '100%',
   },
   condition: {
     width: '50%',
   },
   book__card__container: {
-    width: '50%',
-    height: 350,
+    width: '98%',
     flexDirection: 'column',
+    borderRadius: 10,
+    margin: 5,
   },
   book__card: {
-    flexDirection: 'column',
+    flexDirection: 'row',
     width: '100%',
-    height: '85%',
-    borderWidth: .2,
-    margin: 5,
-    borderRadius: 10,
+    height: 230,
+    padding: 5,
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+  },
+  book__image__container: {
+    justifyContent: 'center',
+    width: '35%',
+  },
+  book__info__container: {
+    flexDirection: 'column',
+    width: '65%',
+    height: 200,
   },
   book__info: {
     width: '100%',
+    height: 130,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  book__buttons__container: {
+    width: '100%',
+    height: 70,
     alignItems: 'center',
     justifyContent: 'center',
   },
   thumbnail: {
-    marginTop: 5,
     borderRadius: 8,
     height: 200,
     width: 120,
-  },
-  dropDown:{
   },
   baseText: {
     fontFamily: "Cochin",
   },
   titleText: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: "bold",
-  },
-  input:{
-    width: '50%',
   },
   add__button__container: {
     marginTop: 0,
@@ -225,10 +207,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     height: 10,
     width: 10,
-  },
-  separator: {
-    height: 2,
-    width: '100%',
   },
 });
 
