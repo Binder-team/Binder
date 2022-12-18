@@ -19,7 +19,7 @@ import CreateAccountScreen from "../screens/CreatAccountScreen";
 import ConfirmExchange from "../components/ConfirmExchange";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
 import { AuthProvider } from "../hooks/useAuth";
-import { BottomNavigation, Text } from "react-native-paper";
+import { BottomNavigation, Provider, Text } from "react-native-paper";
 // import LinkingConfiguration from "./LinkingConfiguration";
 
 
@@ -36,17 +36,19 @@ export default function Navigation({
   
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   return (
-    <NavigationContainer
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-    // linking={LinkingConfiguration}
-    >
-      <AuthProvider 
-        setAuthenticated={setAuthenticated}
-        authenticated={authenticated}
-    >
-        <RootNavigator/>
-      </AuthProvider>
-    </NavigationContainer>
+    <Provider>
+      <NavigationContainer
+        theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+      // linking={LinkingConfiguration}
+      >
+        <AuthProvider 
+          setAuthenticated={setAuthenticated}
+          authenticated={authenticated}
+        >
+          <RootNavigator/>
+        </AuthProvider>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

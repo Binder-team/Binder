@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { TouchableOpacity, Text, TextInput, StyleSheet, View, Button, Image, Alert} from "react-native";
-import { useForm, Controller } from 'react-hook-form';
+import { Text, StyleSheet, View, Image, Alert } from "react-native";
 import axios from 'axios';
 import { getUsername } from "./userTokenManager";
-import SelectDropdown from "react-native-select-dropdown";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { Card, Searchbar } from "react-native-paper";
+import { ScrollView } from "react-native-gesture-handler";
+import { Card, Searchbar, Button, DefaultTheme} from "react-native-paper";
 import { Book } from "../types";
+import DropDown from "react-native-paper-dropdown";
 type BookData = {
     isbn: string;
     title: string;
@@ -18,17 +16,32 @@ type BookData = {
 const AddBooks = () => {
   const [bookResults, setBookResults] = useState([]);
   const [bookTitleQuery, setBookTitleQuery] = useState<string>('');
-  const [condition, setCondition] = useState('');
-  const conditions = ["Like new", "Great", "Very good", "Fine", "Poor"];
-  const [searchQuery, setSearchQuery] = useState('');
-  
-  const { control, handleSubmit, formState: { errors } } = useForm<BookData>({
-    defaultValues: {
-          isbn: '',
-          title: '',
-          condition: ''
-        }
-      });
+  const [condition, setCondition] = useState<string>('');
+  const [isConditionSet, setIsConditionSet] = useState<boolean>(false);
+  const [showDropDown, setShowDropDown] = useState(false);
+  const conditionList = [
+    {
+      label: "Like New",
+      value: "Like New",
+    },
+    {
+      label: "Great",
+      value: "Great",
+    },
+    {
+      label: "Good",
+      value: "Good",
+    },
+    {
+      label: "Fine",
+      value: "Fine",
+    },
+    {
+      label: "Poor",
+      value: "Poor",
+    }
+  ];
+
     async function fetchBooks (): Promise<void> {
       const key = 'AIzaSyBN1ZgA46ECvqACR6mvRPOSSRbHmdtKCjI';
       const fetchedBooksResult = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitleQuery}&printType=books&orderBy=relevance&key=${key}`);
@@ -65,14 +78,13 @@ const AddBooks = () => {
                     <Text style={styles.titleText}>{book.title}</Text>
                     <Text>{book.author}</Text>
                 </View>
-                <View style={styles.add__button__container}>
+                <View style={styles.book__buttons__container}>
                   <Button 
-                    style={styles.add__button}
-                    title="+"
-                    onPress={(e) => {
-                      e.preventDefault();
-                      onSubmit(book);
-                  }}></Button>
+                    style={{width: '100%'}}
+                    mode="contained"
+                    onPress={() => onSubmit(book, condition)}>
+                    Add
+                  </Button>
                 </View>
               </View>
             </View>
@@ -82,13 +94,22 @@ const AddBooks = () => {
     }
 
     
-    async function onSubmit (book : Book): Promise<void> {
-      try {
-        await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, book);
-        Alert.alert(book.title, ' has been added!');
-      } catch (error) {
-        console.log(error + ':fire:')
+    async function onSubmit (book : Book, condition: string): Promise<void> {
+      if (condition === '') {
+        console.log(condition)
+        Alert.alert('Please state book condition')
+      } else {
+        try {
+          await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, book);
+          Alert.alert(book.title, ' has been added!');
+        } catch (error) {
+          console.log(error)
+        }
       }
+    }
+    const setConditions = (value: string) => {
+      setCondition(value);
+      console.log(condition);
     }
 
     const onChangeSearch = (query: string) => setBookTitleQuery(query);
@@ -97,21 +118,39 @@ const AddBooks = () => {
       <View style={styles.input__container}>
         <View style={styles.title__input__container}>
           <View style={styles.title__input} >
-            <Searchbar
-              placeholder="Enter book title"
-              onChangeText={onChangeSearch}
-              value={bookTitleQuery}
-              onIconPress={fetchBooks}
-            />
+            <View style={{width: '60%', marginRight: 10}}>
+              <Searchbar
+                placeholder="Enter book title"
+                onChangeText={onChangeSearch}
+                value={bookTitleQuery}
+                onIconPress={fetchBooks}
+              />
+            </View>
+            <View style={{width: '30%'}}>
+              <DropDown
+                label={"Condition"}
+                mode={"outlined"} 
+                theme={DefaultTheme}
+                visible={showDropDown}
+                showDropDown={() => setShowDropDown(true)}
+                onDismiss={() => setShowDropDown(false)}
+                value={condition}
+                setValue={(_value:string) => setConditions(_value)}
+                list={conditionList}
+                dropDownStyle={{
+                  width:'80%',
+                  height: 50
+              }}
+              />
+            </View>
           </View>
         </View >
         <View style={styles.book__results__container}>
-          {bookResults}
           <ScrollView
             style={styles.book__results}
-          >
+            >
+            {bookResults}
           </ScrollView>
-
         </View>
       </View>
   );
@@ -119,7 +158,6 @@ const AddBooks = () => {
 
 const styles = StyleSheet.create({
   input__container: {
-    border: 0,
     margin: 0,
     flexDirection: 'column',
     width: '100%',
@@ -129,21 +167,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    height: '15%',
+    height: '20%',
     backgroundColor: '#479cff',
   },
   title__input: {
-    height: 50,
-    width: '60%',
+    flexDirection: 'row',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   book__results__container: {
     width: '100%',
     height: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
    book__results: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     width: '100%',
     height: '100%',
   },
@@ -159,54 +198,41 @@ const styles = StyleSheet.create({
   book__card: {
     flexDirection: 'row',
     width: '100%',
-    height: 230,
+    height: 170,
     padding: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
   book__image__container: {
     justifyContent: 'center',
-    width: '35%',
+    width: '30%',
   },
   book__info__container: {
     flexDirection: 'column',
-    width: '65%',
-    height: 200,
+    width: '70%',
+    height: 170,
   },
   book__info: {
     width: '100%',
-    height: 130,
+    height: 100,
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   book__buttons__container: {
     width: '100%',
     height: 70,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 5,
   },
   thumbnail: {
     borderRadius: 8,
-    height: 200,
-    width: 120,
-  },
-  baseText: {
-    fontFamily: "Cochin",
+    height: 165,
+    width: 100,
   },
   titleText: {
-    fontSize: 15,
-    fontWeight: "bold",
-  },
-  add__button__container: {
-    marginTop: 0,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  add__button: {
-    borderRadius: 100,
-    height: 10,
-    width: 10,
+    fontSize: 20,
+    fontWeight: "900",
   },
 });
 
