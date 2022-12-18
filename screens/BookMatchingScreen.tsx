@@ -18,8 +18,7 @@ import Animated, {
 import { Book } from '../types';
 import { getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword } from '../components/userTokenManager';
 import { Alert } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Foundation from 'react-native-vector-icons/Foundation';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 
 
@@ -212,8 +211,8 @@ const gestureHandler = useAnimatedGestureHandler ({
       </PanGestureHandler>
       )}
        <View style={styles.vectorContainer}>
-        <Foundation name="x-circle" size={50} color="#FF4500" style={{padding: 10, marginRight: 30}} />
-         <Ionicons name="heart-circle-outline" size={50} color="#32CD32"  style={{padding: 10, marginLeft: 30}}/>
+        <Entypo name="cross" size={30} color="#FF4500" style={{padding: 10, marginRight: 90}} />
+         <Entypo name="check" size={30} color="#32CD32"  style={{padding: 10, marginLeft: 90}}/>
        </View>
       </View>    
     </GestureHandlerRootView>
@@ -260,7 +259,8 @@ const styles = StyleSheet.create({
   vectorContainer: {
     alignItems:'flex-end',
     flexDirection: 'row', 
-    paddingTop: 600,
+    paddingTop: 670,
+   
     
   }
   
