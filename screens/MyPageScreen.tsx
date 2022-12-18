@@ -1,6 +1,6 @@
 import React, { useEffect, useState }from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import { Button, Card, DataTable, Title, ToggleButton } from 'react-native-paper';
+import { Avatar, Button, Card, DataTable, Title, ToggleButton } from 'react-native-paper';
 import { Book, Rating, User } from '../types';
 import { getUsername} from '../components/userTokenManager';
 import { RootStackScreenProps } from '../types';
@@ -132,23 +132,30 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
             </Card.Content>
 
             <View style={styles.profile__column2}>
-              <Button icon="pin">Location</Button>
-              <Text>{userInfo.city}</Text>
-              <Text>postal code: {userInfo.postal_code}</Text>
-              <Button icon="email">Email</Button>
-              <Text>{userInfo.email}</Text>
-              <Card.Actions>
-
-                <TouchableOpacity>
-                  <Button icon="account-edit">Edit</Button>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                  <Button 
-                  onPress={signOut}
-                  icon="logout">Logout
-                  </Button>
-                </TouchableOpacity>
-              </Card.Actions>
+              <View style={styles.profile__column2__top}>
+                <View style={{justifyContent:'center',alignItems: 'flex-start' , flexDirection: 'row'}}>
+                  <Avatar.Icon size={24} icon="pin" />
+                  <Text>  {userInfo.city}</Text>
+                  <Text>  {userInfo.postal_code}</Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <Avatar.Icon size={24} icon="email" />
+                  <Text>  {userInfo.email}</Text>
+                </View>
+              </View>
+              <View style={styles.profile__column2__bottom}>
+                <Card.Actions>
+                  <TouchableOpacity>
+                    <Button icon="account-edit">Edit</Button>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Button 
+                    onPress={signOut}
+                    icon="logout">Logout
+                    </Button>
+                  </TouchableOpacity>
+                </Card.Actions>
+              </View>
             </View> 
           </View>
         </Card>
@@ -194,7 +201,8 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    padding: 5,
+    padding: 0,
+    margin: 0,
   },
   profile__container: {
     alignItems: 'center',
@@ -203,22 +211,35 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '35%',
     padding: 7,
-    borderRadius: 25,
   },
   profile__column1: {
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
     flexDirection: 'row',
     width: '50%',
   },
   profile__column2: {
-    justifyContent: 'center',
+    flexDirection: 'column',
+    width: '120%',
+    height: '100%'
+  },
+  profile__column2__top: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
     width: '100%',
+    height: '60%',
+  },
+  profile__column2__bottom: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
+    width: '100%',
+    height: '40%',
   },
   image:{
     width:100,
     height:100,
     borderWidth: 10,
-    borderRadius:50,
+    borderRadius:25,
   },
   starImg: {
     width: 25,
@@ -252,9 +273,9 @@ const styles = StyleSheet.create({
   book__card: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 250,
+    height: 230,
     width: 116,
-    margin: 5,
+    margin: 7,
   },
   book__title: {
     marginTop: 10,
