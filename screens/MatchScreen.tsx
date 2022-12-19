@@ -103,7 +103,8 @@ export default function MatchScreen({ navigation }) {
                       activeOpacity={.3}
                       style={styles.button}
                       title="pending"
-                      mode="contained"> 
+                      mode="contained"
+                      style={styles.pendingButton}> 
                       <Text style={styles.buttonText}>Pending</Text>
                   </Button>
                 ):( 
@@ -230,7 +231,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   pageContainer:{
-    backgroundColor: '#F9F2ED',
+    backgroundColor: '#FBF0DF',
     width:'100%',
     height: '100%',
     justifyContent: 'center',
@@ -248,7 +249,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     flexWrap: 'wrap',
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF',
     marginTop: 0,
     marginBottom: 0,
     paddingBottom: 30,
@@ -257,12 +258,12 @@ const styles = StyleSheet.create({
     // borderColor: 'red',
     // borderWidth:2
   }, 
-   bookContainer: {
+  bookContainer: {
     borderRadius: 20,
     height: '90%',
     width: '50%',
     alignItems: 'center',
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF',
     resizeMode:'cover',
     // borderColor: 'black',
     // borderWidth:2
@@ -290,7 +291,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal:20,
     justifyContent: 'space-evenly',
-    backgroundColor:'#F3F3F3',
+    backgroundColor:'#FBF0DF',
     marginTop: 5,
   },
   button: {
@@ -310,13 +311,28 @@ const styles = StyleSheet.create({
     flex: 1,
     //width: 10, 
     //height: 35,
-    backgroundColor:'#eb6149',
+    backgroundColor:'#db5153',
     //justifyContent: 'center',
     //alignItems: 'center',
     //borderRadius:5,
     marginHorizontal: 5,
     elevation:5,
     shadowColor: '000',
+  },
+  pendingButton:{
+    flex: 1,
+    //width: 10, 
+    //height: 35,
+    backgroundColor:'#97bcb8',
+    color:'white',
+    //justifyContent: 'center',
+   // alignItems: 'center',
+   // borderRadius:5,
+    marginHorizontal: 5,
+    elevation:5,
+    shadowColor: '#000',
+    disabled: 'true'
+   // mode:'contained'
   },
   buttonText: {
     fontSize: 15,
@@ -334,7 +350,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingHorizontal:10,
     color:'#283747',
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF',
     paddingBottom:10
   },
   separator: {  

@@ -114,7 +114,7 @@ function BottomTabNavigator() {
       inactiveColor="white"
       labelStyle={{ fontSize: 20 }}
       screenOptions={{
-        tabBarColor: '#f0a781',
+        tabBarColor: '#e89064',
        // taBarStyle: { height: 400}
         //tabBarActiveTintColor: Colors[colorScheme].tint,
       }}

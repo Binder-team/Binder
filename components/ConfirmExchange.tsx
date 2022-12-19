@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     flex: 1,
     //width: 100, 
     //height: 40,
-    backgroundColor:'#1EAE98',
+    backgroundColor:'#1e86ac',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     flex: 1,
     //width: 100,
     //height: 40,
-    backgroundColor:'#D82148',
+    backgroundColor:'#db5153',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     display:'flex',
     justifyContent:'center',
     alignItem:'center',
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF',
     width:200,
     height:50,
     paddingBottom:15,
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal:20,
     justifyContent: 'space-evenly',
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF',
     paddingTop:5
   },
   root: {
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     marginTop:10,
     height: 50,
     width: 250,
-    backgroundColor:'#F9F2ED'
+    backgroundColor:'#FBF0DF'
   },
   emailButton: {
     flex: 1,
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     textAlign: 'center',
-    //backgroundColor:'red',
+    backgroundColor:'#FBF0DF',
   }, 
   bookContainer: {
     borderRadius: 5,
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F9F2ED'
+    backgroundColor: '#FBF0DF'
   },
   item: {
     width: '100%',
@@ -333,7 +333,9 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal:15,
     flexWrap: 'wrap',
-    backgroundColor:'##F9F2ED',
+    backgroundColor:'#FBF0DF',
+    elevation:5,
+    borderRadius:10
     
     }, 
   text: {
