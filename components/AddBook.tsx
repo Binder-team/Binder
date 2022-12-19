@@ -58,8 +58,8 @@ const AddBooks = () => {
           isAvailable: true,
           condition: condition,
           author: bookData.authors ? bookData.authors.join(', ') : 'n/a',
-          image_url: bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : default_image) : default_image,
-          thumbnail_url: bookData.imageLinks ? (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image) : default_image,
+          image_url: bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image)) : default_image,
+          thumbnail_url: bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image)) : default_image,
         }
         return bookObj;
       }));
