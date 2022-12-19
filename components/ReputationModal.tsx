@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, View } from "./Themed";
-import { Modal, SafeAreaView, StyleSheet, Button, TouchableOpacity, Image, Alert } from 'react-native'
+import { Modal, SafeAreaView, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native'
+import { IconButton, Button } from "react-native-paper";
 import { getUsername } from "./userTokenManager";
 import axios from "axios";
 
@@ -88,8 +89,8 @@ const ReputationModal = (props: ReputationModalProps, ) => {
                         <Text style={styles.text}>
                             {defaultRating + ' / ' + maxRating.length}
                         </Text>
-                        <TouchableOpacity
-                            activeOpacity={0.7}
+                        <Button
+                            icon={"check"}
                             style={styles.button}
                             onPress={() => {
                                 sendConfirmExchange(item);
@@ -97,10 +98,8 @@ const ReputationModal = (props: ReputationModalProps, ) => {
                                 onClose();
                             }
                         }
-                        >
-                            <Text>CONFIRM EXCHANGE</Text>
-                        </TouchableOpacity>
-                        <Button title={buttonText} onPress={onClose}></Button>
+                        >Confirm</Button>
+                        <Button onPress={onClose}>Cancel</Button>
                     </View>
                 </View>
             </View>
@@ -111,6 +110,8 @@ const ReputationModal = (props: ReputationModalProps, ) => {
 const styles = StyleSheet.create({
     modal: {
         flex: 1,
+        width: '100%',
+        height: '50%',
         backgourndColor: 'blue',
         margin: 10,
     },
