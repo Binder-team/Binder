@@ -2,7 +2,7 @@ import React, { useEffect, useState }from 'react';
 import { View, StyleSheet, Image, SafeAreaView } from 'react-native';
 import { Avatar, Button, Card, DataTable, Title, ToggleButton } from 'react-native-paper';
 import { Book, Rating } from '../types';
-import { getUsername} from '../components/userTokenManager';
+import { getUsername, rerender} from '../components/userTokenManager';
 import { RootStackScreenProps } from '../types';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
@@ -42,7 +42,8 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     getUserBooks();
     getUserInfo();
     getLikedBooks();
-  },[]);
+    console.log('profile page books refreshed')
+  },[rerender]);
 
   const getUserRating = async () => {
     const fetchedRatings = await axios.get(`https://binderapp-server.herokuapp.com/api/reputation/user/average/${getUsername()}`);
