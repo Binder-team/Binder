@@ -1,14 +1,13 @@
 import React, { useEffect, useState }from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, SafeAreaView } from 'react-native';
 import { Avatar, Button, Card, DataTable, Title, ToggleButton } from 'react-native-paper';
-import { Book, Rating, User } from '../types';
+import { Book, Rating } from '../types';
 import { getUsername} from '../components/userTokenManager';
 import { RootStackScreenProps } from '../types';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
 import { Text } from '../components/Themed';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { DataTableHeader } from 'react-native-paper/lib/typescript/components/DataTable/DataTableHeader';
 
 const starImgFilled = 'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
 const starImgCorner = 'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
@@ -122,8 +121,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
                               item <= defaultRating
                                   ? {uri: starImgFilled}
                                   : {uri: starImgCorner}
-                          }>
-                        </Image>
+                        }/>
                       );
                   })
                 }
@@ -159,6 +157,9 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
             </View> 
           </View>
         </Card>
+        <SafeAreaView>
+
+        </SafeAreaView>
         <ToggleButton.Row onValueChange={value => setToggleView(value)} value={toggleView}>
           <ToggleButton style={styles.toggleButton} icon="book" value="MyBooks" />
           <ToggleButton style={styles.toggleButton} icon="cards-playing-heart-multiple" value="LikedBooks" />
@@ -276,6 +277,7 @@ const styles = StyleSheet.create({
     height: 230,
     width: 116,
     margin: 7,
+    overflow: 'hidden',
   },
   book__title: {
     marginTop: 10,
