@@ -152,7 +152,9 @@ const styles = StyleSheet.create({
         marginTop: 20,        
     },
     button: {
+        fontSize: 25,
         width: '50%',
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 30,
