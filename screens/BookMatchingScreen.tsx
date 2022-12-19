@@ -75,7 +75,6 @@ const currentProfile = bookData[currentIndex];
 const nextProfile = bookData[currentIndex+1];
 const translateX = useSharedValue(0);
 const[profile, setProfile] = useState(currentProfile);
-let counter = 0;
 
 
 const handleFetch = async() => {
@@ -93,9 +92,8 @@ const handleFetch = async() => {
   async function onSwipeRight (bookObj: Book) {
   const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
   bookObj  );
-  counter++;
-  setRerender(counter);
   console.log("MATCH ", match.data);
+  setRerender(Math.random());
   console.log("swipe right: ", bookObj.title)
   if( match.data > 0){
     Alert.alert(`You got a new match!`)

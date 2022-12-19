@@ -42,6 +42,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     getUserBooks();
     getUserInfo();
     getLikedBooks();
+    console.log('profile page books refreshed')
   },[rerender]);
 
   const getUserRating = async () => {
