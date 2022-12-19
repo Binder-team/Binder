@@ -129,14 +129,14 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                 <Text style={styles.text}>User:{item.username2}</Text>
                 <Text style={styles.emailText}>Send an email: </Text>
                 <View style = {styles.emailContainer}>
-                  <Button style={styles.emailButton}>
+                  <TouchableOpacity style={styles.emailButton}>
                   <Text 
                   style={styles.buttonText}
                   onPress={
                     () => Linking.openURL(`mailto:${item.email2}?subject=${emailTitle}&x&change&&body=${emailBodyUser2}`) }>
                     {item.email2}
                   </Text>
-                </Button>
+                </TouchableOpacity>
                 </View>
                 
                 
