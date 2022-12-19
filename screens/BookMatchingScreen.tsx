@@ -19,6 +19,7 @@ import { Book } from '../types';
 import { getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword } from '../components/userTokenManager';
 import { Alert } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { setRerender } from '../components/userTokenManager';
 
 
 
@@ -92,6 +93,7 @@ const handleFetch = async() => {
   const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
   bookObj  );
   console.log("MATCH ", match.data);
+  setRerender(Math.random());
   console.log("swipe right: ", bookObj.title)
   if( match.data > 0){
     Alert.alert(`You got a new match!`)
@@ -101,7 +103,7 @@ const handleFetch = async() => {
 const onSwipeLeft =( bookObj: Book )=> {
       console.log('swipe left', bookObj.title)
     }
-
+    
 
 const {width: screenWidth} = useWindowDimensions();
 
@@ -118,7 +120,7 @@ const cardStyle = useAnimatedStyle(() => ({
   {
     rotate: rotate.value,
   },
-  ],
+],
 }));
 
 const nextCardStyle = useAnimatedStyle(() => ({
@@ -178,10 +180,9 @@ const gestureHandler = useAnimatedGestureHandler ({
   useEffect(() => {
   sharedValue.value = 0;
   }, [currentIndex, translateX]);
+  
 
-
-
-
+  
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <View style={styles.pageContainer}>
@@ -255,10 +256,7 @@ const styles = StyleSheet.create({
     alignItems:'flex-end',
     flexDirection: 'row', 
     paddingTop: 670,
-   
-    
   }
   
 });
-
 export default Swipe;

@@ -6,6 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Card, Searchbar, Button, DefaultTheme} from "react-native-paper";
 import { Book } from "../types";
 import DropDown from "react-native-paper-dropdown";
+import { setRerender } from "./userTokenManager";
 type BookData = {
     isbn: string;
     title: string;
@@ -104,6 +105,7 @@ const AddBooks = () => {
         try {
           await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, book);
           Alert.alert(book.title, ' has been added!');
+          setRerender(Math.random());
         } catch (error) {
           console.log(error)
         }

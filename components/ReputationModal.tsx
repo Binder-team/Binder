@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Text, View } from "./Themed";
 import { StyleSheet, TouchableOpacity, Image, Alert } from 'react-native'
 import { Portal, Modal } from "react-native-paper";
-import { IconButton, Button } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { getUsername } from "./userTokenManager";
 import axios from "axios";
 
