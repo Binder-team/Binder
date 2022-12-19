@@ -14,7 +14,7 @@ import { Card } from 'react-native-paper';
 import ConfirmExchange from '../components/ConfirmExchange';
 import { RootStackParamList } from '../types';
 import { ScreenContainer } from 'react-native-screens';
-
+import Icon from 'react-native-vector-icons/AntDesign'
 export type Props = {
   book: Book,
   BookItem: Function,
@@ -67,6 +67,7 @@ export default function MatchScreen({ navigation }) {
               <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
               {/* <Text>Contact:{item.email1}</Text>  */}
             </View>  
+            {/* <Icon style={styles.icon} name="close" color="black"/> */}
             <View style={styles.bookContainer}>
               <Image
                 style={styles.avatarContainer}
@@ -75,9 +76,9 @@ export default function MatchScreen({ navigation }) {
                 }}
               />
               <Text style = {styles.bookTitle}>{item.title2}</Text>
-              <Text style={styles.text}>Author: {item.author2}</Text>
+              {/* <Text style={styles.text}>by {item.author2}</Text> */}
               <Text style={styles.text}>Condition: {item.condition2}</Text>
-              <Text style={styles.text}>User: {item.username2}</Text>
+              <Text style={styles.text}>Posted by: {item.username2}</Text>
               {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
               <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
               {/* <Text>Contact:{item.email2}</Text> */}
@@ -85,13 +86,13 @@ export default function MatchScreen({ navigation }) {
             <View style = {styles.buttonContainer}>
                 {(item.didUser1Accept && item.didUser2Accept) 
                 ? (<Button
-                    activeOpacity={.3}
-                    style = {styles.button}
-                    title="see contact details"
-                    mode="contained"
-                    onPress={()=>{
-                      setCurrentView("confirm exchange view")
-                      setItem(item)
+                      activeOpacity={.3}
+                      style = {styles.button}
+                      title="see contact details"
+                      mode="contained"
+                      onPress={()=>{
+                        setCurrentView("confirm exchange view")
+                        setItem(item)
                     }}
                   >
                     <Text style={styles.buttonText}>Contact</Text>
@@ -99,10 +100,11 @@ export default function MatchScreen({ navigation }) {
                 ) : (item.username1===getUsername() && item.didUser1Accept || item.username2===getUsername() && item.didUser2Accept
                 ) ? (
                   <Button
-                        activeOpacity={.3}
-                        style={styles.button}
-                        title="pending"
-                        mode="contained"> 
+                      activeOpacity={.3}
+                      style={styles.button}
+                      title="pending"
+                      mode="contained"
+                      style={styles.pendingButton}> 
                       <Text style={styles.buttonText}>Pending</Text>
                   </Button>
                 ):( 
@@ -224,8 +226,12 @@ export default function MatchScreen({ navigation }) {
 
 
 const styles = StyleSheet.create({
+  icon: {
+    margin: 0,
+    padding: 0,
+  },
   pageContainer:{
-    backgroundColor: '#F9F2ED',
+    backgroundColor: '#FBF0DF',
     width:'100%',
     height: '100%',
     justifyContent: 'center',
@@ -234,33 +240,42 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 5,
     paddingBottom: 10,
+    // borderColor: 'black',
+    // borderWidth:2
   },
    item: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 13,
+    paddingVertical: 10,
     flexWrap: 'wrap',
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF',
     marginTop: 0,
     marginBottom: 0,
     paddingBottom: 30,
-    paddingHorizontal: 20
+    paddingHorizontal: 0,
+    elevation:5
+    // borderColor: 'red',
+    // borderWidth:2
   }, 
-   bookContainer: {
+  bookContainer: {
     borderRadius: 20,
     height: '90%',
-    width: '50%',
+    width: 180,
     alignItems: 'center',
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#fcf6ed',
     resizeMode:'cover',
-    borderColor: 'black',
+    elevation:5,
+    marginHorizontal:5,
+    marginBottom:10
+    // borderColor: 'black',
+    // borderWidth:2
   },
   avatarContainer: {
     backgroundColor: '#F9F2ED',
-    borderRadius: 2,
+    borderRadius: 4,
     height: 170,
-    width: 130,
+    width: 110,
     justifyContent: 'center',
     alignItems: 'center',
     resizeMode: 'cover',
@@ -272,21 +287,21 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     textAlign:'center',
     fontWeight:'bold',
-    paddingVertical:10,
+    paddingVertical:15,
     height: 75
   },
   buttonContainer:{
     flexDirection: 'row',
-    marginHorizontal:20,
+    marginHorizontal:30,
     justifyContent: 'space-evenly',
-    backgroundColor:'#F3F3F3',
-    marginTop: 5,
+    backgroundColor:'#FBF0DF',
+    marginTop: 15,
   },
   button: {
     flex: 1,
     //width: 10, 
     //height: 35,
-    backgroundColor:'#1EAE98',
+    backgroundColor:'#1e86ac',
     //justifyContent: 'center',
    // alignItems: 'center',
    // borderRadius:5,
@@ -299,13 +314,28 @@ const styles = StyleSheet.create({
     flex: 1,
     //width: 10, 
     //height: 35,
-    backgroundColor:'#D82148',
+    backgroundColor:'#db5153',
     //justifyContent: 'center',
     //alignItems: 'center',
     //borderRadius:5,
     marginHorizontal: 5,
     elevation:5,
     shadowColor: '000',
+  },
+  pendingButton:{
+    flex: 1,
+    //width: 10, 
+    //height: 35,
+    backgroundColor:'#97bcb8',
+    color:'white',
+    //justifyContent: 'center',
+   // alignItems: 'center',
+   // borderRadius:5,
+    marginHorizontal: 5,
+    elevation:5,
+    shadowColor: '#000',
+    disabled: 'true'
+   // mode:'contained'
   },
   buttonText: {
     fontSize: 15,
@@ -323,17 +353,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingHorizontal:10,
     color:'#283747',
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF',
     paddingBottom:10
   },
   separator: {  
+    color: 'black'
   },
    text: {
     alignItems:'flex-start',
     fontSize: 14, 
-    fontWeight: '350', 
+    fontWeight: '500', 
     alignSelf: 'flex-start',
-    marginLeft: 30,
+    marginLeft: 20,
 
    }
    
