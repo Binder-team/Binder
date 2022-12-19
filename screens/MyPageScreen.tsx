@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 0,
     margin: 0,
+    backgroundColor:'#F9F2ED',
   },
   profile__container: {
     alignItems: 'center',
@@ -212,6 +213,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '35%',
     padding: 7,
+    backgroundColor:'#F9F2ED',
   },
   profile__column1: {
     justifyContent: 'flex-start',
@@ -262,7 +264,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     flexWrap: 'wrap',
-    height: '100%'
+    height: '100%',
+    backgroundColor:'#F9F2ED',
   },
   book__shelf: {
     width: '100%',
@@ -290,7 +293,8 @@ const styles = StyleSheet.create({
     width: 100,
   },
   toggleButton: {
-    width: '49%'
+    width: '49%',
+    backgroundColor: '#4BE3AC',
   },
 });
 
