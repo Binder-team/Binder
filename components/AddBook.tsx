@@ -70,23 +70,25 @@ const AddBooks = () => {
               <View  style={styles.book__image__container}>
                 <Image
                   style={styles.thumbnail}
-                  source={{uri: book.thumbnail_url}}
+                  source={{uri: book.image_url
+                  }}
                   />
               </View>
-              <View style={styles.book__info__container}>
+              <Card style={styles.book__info__container}>
                 <View style={styles.book__info}>
                     <Text style={styles.titleText}>{book.title}</Text>
-                    <Text>{book.author}</Text>
+                    <Text style={{fontSize: 15}}>{book.author}</Text>
                 </View>
                 <View style={styles.book__buttons__container}>
                   <Button 
                     style={{width: '100%'}}
-                    mode="contained"
+                    icon={"book-plus-multiple-outline"}
+                    mode="outlined"
                     onPress={() => onSubmit(book, condition)}>
                     Add
                   </Button>
                 </View>
-              </View>
+              </Card>
             </View>
         </Card>
       )});
@@ -162,13 +164,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     width: '100%',
     height: '100%',
+    backgroundColor:'#F9F2ED',
   },
   title__input__container: {
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
     height: '20%',
-    backgroundColor: '#479cff',
+    backgroundColor: '#f8914f',
   },
   title__input: {
     flexDirection: 'row',

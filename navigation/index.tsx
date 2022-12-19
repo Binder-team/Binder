@@ -19,13 +19,11 @@ import CreateAccountScreen from "../screens/CreatAccountScreen";
 import ConfirmExchange from "../components/ConfirmExchange";
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from "../types";
 import { AuthProvider } from "../hooks/useAuth";
-import { BottomNavigation, Provider, Text } from "react-native-paper";
+import { BottomNavigation, Provider, BottomNavigationProps, Text } from "react-native-paper";
 // import LinkingConfiguration from "./LinkingConfiguration";
-
-
-//vector-icons
 import Icon from "react-native-vector-icons/FontAwesome5";
-import Icon2 from "react-native-vector-icons/Ionicons";
+import { BottomTabBarButtonProps, BottomTabBarProps } from "@react-navigation/bottom-tabs";
+
 
 
 export default function Navigation({
@@ -101,7 +99,7 @@ function RootNavigator() {
 //the nav bar at the bottom is this
 
 
-const BottomTab = createMaterialBottomTabNavigator();
+const BottomTab = createMaterialBottomTabNavigator<BottomTabBarProps>();
 
 
 function BottomTabNavigator() {
@@ -111,18 +109,25 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="FindBookTab"
+      initialRouteName="FindBookTab" 
+      activeColor="#72147E"
+      inactiveColor="#142F43"
+      labelStyle={{ fontSize: 20 }}
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarColor: '#FF9551',
+       // taBarStyle: { height: 400}
+        //tabBarActiveTintColor: Colors[colorScheme].tint,
       }}
+      
+            
     >
       <BottomTab.Screen
         name="FindBookTab"
         component={BookMatchingScreen}
         options={({
-          title: "Home",
-          tabBarIcon: ({color, size}) => {
-            return <Icon name="home"/>
+          tabBarLabel: "Home",
+          tabBarIcon: ({ color }) => {
+            return <Icon name="home" color={color} size={25}/>
           }
           
         })}
@@ -131,9 +136,9 @@ function BottomTabNavigator() {
         name="AddBookTab"
         component={AddBooksScreen}
         options={{
-          title: "Add a Book",
-          tabBarIcon: ({color, size}) => {
-            return <Icon2 name="add-circle-outline" />
+          tabBarLabel: "Add a Book",
+          tabBarIcon: ({ color }) => {
+            return <Icon name="plus-circle" color={color} size={24} />
           }
         }}
       />
@@ -141,9 +146,9 @@ function BottomTabNavigator() {
         name="MyPageTab"
         component={MyPageScreen}
         options={{
-          title: "Profile",
-          tabBarIcon: ({color, size}) => {
-            return <Icon name="user-circle"/>
+          tabBarLabel: "Profile",
+          tabBarIcon: ({ color }) => {
+            return <Icon name="user-alt" color={color} size={25}/>
           }
         }}
       />
@@ -152,8 +157,8 @@ function BottomTabNavigator() {
         component={MatchScreen}
         options={{
           title: "X Change",
-          tabBarIcon: ({color, size }) => {
-            return <Icon name="book"/>
+          tabBarIcon: ({ color }) => {
+            return <Icon name="book" color={color} size={25}/>
           }
         }}
       />
