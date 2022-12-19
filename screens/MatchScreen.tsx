@@ -76,9 +76,9 @@ export default function MatchScreen({ navigation }) {
                 }}
               />
               <Text style = {styles.bookTitle}>{item.title2}</Text>
-              <Text style={styles.text}>Author: {item.author2}</Text>
+              {/* <Text style={styles.text}>by {item.author2}</Text> */}
               <Text style={styles.text}>Condition: {item.condition2}</Text>
-              <Text style={styles.text}>User: {item.username2}</Text>
+              <Text style={styles.text}>Posted by: {item.username2}</Text>
               {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
               <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
               {/* <Text>Contact:{item.email2}</Text> */}
@@ -261,18 +261,21 @@ const styles = StyleSheet.create({
   bookContainer: {
     borderRadius: 20,
     height: '90%',
-    width: '50%',
+    width: 180,
     alignItems: 'center',
-    backgroundColor:'#FBF0DF',
+    backgroundColor:'#fcf6ed',
     resizeMode:'cover',
+    elevation:5,
+    marginHorizontal:5,
+    marginBottom:10
     // borderColor: 'black',
     // borderWidth:2
   },
   avatarContainer: {
     backgroundColor: '#F9F2ED',
-    borderRadius: 2,
+    borderRadius: 4,
     height: 170,
-    width: 130,
+    width: 110,
     justifyContent: 'center',
     alignItems: 'center',
     resizeMode: 'cover',
@@ -284,15 +287,15 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     textAlign:'center',
     fontWeight:'bold',
-    paddingVertical:10,
+    paddingVertical:15,
     height: 75
   },
   buttonContainer:{
     flexDirection: 'row',
-    marginHorizontal:20,
+    marginHorizontal:30,
     justifyContent: 'space-evenly',
     backgroundColor:'#FBF0DF',
-    marginTop: 5,
+    marginTop: 15,
   },
   button: {
     flex: 1,
@@ -359,9 +362,9 @@ const styles = StyleSheet.create({
    text: {
     alignItems:'flex-start',
     fontSize: 14, 
-    fontWeight: '350', 
+    fontWeight: '500', 
     alignSelf: 'flex-start',
-    marginLeft: 30,
+    marginLeft: 20,
 
    }
    

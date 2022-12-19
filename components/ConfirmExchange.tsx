@@ -12,7 +12,7 @@ import { Card, Button } from 'react-native-paper';
 import MatchScreen from '../screens/MatchScreen';
 import ReputationModal from './ReputationModal';
 import { openInbox } from 'react-native-email-link';
-
+import Icon from 'react-native-vector-icons/Entypo'
 interface Props {
     item: {
         thumbnail1:string,
@@ -83,7 +83,9 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                     setCurrentView("all matches")
                 }
             >
-              <Text style={styles.buttonText}>Back</Text>
+              <Icon style={styles.icon} name="chevron-left" color="black"/>
+              {/* <Text style={styles.backButtonText}>Back</Text> */}
+              
             </Button>
         </View>
             
@@ -106,7 +108,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                 <View style = {styles.emailContainer}>
                   <Button style={styles.emailButton}>
                     <Text 
-                    style={styles.buttonText}
+                    style={styles.emailButtonText}
                     onPress={
                       () => Linking.openURL(`mailto:${item.email1}?subject=${emailTitle}&x&change&&body=${emailBodyUser1}`) }>
                       {item.email1}
@@ -124,15 +126,15 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                       height: 50,
                   }}
                 />
-                <Text style = {styles.bookTitle}>Title:{item.title2}</Text>
-                <Text style={styles.text}>Author:{item.author2}</Text>
+                <Text style = {styles.bookTitle}>{item.title2}</Text>
+                <Text style={styles.text}>By: {item.author2}</Text>
                 <Text style={styles.text}>Condition:{item.condition2}</Text>
                 <Text style={styles.text}>User:{item.username2}</Text>
                 <Text style={styles.emailText}>Send an email: </Text>
                 <View style = {styles.emailContainer}>
                   <TouchableOpacity style={styles.emailButton}>
                   <Text 
-                  style={styles.buttonText}
+                  style={styles.emailButtonText}
                   onPress={
                     () => Linking.openURL(`mailto:${item.email2}?subject=${emailTitle}&x&change&&body=${emailBodyUser2}`) }>
                     {item.email2}
@@ -183,6 +185,17 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
 export default ConfirmExchange;
 
 const styles = StyleSheet.create({
+  item: {
+    width: '100%',
+  flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal:15,
+    flexWrap: 'wrap',
+    backgroundColor:'#fcf6ed',
+    elevation:5,
+    borderRadius:10
+    }, 
   button:{
     flex: 1,
     //width: 100, 
@@ -197,15 +210,16 @@ const styles = StyleSheet.create({
   },  
   confirmButton:{
     flex: 1,
-    //width: 100,
+    width: 100,
     //height: 45,
-    backgroundColor:'#1EAE98',
+    backgroundColor:'#1e86ac',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
     marginHorizontal: 5,
     elevation:5,
     shadowColor: 'black',
+    paddingHorizontal:0
   },
   denyButton: {
     flex: 1,
@@ -221,9 +235,9 @@ const styles = StyleSheet.create({
   },
   backButton: {
     flex: 1,
-    width: 100, 
-    height: 10,
-    backgroundColor:'#1EAE98',
+    width: 50, 
+    height: 15,
+    backgroundColor:'#1e86ac',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -233,17 +247,34 @@ const styles = StyleSheet.create({
   },
   backContainer:{
     display:'flex',
-    justifyContent:'center',
-    alignItem:'center',
-    backgroundColor:'#FBF0DF',
-    width:200,
-    height:50,
-    paddingBottom:15,
+    justifyContent:'flex-start',
+    backgroundColor:'#fcf6ed',
+    width:75,
+    height:60,
+    paddingBottom:20,
   },
   buttonText: {
+    fontSize: 15,
+    color: '#F3F3F3',
+    lineHeight: 16,
+    fontWeight: '500',
+  },
+  emailButtonText:{
+    fontSize: 18,
+    color: '#F3F3F3',
+    lineHeight: 20,
+    fontWeight: '500',
+  },
+  backButtonText: {
     fontSize: 13,
     color: '#F3F3F3',
-    lineHeight: 18,
+    lineHeight: 15,
+    fontWeight: '500',
+  },
+  icon:{
+    fontSize: 17,
+    color: '#F3F3F3',
+    lineHeight: 16,
     fontWeight: '500',
   },
   buttonContainer:{
@@ -252,7 +283,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal:20,
     justifyContent: 'space-evenly',
-    backgroundColor:'#FBF0DF',
+    backgroundColor:'#fcf6ed',
     paddingTop:5
   },
   root: {
@@ -276,9 +307,9 @@ const styles = StyleSheet.create({
       fontWeight:'500',
       width:'100%',
       color:'black',
-      fontSize: 18,
+      fontSize: 25,
       paddingBottom:10,
-      marginLeft: 30,
+      marginLeft: 55,
     },
   title: {
     alignSelf: 'flex-start',
@@ -291,13 +322,13 @@ const styles = StyleSheet.create({
     marginTop:10,
     height: 50,
     width: 250,
-    backgroundColor:'#FBF0DF'
+    backgroundColor:'#fcf6ed'
   },
   emailButton: {
     flex: 1,
     width: '100%', 
     height: 5,
-    backgroundColor:'#1EAE98',
+    backgroundColor:'#1e86ac',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -315,7 +346,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     textAlign: 'center',
-    backgroundColor:'#FBF0DF',
+    backgroundColor:'#fcf6ed',
+    
   }, 
   bookContainer: {
     borderRadius: 5,
@@ -324,20 +356,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FBF0DF'
+    backgroundColor: '#fcf6ed'
   },
-  item: {
-    width: '100%',
-  // flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 20,
-    paddingHorizontal:15,
-    flexWrap: 'wrap',
-    backgroundColor:'#FBF0DF',
-    elevation:5,
-    borderRadius:10
-    
-    }, 
+  
   text: {
     alignItems:'flex-start',
     //justifyContent: 'center',
