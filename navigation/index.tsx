@@ -110,11 +110,11 @@ function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="FindBookTab" 
-      activeColor="#72147E"
-      inactiveColor="#142F43"
+      activeColor="white"
+      inactiveColor="white"
       labelStyle={{ fontSize: 20 }}
       screenOptions={{
-        tabBarColor: '#FF9551',
+        tabBarColor: '#f0a781',
        // taBarStyle: { height: 400}
         //tabBarActiveTintColor: Colors[colorScheme].tint,
       }}

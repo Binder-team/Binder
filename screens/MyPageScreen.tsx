@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   },
   toggleButton: {
     width: '49%',
-    backgroundColor: '#4BE3AC',
+    backgroundColor: '#1EAE98',
   },
 });
 

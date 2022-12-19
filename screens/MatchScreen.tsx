@@ -14,7 +14,7 @@ import { Card } from 'react-native-paper';
 import ConfirmExchange from '../components/ConfirmExchange';
 import { RootStackParamList } from '../types';
 import { ScreenContainer } from 'react-native-screens';
-
+import Icon from 'react-native-vector-icons/AntDesign'
 export type Props = {
   book: Book,
   BookItem: Function,
@@ -67,6 +67,7 @@ export default function MatchScreen({ navigation }) {
               <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
               {/* <Text>Contact:{item.email1}</Text>  */}
             </View>  
+            {/* <Icon style={styles.icon} name="close" color="black"/> */}
             <View style={styles.bookContainer}>
               <Image
                 style={styles.avatarContainer}
@@ -85,13 +86,13 @@ export default function MatchScreen({ navigation }) {
             <View style = {styles.buttonContainer}>
                 {(item.didUser1Accept && item.didUser2Accept) 
                 ? (<Button
-                    activeOpacity={.3}
-                    style = {styles.button}
-                    title="see contact details"
-                    mode="contained"
-                    onPress={()=>{
-                      setCurrentView("confirm exchange view")
-                      setItem(item)
+                      activeOpacity={.3}
+                      style = {styles.button}
+                      title="see contact details"
+                      mode="contained"
+                      onPress={()=>{
+                        setCurrentView("confirm exchange view")
+                        setItem(item)
                     }}
                   >
                     <Text style={styles.buttonText}>Contact</Text>
@@ -99,10 +100,10 @@ export default function MatchScreen({ navigation }) {
                 ) : (item.username1===getUsername() && item.didUser1Accept || item.username2===getUsername() && item.didUser2Accept
                 ) ? (
                   <Button
-                        activeOpacity={.3}
-                        style={styles.button}
-                        title="pending"
-                        mode="contained"> 
+                      activeOpacity={.3}
+                      style={styles.button}
+                      title="pending"
+                      mode="contained"> 
                       <Text style={styles.buttonText}>Pending</Text>
                   </Button>
                 ):( 
@@ -224,6 +225,10 @@ export default function MatchScreen({ navigation }) {
 
 
 const styles = StyleSheet.create({
+  icon: {
+    margin: 0,
+    padding: 0,
+  },
   pageContainer:{
     backgroundColor: '#F9F2ED',
     width:'100%',
@@ -234,18 +239,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 5,
     paddingBottom: 10,
+    // borderColor: 'black',
+    // borderWidth:2
   },
    item: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 13,
+    paddingVertical: 10,
     flexWrap: 'wrap',
     backgroundColor:'#F9F2ED',
     marginTop: 0,
     marginBottom: 0,
     paddingBottom: 30,
-    paddingHorizontal: 20
+    paddingHorizontal: 0,
+    elevation:5
+    // borderColor: 'red',
+    // borderWidth:2
   }, 
    bookContainer: {
     borderRadius: 20,
@@ -254,7 +264,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor:'#F9F2ED',
     resizeMode:'cover',
-    borderColor: 'black',
+    // borderColor: 'black',
+    // borderWidth:2
   },
   avatarContainer: {
     backgroundColor: '#F9F2ED',
@@ -286,7 +297,7 @@ const styles = StyleSheet.create({
     flex: 1,
     //width: 10, 
     //height: 35,
-    backgroundColor:'#1EAE98',
+    backgroundColor:'#1e86ac',
     //justifyContent: 'center',
    // alignItems: 'center',
    // borderRadius:5,
@@ -299,7 +310,7 @@ const styles = StyleSheet.create({
     flex: 1,
     //width: 10, 
     //height: 35,
-    backgroundColor:'#D82148',
+    backgroundColor:'#eb6149',
     //justifyContent: 'center',
     //alignItems: 'center',
     //borderRadius:5,
@@ -327,6 +338,7 @@ const styles = StyleSheet.create({
     paddingBottom:10
   },
   separator: {  
+    color: 'black'
   },
    text: {
     alignItems:'flex-start',

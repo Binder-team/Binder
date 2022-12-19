@@ -12,6 +12,7 @@ import { Card, Button } from 'react-native-paper';
 import MatchScreen from '../screens/MatchScreen';
 import ReputationModal from './ReputationModal';
 import { openInbox } from 'react-native-email-link';
+
 interface Props {
     item: {
         thumbnail1:string,
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     justifyContent: 'center',
-    //backgroundColor:'green',
+    // backgroundColor:'green',
   },
   avatarContainer: {
     backgroundColor: '#D9D9D9',
