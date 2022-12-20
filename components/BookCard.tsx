@@ -88,7 +88,7 @@ const processNextBook = async() => {
                         
         </Card>
         <View style={styles.cardInner}>
-         <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
+         {/* <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text> */}
         <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text> 
         </View>
                           
@@ -146,11 +146,13 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     }, 
     description: {
-        fontSize: 18,
+        fontSize: 20,
+        fontWeight: '400',
         color: 'black',
-        lineHeight: 20,
+        lineHeight: 30,
         padding: 5,
-        marginLeft: 10,
+        marginLeft: 5,
+        marginTop: 3
     }   
 });
 
