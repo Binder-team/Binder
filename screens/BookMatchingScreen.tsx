@@ -16,7 +16,7 @@ import Animated, {
   withDelay
 } from 'react-native-reanimated';
 import { Book } from '../types';
-import { getToken, setToken, resetToken, getUsername, setUsername, username, getPassword, setPassword } from '../components/userTokenManager';
+import { getUsername } from '../components/userTokenManager';
 import { Alert } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { setRerender } from '../components/userTokenManager';
@@ -88,7 +88,6 @@ const handleFetch = async() => {
   },[]);
 
 
-      //handlerFunction
   async function onSwipeRight (bookObj: Book) {
   const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
   bookObj  );
@@ -212,8 +211,8 @@ const gestureHandler = useAnimatedGestureHandler ({
       </PanGestureHandler>
       )}
        <View style={styles.vectorContainer}>
-        <Entypo name="cross" size={30} color="#FF4500" style={{padding: 10, marginRight: 100}} />
-         <Entypo name="check" size={30} color="#32CD32"  style={{padding: 10, marginLeft: 100}}/>
+        <Entypo name="cross" size={40} color="#FF4500" style={{padding: 10, marginRight: 100}} />
+        <Entypo name="check" size={40} color="#32CD32"  style={{padding: 10, marginLeft: 100}}/>
        </View>
       </View>    
     </GestureHandlerRootView>
@@ -227,16 +226,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF'
   },
   animatedCard: {
     position:'absolute',
     width: '90%',
-    height: '70%',
+    height: '75%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    //marginTop: 10,
+    // marginBottom: 10,
     //backgroundColor:'blue',
   }, 
   nextCardContainer: {
@@ -255,7 +254,7 @@ const styles = StyleSheet.create({
   vectorContainer: {
     alignItems:'flex-end',
     flexDirection: 'row', 
-    paddingTop: 670,
+    paddingTop: 580
   }
   
 });
