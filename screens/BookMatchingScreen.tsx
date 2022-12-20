@@ -219,12 +219,13 @@ const gestureHandler = useAnimatedGestureHandler ({
                resizeMode="contain"
                />
               <BookCard bookData={currentProfile}  index={currentIndex}/> 
+
           </Animated.View> 
       </PanGestureHandler>
       )}
        <View style={styles.vectorContainer}>
-        <Entypo name="cross" size={40} color="#FF4500" style={{padding: 10, marginRight: 100}} />
-        <Entypo name="check" size={40} color="#32CD32"  style={{padding: 10, marginLeft: 100}}/>
+        <Entypo name="cross" size={40} color="#FF4500" style={{padding: 0, marginRight: 100}} />
+        <Entypo name="check" size={40} color="#32CD32"  style={{padding: 0, marginLeft: 100}}/>
        </View>
       </View>    
     </GestureHandlerRootView>
@@ -249,6 +250,9 @@ const styles = StyleSheet.create({
     marginTop: 40,
     //backgroundColor:'blue',
   }, 
+  text: {
+
+  },
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-start',
