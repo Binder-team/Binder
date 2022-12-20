@@ -3,7 +3,7 @@ import { Text, StyleSheet, View, Image, Alert } from "react-native";
 import axios from 'axios';
 import { getUsername } from "./userTokenManager";
 import { ScrollView } from "react-native-gesture-handler";
-import { Card, Searchbar, Button, DefaultTheme} from "react-native-paper";
+import { Card, Searchbar, Button, DefaultTheme, Portal, Dialog, Paragraph} from "react-native-paper";
 import { Book } from "../types";
 import DropDown from "react-native-paper-dropdown";
 import { setRerender } from "./userTokenManager";
@@ -20,6 +20,8 @@ const AddBooks = () => {
   const [condition, setCondition] = useState<string>('');
   const [isConditionSet, setIsConditionSet] = useState<boolean>(false);
   const [showDropDown, setShowDropDown] = useState(false);
+  const [visible, setVisible] = useState(false);
+
   const conditionList = [
     {
       label: "Like New",
@@ -42,8 +44,13 @@ const AddBooks = () => {
       value: "Poor",
     }
   ];
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
 
-    async function fetchBooks (): Promise<void> {
+  async function fetchBooks (): Promise<void> {
+    if (condition === '') {
+      showDialog();
+    } else {
       const key = 'AIzaSyBN1ZgA46ECvqACR6mvRPOSSRbHmdtKCjI';
       const fetchedBooksResult = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitleQuery}&printType=books&orderBy=relevance&key=${key}`);
       const booksResult = fetchedBooksResult.data.items;
@@ -82,11 +89,10 @@ const AddBooks = () => {
                 </View>
                 <View style={styles.book__buttons__container}>
                   <Button 
-                    style={{width: '100%'}}
-                    icon={"book-plus-multiple-outline"}
+                    style={styles.button}
                     mode="outlined"
                     onPress={() => onSubmit(book, condition)}>
-                    Add
+                    <Text style={styles.button__text}>Add</Text>
                   </Button>
                 </View>
               </Card>
@@ -95,68 +101,81 @@ const AddBooks = () => {
       )});
       setBookResults(bookCards);
     }
+  }
 
-    
-    async function onSubmit (book : Book, condition: string): Promise<void> {
-      if (condition === '') {
-        console.log(condition)
-        Alert.alert('Please state book condition')
-      } else {
-        try {
-          await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, book);
-          Alert.alert(book.title, ' has been added!');
-          setRerender(Math.random());
-        } catch (error) {
-          console.log(error)
-        }
+  
+  async function onSubmit (book : Book, condition: string): Promise<void> {
+    if (condition === '') {
+      showDialog();
+      console.log(condition)
+      // Alert.alert('Please state book condition')
+    } else {
+      try {
+        await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, book);
+        Alert.alert(book.title, ' has been added!');
+        setRerender(Math.random());
+      } catch (error) {
+        console.log(error)
       }
     }
-    const setConditions = (value: string) => {
-      setCondition(value);
-      console.log(condition);
-    }
+  }
+  const setConditions = (value: string) => {
+    setCondition(value);
+    console.log(condition);
+  }
 
-    const onChangeSearch = (query: string) => setBookTitleQuery(query);
-    
-    return (
-      <View style={styles.input__container}>
-        <View style={styles.title__input__container}>
-          <View style={styles.title__input} >
-            <View style={{width: '60%', marginRight: 10}}>
-              <Searchbar
-                placeholder="Enter book title"
-                onChangeText={onChangeSearch}
-                value={bookTitleQuery}
-                onIconPress={fetchBooks}
-              />
-            </View>
-            <View style={{width: '30%'}}>
-              <DropDown
-                label={"Condition"}
-                mode={"outlined"} 
-                theme={DefaultTheme}
-                visible={showDropDown}
-                showDropDown={() => setShowDropDown(true)}
-                onDismiss={() => setShowDropDown(false)}
-                value={condition}
-                setValue={(_value:string) => setConditions(_value)}
-                list={conditionList}
-                dropDownStyle={{
-                  width:'80%',
-                  height: 50
-              }}
-              />
-            </View>
+  const onChangeSearch = (query: string) => setBookTitleQuery(query);
+  
+  return (
+    <View style={styles.input__container}>
+      <Portal>
+        <Dialog visible={visible} onDismiss={hideDialog}>
+          <Dialog.Title>Alert</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>To continue, please set the condition of your book</Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={hideDialog}>Done</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+      <View style={styles.title__input__container}>
+        <View style={styles.title__input} >
+          <View style={{width: '60%', marginRight: 10}}>
+            <Searchbar
+              placeholder="Enter book title"
+              onChangeText={onChangeSearch}
+              value={bookTitleQuery}
+              onIconPress={fetchBooks}
+            />
           </View>
-        </View >
-        <View style={styles.book__results__container}>
-          <ScrollView
-            style={styles.book__results}
-            >
-            {bookResults}
-          </ScrollView>
+          <View style={{width: '30%'}}>
+            <DropDown
+              label={"Condition"}
+              mode={"outlined"} 
+              theme={DefaultTheme}
+              visible={showDropDown}
+              showDropDown={() => setShowDropDown(true)}
+              onDismiss={() => setShowDropDown(false)}
+              value={condition}
+              setValue={(_value:string) => setConditions(_value)}
+              list={conditionList}
+              dropDownStyle={{
+                width:'80%',
+                height: 50
+            }}
+            />
+          </View>
         </View>
+      </View >
+      <View style={styles.book__results__container}>
+        <ScrollView
+          style={styles.book__results}
+          >
+          {bookResults}
+        </ScrollView>
       </View>
+    </View>
   );
 };
 
@@ -173,7 +192,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '20%',
-    backgroundColor: '#f8914f',
+    backgroundColor: '#fcf6ed',
   },
   title__input: {
     flexDirection: 'row',
@@ -195,12 +214,14 @@ const styles = StyleSheet.create({
     width: '50%',
   },
   book__card__container: {
+    elevation:5,
     width: '98%',
     flexDirection: 'column',
     borderRadius: 10,
     margin: 5,
   },
   book__card: {
+    elevation:5,
     flexDirection: 'row',
     width: '100%',
     height: 170,
@@ -208,6 +229,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   book__image__container: {
+    height: 170,
     justifyContent: 'center',
     width: '30%',
   },
@@ -228,9 +250,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
+  button: {
+    backgroundColor:'#1e86ac',
+    shadowColor: '#000',
+    width: '100%',
+    height: 35,
+  },
+  button__text: {
+    fontSize: 15,
+    color: 'white',
+    lineHeight: 18,
+    fontWeight: '400',
+    resizeMode: 'contained'
+
+  },
   thumbnail: {
     borderRadius: 8,
-    height: 165,
+    height: 170,
     width: 120,
   },
   titleText: {
