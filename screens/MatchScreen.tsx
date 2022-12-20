@@ -43,6 +43,10 @@ export default function MatchScreen({ navigation }) {
     username2: '',
     email2: ''
 })
+
+//refresh
+
+
   const getMatchedBooks = async () => {
     try {
       const fetchMatch = await axios.get(
@@ -52,6 +56,9 @@ export default function MatchScreen({ navigation }) {
           const mappedMatches = matches.map(item => {
           return (
           <View style={styles.item}>
+            
+
+
             <View style={styles.bookContainer}> 
               <Image
                 style={styles.avatarContainer}
@@ -130,7 +137,7 @@ export default function MatchScreen({ navigation }) {
                     sendCancel(item)
                   }}
                   >
-                    <Text style={styles.buttonText}>Decline</Text>
+                    <Text style={styles.buttonText}>Deny</Text>
                   </Button>
             
               </View> 
@@ -201,7 +208,9 @@ export default function MatchScreen({ navigation }) {
             <View>
               <Text title = "matches" style = {styles.title}>My matches:</Text>
                 <ScrollView>{matchedBooks}</ScrollView>
+
             </View>
+            
       
           ):(
             <View>
@@ -287,7 +296,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     textAlign:'center',
     fontWeight:'bold',
-    paddingVertical:10,
+    paddingVertical:15,
     height: 75
   },
   buttonContainer:{
@@ -364,8 +373,10 @@ const styles = StyleSheet.create({
     fontSize: 14, 
     fontWeight: '500', 
     alignSelf: 'flex-start',
-    marginLeft: 18,
-    color: '#666260',
+    marginLeft: 20,
+
+   },
+   refresh: {
 
    }
    
