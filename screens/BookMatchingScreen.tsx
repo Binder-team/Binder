@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     flex: 1,
-    marginTop: 20,
+    marginTop: 1,
     backgroundColor:'#FBF0DF'
   },
   animatedCard: { //The actual card location
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // marginBottom: 10,
+    marginTop: 40,
     //backgroundColor:'blue',
   }, 
   nextCardContainer: {
