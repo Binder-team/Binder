@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Text, View } from "./Themed";
-import { Modal, SafeAreaView, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native'
-import { IconButton, Button } from "react-native-paper";
+import { StyleSheet, TouchableOpacity, Image, Alert } from 'react-native'
+import { Portal, Modal } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { getUsername } from "./userTokenManager";
 import axios from "axios";
 
@@ -78,32 +79,34 @@ const ReputationModal = (props: ReputationModalProps, ) => {
         )
     }
     return (
-        <Modal visible={visible} transparent animationType="slide">
-            <View style={styles.modal}>
-                <View style={styles.modalContentWrapper}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.text}>
-                            Rate this exchange
-                        </Text>
-                        <CustomRatingBar/>
-                        <Text style={styles.text}>
-                            {defaultRating + ' / ' + maxRating.length}
-                        </Text>
-                        <Button
-                            icon={"check"}
-                            style={styles.button}
-                            onPress={() => {
-                                sendConfirmExchange(item);
-                                Alert.alert(`Exchange Confirmed!`);
-                                onClose();
-                            }
-                        }
-                        >Confirm</Button>
-                        <Button onPress={onClose}>Cancel</Button>
+        <Portal>
+
+            <Modal style={{height: '100%', width: '100%'}} visible={visible} contentContainerStyle={styles.modal}>
+                    <View style={styles.modalContentWrapper}>
+                        <View style={styles.modalContent}>
+                            <Text style={styles.text}>
+                                Rate this exchange
+                            </Text>
+                            <CustomRatingBar/>
+                            <Text style={styles.text}>
+                                {defaultRating + ' / ' + maxRating.length}
+                            </Text>
+                            <View style={styles.button__container}>
+                                <Button
+                                    style={styles.button}
+                                    onPress={() => {
+                                        sendConfirmExchange(item);
+                                        Alert.alert(`Exchange Confirmed!`);
+                                        onClose();
+                                    }
+                                }
+                                >Confirm</Button>
+                                <Button onPress={onClose}>Cancel</Button>
+                            </View>
+                        </View>
                     </View>
-                </View>
-            </View>
-        </Modal>
+            </Modal>
+        </Portal>
     );
 };
 
@@ -111,22 +114,27 @@ const styles = StyleSheet.create({
     modal: {
         flex: 1,
         width: '100%',
-        height: '50%',
-        backgourndColor: 'blue',
-        margin: 10,
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     modalContentWrapper: {
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
+        width: '100%',
         backgroundColor: 'rgba(0, 0, 0, 0,3)',
+    },
+    button__container: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     modalContent: {
         backgroundColor: 'white',
-        marginVertical: 16,
-        marginHorizontal: 16,
-        padding: 16,
-        borderRadius: 50,
+        borderRadius: 20,
+        width: '90%',
+        height: '40%',
     },
     customRatingBar: {
         justifyContent: 'center',
@@ -144,10 +152,12 @@ const styles = StyleSheet.create({
         marginTop: 20,        
     },
     button: {
+        fontSize: 25,
+        width: '50%',
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 30,
-        padding: 15,
         backgroundColor: 'green',
     },
 });

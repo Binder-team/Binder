@@ -1,4 +1,6 @@
+import { useState } from "react";
 
+const [rerender, setRerender] = useState(0);
 let token: string|null = null;
 let getToken = () => token;
 let setToken = (t:string) => {token = t}
@@ -41,5 +43,7 @@ export {
     getCity,
     setCity,
     setPostalCode,
-    getPostalCode
+    getPostalCode,
+    setRerender,
+    rerender,
 };

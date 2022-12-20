@@ -63,9 +63,9 @@ function RootNavigator() {
       {getToken()!==null?(
         <>
           <Stack.Screen
-            name="Root"
+            name="Book x Change"
             component={BottomTabNavigator}
-            options={{ headerShown: false }}
+            options={{ headerShown: true }}
           />
           <Stack.Screen
             name="ConfirmExchange"
@@ -78,12 +78,12 @@ function RootNavigator() {
           <Stack.Screen 
               name="Login" 
               component={LoginScreen} 
-              options={{title: 'Sign in'}} 
+              options={{title: 'Sign in', headerShown: false}} 
           />
           <Stack.Screen 
               name="CreateAccount" 
               component={CreateAccountScreen} 
-              options={{title: 'Create a new account'}} 
+              options={{title: 'Create a new account', headerShown: false}} 
           />
          </> 
         )}
@@ -110,11 +110,11 @@ function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="FindBookTab" 
-      activeColor="#72147E"
-      inactiveColor="#142F43"
+      activeColor="white"
+      inactiveColor="white"
       labelStyle={{ fontSize: 20 }}
       screenOptions={{
-        tabBarColor: '#FF9551',
+        tabBarColor: '#e89064',
        // taBarStyle: { height: 400}
         //tabBarActiveTintColor: Colors[colorScheme].tint,
       }}

@@ -6,6 +6,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Card, Searchbar, Button, DefaultTheme} from "react-native-paper";
 import { Book } from "../types";
 import DropDown from "react-native-paper-dropdown";
+import { setRerender } from "./userTokenManager";
 type BookData = {
     isbn: string;
     title: string;
@@ -46,7 +47,7 @@ const AddBooks = () => {
       const key = 'AIzaSyBN1ZgA46ECvqACR6mvRPOSSRbHmdtKCjI';
       const fetchedBooksResult = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${bookTitleQuery}&printType=books&orderBy=relevance&key=${key}`);
       const booksResult = fetchedBooksResult.data.items;
-      const booksArray = booksResult.slice(0, 2);
+      const booksArray = booksResult.slice(0, 4);
       
       const books = await Promise.all(booksArray.map(async (book : Book) => {
         const fetchedBook = await axios.get(`https://www.googleapis.com/books/v1/volumes/${book.id}?key=${key}`);
@@ -58,8 +59,8 @@ const AddBooks = () => {
           isAvailable: true,
           condition: condition,
           author: bookData.authors ? bookData.authors.join(', ') : 'n/a',
-          image_url: bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : default_image) : default_image,
-          thumbnail_url: bookData.imageLinks ? (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image) : default_image,
+          image_url: bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image)) : default_image,
+          thumbnail_url: bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image)) : default_image,
         }
         return bookObj;
       }));
@@ -104,6 +105,7 @@ const AddBooks = () => {
         try {
           await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, book);
           Alert.alert(book.title, ' has been added!');
+          setRerender(Math.random());
         } catch (error) {
           console.log(error)
         }
@@ -202,7 +204,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     height: 170,
-    padding: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -226,12 +227,11 @@ const styles = StyleSheet.create({
     height: 70,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    paddingBottom: 5,
   },
   thumbnail: {
     borderRadius: 8,
     height: 165,
-    width: 100,
+    width: 120,
   },
   titleText: {
     fontSize: 20,
