@@ -23,7 +23,7 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Create
    < View style={styles.container}>  
       <Image style={styles.logo}
            resizeMode={'contain'}
-           source={require('../assets/images/logo-org.png')}
+           source={require('../assets/images/logo.png')}
            />
       <FormInput
         //value={username}
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
    logo: {
+    marginTop: 20,
     width:250,
     height:200,
    
