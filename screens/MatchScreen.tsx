@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
 
    },
   refreshBox:{
-    alignSelf:'center'
+    alignSelf:'center',
 
     marginLeft: 20,
 
