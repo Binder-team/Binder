@@ -67,13 +67,21 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   
   return (
-    <Stack.Navigator >
+    <Stack.Navigator screenOptions={{
+      headerStyle: {
+        backgroundColor: '#E7C7B2',
+      },
+      // headerTintColor: '#fff',
+      // headerTitleStyle: {
+      //   fontWeight: 'bold',
+      // },
+    }} >
       {getToken()!==null?(
         <>
           <Stack.Screen
             name="Book x Change"
             component={BottomTabNavigator}
-            options={{ headerShown: true, headerTitle: (props) => <LogoTitle {...props} /> } }
+            options={{ headerShown: true, headerTitle: (props) => <LogoTitle {...props} /> }}
           />
           <Stack.Screen
             name="ConfirmExchange"
