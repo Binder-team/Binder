@@ -398,6 +398,10 @@ const styles = StyleSheet.create({
   refreshBox:{
     alignSelf:'center',
     marginLeft: 20,
+    position: 'absolute',
+    zIndex: 10,
+    top: 0,
+    left: 145,
    },
    refresh: {
     width: 1,
