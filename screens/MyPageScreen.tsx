@@ -27,7 +27,6 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   const [userBooks, setUserBooks] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [likedBooks, setLikedBooks] = useState([]);
-  const [logout, setLogout] = useState<boolean>(false);
   const {signOut} = useAuth();
   const  getUserInfo = async() => {
     const fetchedUserInfo = await axios.post(`https://binderapp-server.herokuapp.com/api/users/info`, 
@@ -103,6 +102,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     });
     setLikedBooks(books);
   };
+
 
   return (
     <View style={styles.container}>
