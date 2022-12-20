@@ -223,10 +223,10 @@ const gestureHandler = useAnimatedGestureHandler ({
           </Animated.View> 
       </PanGestureHandler>
       )}
-       <View style={styles.vectorContainer}>
+       {/* <View style={styles.vectorContainer}>
         <Entypo name="cross" size={40} color="#FF4500" style={{padding: 0, marginRight: 100}} />
         <Entypo name="check" size={40} color="#32CD32"  style={{padding: 0, marginLeft: 100}}/>
-       </View>
+       </View> */}
       </View>    
     </GestureHandlerRootView>
   );
