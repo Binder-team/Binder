@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, ChangeEvent } from 'react';
-import { StyleSheet, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, TouchableOpacity, Image, KeyboardAvoidingView} from 'react-native';
 import { Text, View } from '../components/Themed';
 import { setToken, getToken, getUsername, setUsername, setPassword, getPassword } from '../components/userTokenManager';
 import axios from 'axios';
@@ -43,15 +43,16 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Create
         <ButtonForm title='Sign In' onPress={signIn}/>
     </TouchableOpacity>
     <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+    <View style={styles.signUp}>
     <Text>New user? Join here!</Text>
-    <TouchableOpacity>
+    <TouchableOpacity >
         <ButtonForm title='Create an Account' onPress={()=>{
           navigation.navigate('CreateAccount')
         }}/>
     </TouchableOpacity>
+    </View>
     </View> 
-
-
+   
   )
 }
  
@@ -60,8 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 150,
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF',
   },
   title: {
     fontSize: 20,
@@ -79,5 +79,13 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     height: 3,
     width: '80%',
+    //marginBottom: 200,
   },
+  signUp: {
+    justifyContent: 'center',
+    alignItems:'center',
+    marginBottom:200,
+    backgroundColor:'#FBF0DF'
+     
+  }
 });
