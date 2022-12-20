@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '35%',
     padding: 7,
-    backgroundColor:'#FBF0DF',
+    backgroundColor:'#fcf6ed',
   },
   text:{
     fontSize:15,
@@ -250,6 +250,7 @@ const styles = StyleSheet.create({
     
   },
   profile__column2__top: {
+    top:22,
     alignItems: 'flex-start',
     justifyContent: 'space-evenly',
     width: '100%',
