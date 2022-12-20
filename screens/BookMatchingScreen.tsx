@@ -217,16 +217,15 @@ const gestureHandler = useAnimatedGestureHandler ({
   );
 }
 
-
-
 const styles = StyleSheet.create({
   pageContainer: {
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     flex: 1,
-    backgroundColor:'#F9F2ED',
+    backgroundColor: '#F9F2ED',
+    marginTop: 20,
   },
-  animatedCard: {
+  animatedCard: { //The actual card location
     position:'absolute',
     width: '90%',
     height: '70%',
@@ -234,11 +233,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     //marginTop: 10,
-    //backgroundColor:'blue',
+    backgroundColor:'blue',
   }, 
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   like: {
