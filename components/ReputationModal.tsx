@@ -100,8 +100,10 @@ const ReputationModal = (props: ReputationModalProps, ) => {
                                         onClose();
                                     }
                                 }
-                                >Confirm</Button>
-                                <Button onPress={onClose}>Cancel</Button>
+                                >
+                                    <Text style={styles.buttonText}>Confirm</Text>
+                                </Button>
+                                <Button style={{color: 'black'}} onPress={onClose}>Cancel</Button>
                             </View>
                         </View>
                     </View>
@@ -158,8 +160,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 30,
-        backgroundColor: 'green',
+        backgroundColor: '#1e86ac',
     },
+    buttonText: {
+        fontSize: 13,
+        color: '#F3F3F3',
+        lineHeight: 15,
+        fontWeight: '500',
+      },
 });
 
 export default ReputationModal;
