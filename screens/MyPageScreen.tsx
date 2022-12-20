@@ -29,7 +29,6 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   const [userBooks, setUserBooks] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [likedBooks, setLikedBooks] = useState([]);
-  const [logout, setLogout] = useState<boolean>(false);
   const {signOut} = useAuth();
   const [refresh, setRefresh] = useState<boolean>(true);
   const  getUserInfo = async() => {
@@ -51,7 +50,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   const getUserRating = async () => {
     const fetchedRatings = await axios.get(`https://binderapp-server.herokuapp.com/api/reputation/user/average/${getUsername()}`);
     const scoreArray = fetchedRatings.data.map((rating: Rating) => rating.score);
-    const score = Math.min(scoreArray.reduce((acc: number, curr: number) => acc + curr, 0) / scoreArray.length);
+    const score = scoreArray.length > 0 ? Math.min(scoreArray.reduce((acc: number, curr: number) => acc + curr, 0) / scoreArray.length): 5;
     setDefaultRating(Math.round(score));
   }
 
@@ -107,6 +106,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     });
     setLikedBooks(books);
   };
+
 
   return (
     <View style={styles.container}>
@@ -288,9 +288,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     flexWrap: 'wrap',
-    height: '100%',
-    backgroundColor:'#FBF0DF',
-    
+    height: '140%',
+    backgroundColor:'#FBF0DF'
   },
   book__shelf: {
     width: '100%',

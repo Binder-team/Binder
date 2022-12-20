@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Button, Text, View, Image, StatusBar, useWindowDimensions, Pressable, PanResponder } from 'react-native';
+import { StyleSheet, Text, View, Image, StatusBar, useWindowDimensions, Pressable, PanResponder } from 'react-native';
+import { Portal, Dialog, Paragraph, Button } from 'react-native-paper';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import axios from 'axios';
 import BookCard from '../components/BookCard'
@@ -70,6 +71,8 @@ const currentProfile = bookData[currentIndex];
 const nextProfile = bookData[currentIndex+1];
 const translateX = useSharedValue(0);
 const[profile, setProfile] = useState(currentProfile);
+const [showDropDown, setShowDropDown] = useState(false);
+const [visible, setVisible] = useState(false);
 
 
 const handleFetch = async() => {
@@ -91,7 +94,7 @@ const handleFetch = async() => {
   setRerender(Math.random());
   console.log("swipe right: ", bookObj.title)
   if( match.data > 0){
-    Alert.alert(`You got a new match!`)
+    showDialog();
     setMatchState(match.data);
   }
 }
@@ -177,10 +180,22 @@ const gestureHandler = useAnimatedGestureHandler ({
   sharedValue.value = 0;
   }, [currentIndex, translateX]);
   
-
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
   
   return (
     <GestureHandlerRootView style={{flex: 1}}>
+      <Portal>
+        <Dialog visible={visible} onDismiss={hideDialog}>
+          <Dialog.Title>You Got A Match!</Dialog.Title>
+          <Dialog.Content>
+            <Paragraph>You've got 1 match.</Paragraph>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={hideDialog}>Done</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
       <View style={styles.pageContainer}>
         {nextProfile && (
       <View style={styles.nextCardContainer}>

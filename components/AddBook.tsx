@@ -19,7 +19,6 @@ const AddBooks = () => {
   const [bookResults, setBookResults] = useState([]);
   const [bookTitleQuery, setBookTitleQuery] = useState<string>('');
   const [condition, setCondition] = useState<string>('');
-  const [isConditionSet, setIsConditionSet] = useState<boolean>(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -112,8 +111,6 @@ const AddBooks = () => {
   async function onSubmit (book : Book, condition: string): Promise<void> {
     if (condition === '') {
       showDialog();
-      console.log(condition)
-      // Alert.alert('Please state book condition')
     } else {
       try {
         await axios.post(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`, book);
