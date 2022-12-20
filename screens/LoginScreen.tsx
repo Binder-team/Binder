@@ -23,7 +23,7 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Create
    < View style={styles.container}>  
       <Image style={styles.logo}
            resizeMode={'contain'}
-           source={require('../assets/images/logo-transparent.png')}
+           source={require('../assets/images/logo-org.png')}
            />
       <FormInput
         //value={username}
