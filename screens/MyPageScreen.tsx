@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 0,
     margin: 0,
-    backgroundColor:'#F9F2ED',
+    // backgroundColor:'#F9F2ED',
   },
   profile__container: {
     alignItems: 'center',
