@@ -8,6 +8,8 @@ import axios from 'axios';
 import useAuth from '../hooks/useAuth';
 import { Text } from '../components/Themed';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Feather';
+import { ICON_SIZE } from 'react-native-paper/lib/typescript/components/TextInput/Adornment/TextInputIcon';
 
 const starImgFilled = 'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
 const starImgCorner = 'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
@@ -29,7 +31,9 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   const [likedBooks, setLikedBooks] = useState([]);
   const [logout, setLogout] = useState<boolean>(false);
   const {signOut} = useAuth();
+  const [refresh, setRefresh] = useState<boolean>(true);
   const  getUserInfo = async() => {
+  
     const fetchedUserInfo = await axios.post(`https://binderapp-server.herokuapp.com/api/users/info`, 
     {
       "username": getUsername()
@@ -42,7 +46,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     getUserBooks();
     getUserInfo();
     getLikedBooks();
-  },[]);
+  },[refresh]);
 
   const getUserRating = async () => {
     const fetchedRatings = await axios.get(`https://binderapp-server.herokuapp.com/api/reputation/user/average/${getUsername()}`);
@@ -142,18 +146,30 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
                 </View>
               </View>
               <View style={styles.profile__column2__bottom}>
+                
                 <Card.Actions>
-                  <TouchableOpacity>
+
+                <TouchableOpacity style={styles.refreshbox}>
+                  <Button onPress={ () => setRefresh( !refresh ) } style={styles.refresh } >
+                    <Icon name="refresh-ccw" size={16} color="#23598B"  style={{padding: 0, marginLeft: 0}}/>
+                  </Button>
+                </TouchableOpacity>
+                  <TouchableOpacity style={{left: -30}} >
                     <Button icon="account-edit" color = "#23598B">Edit</Button>
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity  style={{left: -40}}>
                     <Button 
                     color = "#23598B"
                     onPress={signOut}
-                    icon="logout">Logout
+                    icon="logout"
+
+                    >Logout
+                    
                     </Button>
                   </TouchableOpacity>
+                  
                 </Card.Actions>
+                
               </View>
             </View> 
           </View>
@@ -237,7 +253,7 @@ const styles = StyleSheet.create({
   },
   profile__column2__top: {
     alignItems: 'flex-start',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-evenly',
     width: '100%',
     height: '60%',
   },
@@ -305,6 +321,32 @@ const styles = StyleSheet.create({
   toggleButton: {
     width: '49%',
     backgroundColor: '#1E86AC',
+  },
+  refreshbox: {
+    position: 'relative',
+    zIndex: -1,
+    margin: 0,
+    
+    alignContent: 'center',
+    top: 0,
+    left: -19,
+    size: 1,
+    marginLeft: 0,
+    paddingLeft: 0,
+    width: 40,
+    textAlign: "center",
+
+  },
+  refresh: {
+    alignContent: 'center',
+    marginLeft: 0,
+    paddingLeft: 0,
+    width: 1,
+    textAlign: "center",
+    alignSelf: 'center',
+    
+    //flexDirection: 'row',
+
   },
 });
 

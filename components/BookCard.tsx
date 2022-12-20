@@ -82,12 +82,12 @@ const processNextBook = async() => {
             <Image 
                 style={styles.cardImage}
                 source={{uri: `${bookData[ props.index ]["image_url"]}` }}
-                 />
-                     
+                />
+                    
                         
         </Card>
         <View style={styles.cardInner}>
-         {/* <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text> */}
+        <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
         <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text> 
         </View>
                           
@@ -144,13 +144,11 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     }, 
     description: {
-        fontSize: 20,
-        fontWeight: '400',
+        fontSize: 18,
         color: 'black',
-        lineHeight: 30,
+        lineHeight: 20,
         padding: 5,
-        marginLeft: 5,
-        marginTop: 3
+        marginLeft: 10,
     }   
 });
 

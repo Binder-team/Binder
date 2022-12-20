@@ -44,6 +44,7 @@ export default function MatchScreen({ navigation }) {
     username2: '',
     email2: ''
 })
+
   const getMatchedBooks = async () => {
     try {
       const fetchMatch = await axios.get(
@@ -53,41 +54,40 @@ export default function MatchScreen({ navigation }) {
           const mappedMatches = matches.map(item => {
           return (
           <View style={styles.item}>
-            <View style={styles.pairContainer}>
-              <View style={styles.bookContainer}> 
+            
+
+
+            <View style={styles.bookContainer}> 
               <Image
                 style={styles.avatarContainer}
                 source={{
                   uri: item.thumbnail1,
                 }}
               />
-                <Text style = {styles.bookTitle}>{item.title1}</Text>
-                <Text style={styles.text}>By: {item.author1}</Text>
-                <Text style={styles.text}>Condition: {item.condition1}</Text>
-                <Text style={styles.text}>Posted by: {item.username1}</Text>
-                {/* <Text>accepted?: {`${item.didUser1Accept}`}</Text>
-                <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
-                {/* <Text>Contact:{item.email1}</Text>  */}
-              </View>  
-              <View style={styles.bookContainer}>
+              <Text style = {styles.bookTitle}>{item.title1}</Text>
+              <Text style={styles.text}>By: {item.author1}</Text>
+              <Text style={styles.text}>Condition: {item.condition1}</Text>
+              <Text style={styles.text}>Posted by: {item.username1}</Text>
+              {/* <Text>accepted?: {`${item.didUser1Accept}`}</Text>
+              <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
+              {/* <Text>Contact:{item.email1}</Text>  */}
+            </View>  
+            {/* <Icon style={styles.icon} name="close" color="black"/> */}
+            <View style={styles.bookContainer}>
               <Image
                 style={styles.avatarContainer}
                 source={{
                   uri: item.thumbnail2,
                 }}
               />
-                <Text style = {styles.bookTitle}>{item.title2}</Text>
-                <Text style={styles.text}>By: {item.author2}</Text>
-                <Text style={styles.text}>Condition: {item.condition2}</Text>
-                <Text style={styles.text}>Posted by: {item.username2}</Text>
-                {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
-                <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
-                {/* <Text>Contact:{item.email2}</Text> */}
+              <Text style = {styles.bookTitle}>{item.title2}</Text>
+              <Text style={styles.text}>By: {item.author2}</Text>
+              <Text style={styles.text}>Condition: {item.condition2}</Text>
+              <Text style={styles.text}>Posted by: {item.username2}</Text>
+              {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
+              <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
+              {/* <Text>Contact:{item.email2}</Text> */}
             </View>
-          </View>
-            
-            {/* <Icon style={styles.icon} name="close" color="black"/> */}
-            
             <View style = {styles.buttonContainer}>
                 {(item.didUser1Accept && item.didUser2Accept) 
                 ? (<Button
@@ -135,7 +135,7 @@ export default function MatchScreen({ navigation }) {
                     sendCancel(item)
                   }}
                   >
-                    <Text style={styles.buttonText}>Decline</Text>
+                    <Text style={styles.buttonText}>Deny</Text>
                   </Button>
             
               </View> 
@@ -218,7 +218,7 @@ export default function MatchScreen({ navigation }) {
               
                 <ScrollView>{matchedBooks}</ScrollView>
             </View>
-      
+
           ):(
             <View>
               <Text title = "confirm exchange" style = {styles.title}>Confirm your exchange</Text>
@@ -237,22 +237,10 @@ export default function MatchScreen({ navigation }) {
   );
 }
 
-
-
-
-
 const styles = StyleSheet.create({
   icon: {
     margin: 0,
     padding: 0,
-  },
-  pairContainer:{
-    flexDirection:'row',
-    borderRadius: 10,
-    width: '100%',
-    backgroundColor:'#fcf6ed',
-    elevation:5,
-    paddingTop:10
   },
   pageContainer:{
     backgroundColor: '#FBF0DF',
@@ -289,6 +277,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor:'#fcf6ed',
     resizeMode:'cover',
+    elevation:5,
     marginHorizontal:5,
     marginBottom:10
     // borderColor: 'black',
@@ -310,15 +299,15 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     textAlign:'center',
     fontWeight:'bold',
-    paddingVertical:10,
+    paddingVertical:15,
     height: 75
   },
   buttonContainer:{
     flexDirection: 'row',
-    marginHorizontal:20,
+    marginHorizontal:30,
     justifyContent: 'space-evenly',
     backgroundColor:'#FBF0DF',
-    marginTop: 20,
+    marginTop: 15,
   },
   button: {
     flex: 1,
@@ -366,6 +355,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     fontWeight: '400',
     resizeMode: 'contained'
+
   },
   title: {
     width:'100%',
@@ -387,6 +377,7 @@ const styles = StyleSheet.create({
     fontSize: 14, 
     fontWeight: '500', 
     alignSelf: 'flex-start',
+
     marginLeft: 18,
     marginBottom: 5,
     color: '#666260',
@@ -399,5 +390,12 @@ const styles = StyleSheet.create({
    },
   refreshBox:{
     alignSelf:'center'
+
+    marginLeft: 20,
+
+   },
+   refresh: {
+
+
    }
 });

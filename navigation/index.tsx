@@ -28,8 +28,8 @@ import { Image } from "react-native";
 function LogoTitle() {
   return (
     <Image
-      style={{ width: 60, height: 60, justifyContent: 'center',alignItems: 'center',resizeMode:'contain', alignSelf:"center"}}
-      source={require('../assets/images/logo-transparent.png')}
+      style={{ width: 100, height: 70, justifyContent: 'center',alignItems: 'center',resizeMode:'contain', alignSelf:"center"}}
+      source={require('../assets/images/logo.png')}
     />
   );
 }
