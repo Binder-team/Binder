@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Button, Text, View, Image, StatusBar, useWindowDimensions, Pressable } from 'react-native';
+import { StyleSheet, Button, Text, View, Image, StatusBar, useWindowDimensions, Pressable, PanResponder } from 'react-native';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import axios from 'axios';
 import BookCard from '../components/BookCard'
@@ -20,11 +20,6 @@ import { getUsername } from '../components/userTokenManager';
 import { Alert } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { setRerender } from '../components/userTokenManager';
-
-
-
-
-
 
 const Like = require('../assets/images/LIKE.png');
 const Nope = require('../assets/images/nope.png');
@@ -85,6 +80,7 @@ const handleFetch = async() => {
 
   useEffect(()=>{
     handleFetch();
+    console.log("fetching");
   },[]);
 
 
@@ -167,12 +163,13 @@ const gestureHandler = useAnimatedGestureHandler ({
       {},
       () =>runOnJS(setCurrentIndex)(currentIndex + 1), 
       );
+    
       //function for matching ... should be on screen 
       
     const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
 
     onSwipe && runOnJS(onSwipe)(currentProfile);
-    runOnJS(setNextIndex)(nextIndex + 1);
+    runOnJS(setNextIndex)(currentIndex + 1);
   },
 });
 
@@ -219,28 +216,27 @@ const gestureHandler = useAnimatedGestureHandler ({
   );
 }
 
-
-
 const styles = StyleSheet.create({
   pageContainer: {
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     flex: 1,
+    marginTop: 1,
     backgroundColor:'#FBF0DF'
   },
-  animatedCard: {
+  animatedCard: { //The actual card location
     position:'absolute',
     width: '90%',
     height: '75%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // marginBottom: 10,
+    marginTop: 40,
     //backgroundColor:'blue',
   }, 
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   like: {

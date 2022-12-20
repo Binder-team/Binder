@@ -67,9 +67,8 @@ const processNextBook = async() => {
 
   useEffect(()=>{
     handleFetch();
-    //console.log(bookData[0].title);
-    //console.log(bookData);
-    console.log("❣");
+
+//    console.log("❣");
   },[]);
 
   useEffect(()=>{
@@ -110,24 +109,23 @@ const styles = StyleSheet.create({
       //flex: 1,
       width: '100%',
       height: '100%',
-      borderRadius: 10,
+      borderRadius: 5,
       backgroundColor: '#fefefe',
       shadowColor: '#000',
       shadowOffset: {
-            width: 0,
-            height: 10,
+      width: 0,
+      height: 5,
       },
       shadowOpacity: 0.36,
       shadowRadius: 6.68,
       elevation: 5,
       borderColor: 'lightgrey',
         
-        
     },
     cardImage: {
         width: '100%',
         height: '100%',
-        borderRadius: 10,
+        borderRadius: 2,
         overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center',
