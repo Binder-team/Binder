@@ -23,8 +23,16 @@ import { BottomNavigation, Provider, BottomNavigationProps, Text } from "react-n
 // import LinkingConfiguration from "./LinkingConfiguration";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { BottomTabBarButtonProps, BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { Image } from "react-native";
 
-
+function LogoTitle() {
+  return (
+    <Image
+      style={{ width: 50, height: 50, justifyContent: 'center',alignItems: 'center',}}
+      source={require('../assets/images/logo-transparent.png')}
+    />
+  );
+}
 
 export default function Navigation({
   colorScheme,
@@ -59,13 +67,21 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   
   return (
-    <Stack.Navigator >
+    <Stack.Navigator screenOptions={{
+      headerStyle: {
+        backgroundColor: '#E7C7B2',
+      },
+      // headerTintColor: '#fff',
+      // headerTitleStyle: {
+      //   fontWeight: 'bold',
+      // },
+    }} >
       {getToken()!==null?(
         <>
           <Stack.Screen
             name="Book x Change"
             component={BottomTabNavigator}
-            options={{ headerShown: true }}
+            options={{ headerShown: true, headerTitle: (props) => <LogoTitle {...props} /> }}
           />
           <Stack.Screen
             name="ConfirmExchange"
