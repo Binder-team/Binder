@@ -14,7 +14,7 @@ import { Card } from 'react-native-paper';
 import ConfirmExchange from '../components/ConfirmExchange';
 import { RootStackParamList } from '../types';
 import { ScreenContainer } from 'react-native-screens';
-import Icon from 'react-native-vector-icons/AntDesign'
+import Icon from 'react-native-vector-icons/Feather'
 export type Props = {
   book: Book,
   BookItem: Function,
@@ -27,6 +27,7 @@ export default function MatchScreen({ navigation }) {
   const [currentView, setCurrentView] = useState<string>("all matches");
   const [numberMatches, setNumberMatches] = useState<number>();
   const [rerender, setRerender] = useState<number>();
+  const [refresh, setRefresh] = useState<boolean>(true);
   let counter = 0;
 
   const [item, setItem] = useState({
@@ -191,7 +192,9 @@ export default function MatchScreen({ navigation }) {
     getMatchedBooks();
   },[]); 
  
-
+  useEffect(()=>{
+    getMatchedBooks();
+  },[refresh]);
 
   const itemSeparator = () => {
     return <View style={styles.separator} />;
@@ -199,11 +202,20 @@ export default function MatchScreen({ navigation }) {
   
   return (
     <SafeAreaView >    
-      <View style= {styles.pageContainer}>
+      <View style={styles.pageContainer}>
         <View>
           {currentView === "all matches"? ( 
-            <View>
-              <Text title = "matches" style = {styles.title}>My matches:</Text>
+            <View style={styles.titleContainer}>
+              <TouchableOpacity style={styles.refreshbox}>
+                  <Button onPress={ () => setRefresh(!refresh) } style={styles.refresh } >
+                    <Icon name="refresh-ccw" size={16} color="#23598B" style={{padding: 0, marginLeft: 0}}/>
+                  </Button>
+                </TouchableOpacity>
+              <View >
+              
+                
+              </View>
+              
                 <ScrollView>{matchedBooks}</ScrollView>
             </View>
       
@@ -361,15 +373,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontSize: 25,
     fontWeight: 'bold',
-    paddingHorizontal:10,
+    paddingHorizontal:100,
     color:'#283747',
     backgroundColor:'#FBF0DF',
-    paddingBottom:10
+    paddingBottom:10,
+    left:-15
   },
   separator: {  
     color: 'black'
   },
-   text: {
+  text: {
     alignItems:'flex-start',
     fontSize: 14, 
     fontWeight: '500', 
@@ -377,6 +390,14 @@ const styles = StyleSheet.create({
     marginLeft: 18,
     marginBottom: 5,
     color: '#666260',
+   },
+  titleContainer:{
+    width:'100%',
+    flexDirection:'row',
+    backgroundColor:'#FBF0DF'
+
+   },
+  refreshBox:{
+    alignSelf:'center'
    }
-   
 });
