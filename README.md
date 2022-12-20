@@ -1,4 +1,4 @@
-# Binder Privacy Policy
+# Book x Change Privacy Policy
 
 Any and all information collected is available on a restricted database. Requests for removal of collected data or account data is free by request by Email.
 
