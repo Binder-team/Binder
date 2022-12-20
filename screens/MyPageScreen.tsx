@@ -1,358 +1,311 @@
-import React, { useEffect, useState }from 'react';
-import { View, StyleSheet, Image, SafeAreaView,Platform,StatusBar } from 'react-native';
-import { Avatar, Button, Card, DataTable, Title, ToggleButton } from 'react-native-paper';
-import { Book, Rating } from '../types';
-import { getUsername, rerender} from '../components/userTokenManager';
-import { RootStackScreenProps } from '../types';
+// import { StatusBar } from 'expo-status-bar';
+import { useEffect, useState, useRef } from 'react';
+import { Platform, StyleSheet,Image, TouchableOpacity, } from 'react-native';
+import { Button } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import BookCard from '../components/BookCard';
+import { Book } from '../types';
+import { getUsername } from '../components/userTokenManager';
+import EditScreenInfo from '../components/EditScreenInfo';
+import { Text, View } from '../components/Themed';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
-import useAuth from '../hooks/useAuth';
-import { Text } from '../components/Themed';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
-import { interpolate } from 'react-native-reanimated';
-import AnimatedHeader from 'react-native-animated-header';
-import { ScreenStackHeaderSearchBarView
- } from 'react-native-screens';
-const starImgFilled = 'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
-const starImgCorner = 'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
-
+import { Card } from 'react-native-paper';
+import ConfirmExchange from '../components/ConfirmExchange';
+import { RootStackParamList } from '../types';
+import { ScreenContainer } from 'react-native-screens';
 export type Props = {
-  book: Book;
-  BookItem: Function;
-  MyBooks: Function;
-  LikedBooks: Function;
-  navigation: Function
+  book: Book,
+  BookItem: Function,
+  ConfirmExchange: Function
 }
-
-const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
-  const [toggleView, setToggleView] = useState('MyBooks');
-  const [defaultRating, setDefaultRating] = useState(5);
-  const [maxRating, setMaxRating] = useState([1,2,3,4,5]);
-  const [userBooks, setUserBooks] = useState([]);
-  const [userInfo, setUserInfo] = useState({});
-  const [likedBooks, setLikedBooks] = useState([]);
-  const [logout, setLogout] = useState<boolean>(false);
-  const {signOut} = useAuth();
-  const  getUserInfo = async() => {
-    const fetchedUserInfo = await axios.post(`https://binderapp-server.herokuapp.com/api/users/info`, 
-    {
-      "username": getUsername()
-    });
-    const info = fetchedUserInfo.data;
-    setUserInfo(info);
-  }
-  useEffect(()=>{
-    getUserRating();
-    getUserBooks();
-    getUserInfo();
-    getLikedBooks();
-    console.log('profile page books refreshed')
-  },[rerender]);
-
- const HEADER_HEIGHT = Platform.OS == 'ios'?115:70;
-  const scrolly = new Animated.Value(0);
-  const diffClampScrollY = Animated.diffClamp(scrolly,0,HEADER_HEIGHT);
- 
-  const headerY = Animated.interpolateNode(diffClampScrollY,{
-    inputRange:[0,HEADER_HEIGHT],
-    outputRange:[0,-HEADER_HEIGHT]
-  })
-
-  const getUserRating = async () => {
-    const fetchedRatings = await axios.get(`https://binderapp-server.herokuapp.com/api/reputation/user/average/${getUsername()}`);
-    const scoreArray = fetchedRatings.data.map((rating: Rating) => rating.score);
-    const score = Math.min(scoreArray.reduce((acc: number, curr: number) => acc + curr, 0) / scoreArray.length);
-    setDefaultRating(score);
-  }
-
-  const getUserBooks = async () => {
-    const fetchedBooks = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`);
-    const books = fetchedBooks.data.map((book: Book) => {
-      return (
-        <Card style={styles.book__card}>
-          <Image 
-            style={styles.thumbnail}
-            source={
-              {
-                uri: book.thumbnail_url, 
-                width: 50,
-                height: 50,
-              }
-            }
-          ></Image>
-          <Text style={styles.book__title}>{book.title}</Text>
-        </Card>
-      );
-    });
-    setUserBooks(books);
-  };
-
-  const getLikedBooks = async () => {
-    const fetchLikes = await axios.get(
-      `https://binderapp-server.herokuapp.com/api/trade_table/liked/${getUsername()}`,
-      );
-      const likedBookIds = fetchLikes.data.map((book: Book) => book.bookId);
-      const likedBooks =  await Promise.all(likedBookIds.map(async (id : string) => {
-        const bookObj = await axios.get(
-          `https://binderapp-server.herokuapp.com/api/user_books/${id}`,
+export default function MatchScreen({ navigation }) {
+  const [acceptTrade, setAcceptTrade] = useState<boolean>(false);
+  const [matchedBooks, setMatchedBooks] = useState<[]>([]);
+  const [currentView, setCurrentView] = useState<string>("all matches");
+  const [numberMatches, setNumberMatches] = useState<number>();
+  const [rerender, setRerender] = useState<number>();
+  let counter = 0;
+  const [item, setItem] = useState({
+    thumbnail1:'',
+    title1: '',
+    author1: '',
+    condition1: '',
+    username1: '',
+    email1: '',
+    thumbnail2:'',
+    title2: '',
+    author2: '',
+    condition2: '',
+    username2: '',
+    email2: ''
+})
+  const getMatchedBooks = async () => {
+    try {
+      const fetchMatch = await axios.get(
+          `https://binderapp-server.herokuapp.com/api/matches/${getUsername()}`,
           );
-          return bookObj.data;
-      }));
-    const books = likedBooks.map((book) => {
-      return (
-        <Card style={styles.book__card} mode='outlined'>
-          <Image 
-            style={styles.thumbnail}
-            source={
-              {
-                uri: book.thumbnail_url, 
-                width: 50,
-                height: 50,
-              }
-            }
-          ></Image>
-          <Text style={styles.book__title}>{book.title}</Text>
-        </Card>
-      );
-    });
-    setLikedBooks(books);
-  };
-
-  return ( <>
-  <View style={{flex:1}}>
-   <Animated.View style={{
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    height: HEADER_HEIGHT,
-    width: "100%",
-    //overflow: "hidden",
-    zIndex: 1000,
-    elevation:1000,
-    backgroundColor:'#E89064',
-    // STYLE
-    //borderBottomColor: "#EFEFF4",
-    //borderBottomWidth: 2,
-    //padding: 10,
-   // backgroundColor: "blue"
-   transform:[{ translateY: headerY}],
-   alignItems: 'center',
-   justifyContent: 'center',
-   paddingTop: 45
-  
-  }}>
-
-    <Text>Book x Change</Text>
-  </Animated.View>
-  </View> 
-  <Animated.ScrollView
-  bounces={false}
-  scrollEventThrottle={16}
-  style={{paddingTop: HEADER_HEIGHT}}
-  onScroll={Animated.event([
-    {
-      nativeEvent:{contentOffset:{y:scrolly}}
-    }
-  ])}
-  >
-   {/* <Animated.View style={{position:'absolute',left:0,right:0,top:0,height:69,backgroundColor:'grey'}}/>  */}
-  
-    <View style={styles.container}>
-      
-        <Card style={styles.profile__container} mode='outlined'>
-          <View style={styles.profile__column1}>
-            <Card.Content>
-              <Image style={styles.image}source={{uri:userInfo.profile_url}} ></Image>
-              <Title>{userInfo.username}</Title>
-              <View style={styles.strRating}>
-                {
-                  maxRating.map((item, key) => {
-                    return (
-                      <Image
-                          style={styles.starImg}
-                          source={
-                              item <= defaultRating
-                                  ? {uri: starImgFilled}
-                                  : {uri: starImgCorner}
-                        }/>
-                      );
-                  })
-                }
-              </View>
-                <Text> {defaultRating} / 5</Text>
-            </Card.Content>
-            <View style={styles.profile__column2}>
-              <View style={styles.profile__column2__top}>
-                <View style={{justifyContent:'center',alignItems: 'flex-start' , flexDirection: 'row'}}>
-                  <Avatar.Icon size={24} icon="pin" />
-                  <Text>  {userInfo.city}</Text>
-                  <Text>  {userInfo.postal_code}</Text>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <Avatar.Icon size={24} icon="email" />
-                  <Text>  {userInfo.email}</Text>
-                </View>
-              </View>
-              <View style={styles.profile__column2__bottom}>
-                <Card.Actions>
-                  <TouchableOpacity>
-                    <Button icon="account-edit">Edit</Button>
-                  </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Button 
-                    onPress={signOut}
-                    icon="logout">Logout
-                    </Button>
-                  </TouchableOpacity>
-                </Card.Actions>
-              </View>
-            </View> 
-          </View>
-        </Card>
-        <SafeAreaView>
-        
-        </SafeAreaView>
-        {/* <Animated.ScrollView></Animated.ScrollView> */}
-        <ToggleButton.Row onValueChange={value => setToggleView(value)} value={toggleView}>
-          <ToggleButton style={styles.toggleButton} icon="book" value="MyBooks" />
-          <ToggleButton style={styles.toggleButton} icon="cards-playing-heart-multiple" value="LikedBooks" />
-        </ToggleButton.Row>
-        <Card style={styles.books__container} mode='outlined'>
-          {toggleView === "MyBooks"
-          ? (
-            <View style={styles.books__shelf__container}>
-              <DataTable>
-                <DataTable.Header>
-                  <DataTable.Title>My Books</DataTable.Title>
-                </DataTable.Header>
-                <ScrollView contentContainerStyle={styles.book__shelf}>
-                  {userBooks}
-                </ScrollView>
-              </DataTable>
+          const matches = await fetchMatch.data;
+          const mappedMatches = matches.map(item => {
+          return (
+          <View style={styles.item}>
+            <View style={styles.bookContainer}>
+              <Image
+                style={styles.avatarContainer}
+                source={{
+                  uri: item.thumbnail1,
+                }}
+              />
+              <Text style = {styles.bookTitle}>{item.title1}</Text>
+              <Text style={styles.text}>Author: {item.author1}</Text>
+              <Text style={styles.text}>Condition: {item.condition1}</Text>
+              <Text style={styles.text}>User: {item.username1}</Text>
+              {/* <Text>accepted?: {`${item.didUser1Accept}`}</Text>
+              <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
+              {/* <Text>Contact:{item.email1}</Text>  */}
             </View>
-          ): (
-            <View style={styles.books__shelf__container}>
-              <DataTable>
-                <DataTable.Header>
-                  <DataTable.Title>Liked Books</DataTable.Title>
-                </DataTable.Header>
-                <ScrollView contentContainerStyle={styles.book__shelf}>
-                  {likedBooks}
-                </ScrollView>
-              </DataTable>
+            <View style={styles.bookContainer}>
+              <Image
+                style={styles.avatarContainer}
+                source={{
+                  uri: item.thumbnail2,
+                }}
+              />
+              <Text style = {styles.bookTitle}>{item.title2}</Text>
+              <Text style={styles.text}>Author: {item.author2}</Text>
+              <Text style={styles.text}>Condition: {item.condition2}</Text>
+              <Text style={styles.text}>User: {item.username2}</Text>
+              {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
+              <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
+              {/* <Text>Contact:{item.email2}</Text> */}
+            </View>
+            <View style = {styles.buttonContainer}>
+                {(item.didUser1Accept && item.didUser2Accept)
+                ? (<Button
+                    activeOpacity={.3}
+                    style = {styles.button}
+                    title="see contact details"
+                    mode="contained"
+                    onPress={()=>{
+                      setCurrentView("confirm exchange view")
+                      setItem(item)
+                    }}
+                  >
+                    <Text style={styles.buttonText}>Contact</Text>
+                  </Button>
+                ) : (item.username1===getUsername() && item.didUser1Accept || item.username2===getUsername() && item.didUser2Accept
+                ) ? (
+                  <Button
+                        activeOpacity={.3}
+                        style={styles.button}
+                        title="pending"
+                        mode="contained">
+                      <Text style={styles.buttonText}>Pending</Text>
+                  </Button>
+                ):(
+                  <Button
+                    activeOpacity={.3}
+                    style={styles.button}
+                    title="accept"
+                    onPress={()=>{
+                      setAcceptTrade(true)
+                      sendAccept(item)
+                      }
+                    }
+                  >
+                  <Text style={styles.buttonText}>Accept</Text>
+                  </Button>
+                )}
+                <Button
+                  activeOpacity={0.6}
+                  style={styles.denyButton}
+                  title="deny"
+                  onPress={()=>{
+                    sendCancel(item)
+                  }}
+                  >
+                    <Text style={styles.buttonText}>Deny</Text>
+                  </Button>
+              </View>
+          </View>
+           )
+          });
+          console.log(Array.isArray(mappedMatches))
+            setMatchedBooks(mappedMatches)
+        } catch (err)  {
+        console.log(err);
+      }
+  }
+  const sendAccept = async (item) => {
+    try {
+      const put = await axios.put(
+        `https://binderapp-server.herokuapp.com/api/matches/accept/user/${getUsername()}`, item
+      );
+      console.log(item);
+      const data = put.data;
+      setAcceptTrade(true);
+      counter++;
+      setRerender(counter);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  const sendCancel = async (item) => {
+    try {
+      const put = await axios.put(
+        `https://binderapp-server.herokuapp.com/api/matches/deny/user/${getUsername()}`, item
+      );
+      const data = put.data;
+      counter++;
+      setRerender(counter);
+      setNumberMatches(data);
+      // setRerender(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    getMatchedBooks();
+  },[rerender]);
+  useEffect(() => {
+    getMatchedBooks();
+  },[]);
+  const itemSeparator = () => {
+    return <View style={styles.separator} />;
+  };
+  return (
+    <SafeAreaView >
+      <View style= {styles.pageContainer}>
+        <View>
+          {currentView === "all matches"? (
+            <View>
+              <Text title = "matches" style = {styles.title}>My matches:</Text>
+                <ScrollView>{matchedBooks}</ScrollView>
+            </View>
+          ):(
+            <View>
+              <Text title = "confirm exchange" style = {styles.title}>Confirm your exchange</Text>
+               <ConfirmExchange
+                  item = {item}
+                  setCurrentView = {setCurrentView}
+                  setRerender={setRerender}
+                  counter={counter}
+            />
             </View>
           )}
-        </Card>
-    </View>
-     </Animated.ScrollView>
-    </>
-   
-  )
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 }
-
-
 const styles = StyleSheet.create({
-
-  container: {
-    flex: 1,
-    width: '100%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    padding: 0,
-    margin: 0,
-    backgroundColor:'#F9F2ED',
-  },
-  profile__container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    width: '100%',
-    height: '35%',
-    padding: 7,
-    backgroundColor:'#F9F2ED',
-  },
-  profile__column1: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-end',
-    flexDirection: 'row',
-    width: '50%',
-  },
-  profile__column2: {
-    flexDirection: 'column',
-    width: '120%',
-    height: '100%'
-  },
-  profile__column2__top: {
-    alignItems: 'flex-start',
-    justifyContent: 'flex-end',
-    width: '100%',
-    height: '60%',
-  },
-  profile__column2__bottom: {
-    alignItems: 'flex-start',
-    justifyContent: 'flex-end',
-    width: '100%',
-    height: '40%',
-  },
-  image:{
-    width:100,
-    height:100,
-    borderWidth: 10,
-    borderRadius:25,
-  },
-  starImg: {
-    width: 25,
-    height: 25,
-    resizeMode: 'cover',
-  },
-  strRating: {
-    flexDirection: 'row',
-  },
-  books__container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: '100%',
-    height: '60%',
-  },
-  books__shelf__container: {
-    width: '100%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
+  pageContainer:{
+    backgroundColor: '#F9F2ED',
+    width:'100%',
     height: '100%',
-    backgroundColor:'#F9F2ED',
-  },
-  book__shelf: {
-    width: '100%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    textAlign: 'center',
+    padding: 5,
+    paddingBottom: 10,
   },
-  book__card: {
+   item: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 13,
+    flexWrap: 'wrap',
+    backgroundColor:'#F9F2ED',
+    marginTop: 0,
+    marginBottom: 0,
+    paddingBottom: 30,
+    paddingHorizontal: 20
+  },
+   bookContainer: {
+    borderRadius: 20,
+    height: '90%',
+    width: '50%',
+    alignItems: 'center',
+    backgroundColor:'#F9F2ED',
+    resizeMode:'cover',
+    borderColor: 'black',
+  },
+  avatarContainer: {
+    backgroundColor: '#F9F2ED',
+    borderRadius: 2,
+    height: 170,
+    width: 130,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 230,
-    width: 116,
-    margin: 7,
-    overflow: 'hidden',
-  },
-  book__title: {
-    marginTop: 10,
-    fontWeight: 'bold'
-  },
-  thumbnail: {
+    resizeMode: 'cover',
     marginTop: 5,
-    borderRadius: 8,
-    height: 170,
-    width: 100,
   },
-  toggleButton: {
-    width: '49%',
-    backgroundColor: '#1EAE98',
+  bookTitle:{
+    fontSize:16,
+    justifyContent:'center',
+    textAlign:'center',
+    fontWeight:'bold',
+    paddingVertical:10,
+    height: 75
   },
+  buttonContainer:{
+    flexDirection: 'row',
+    marginHorizontal:20,
+    justifyContent: 'space-evenly',
+    backgroundColor:'#F3F3F3',
+    marginTop: 5,
+  },
+  button: {
+    flex: 1,
+    //width: 10,
+    //height: 35,
+    backgroundColor:'#1EAE98',
+    //justifyContent: 'center',
+   // alignItems: 'center',
+   // borderRadius:5,
+    marginHorizontal: 5,
+    elevation:5,
+    shadowColor: '#000',
+   // mode:'contained'
+  },
+  denyButton: {
+    flex: 1,
+    //width: 10,
+    //height: 35,
+    backgroundColor:'#D82148',
+    //justifyContent: 'center',
+    //alignItems: 'center',
+    //borderRadius:5,
+    marginHorizontal: 5,
+    elevation:5,
+    shadowColor: '000',
+  },
+  buttonText: {
+    fontSize: 15,
+    color: 'white',
+    lineHeight: 18,
+    fontWeight: '400',
+    resizeMode: 'contained'
+  },
+  title: {
+    width:'100%',
+    alignSelf: 'flex-start',
+    justifyContent: 'center',
+    fontSize: 25,
+    fontWeight: 'bold',
+    paddingHorizontal:10,
+    color:'#283747',
+    backgroundColor:'#F9F2ED',
+    paddingBottom:10
+  },
+  separator: {
+  },
+   text: {
+    alignItems:'flex-start',
+    fontSize: 14,
+    fontWeight: '350',
+    alignSelf: 'flex-start',
+    marginLeft: 30,
+   }
 });
-
-export default  MyPageScreen;
