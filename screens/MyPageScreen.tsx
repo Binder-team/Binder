@@ -155,16 +155,14 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
                   </Button>
                 </TouchableOpacity>
                   <TouchableOpacity style={{left: -30}} >
-                    <Button icon="account-edit" color = "#23598B">Edit</Button>
+                    <Button icon="account-edit" color = "#23598B"style={{disabled: 'true'}}>Edit</Button>
                   </TouchableOpacity>
                   <TouchableOpacity  style={{left: -40}}>
                     <Button 
                     color = "#23598B"
                     onPress={signOut}
                     icon="logout"
-
                     >Logout
-                    
                     </Button>
                   </TouchableOpacity>
                   
@@ -230,7 +228,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '35%',
     padding: 7,
-    backgroundColor:'#FBF0DF',
+    backgroundColor:'#fcf6ed',
   },
   text:{
     fontSize:15,
@@ -252,6 +250,7 @@ const styles = StyleSheet.create({
     
   },
   profile__column2__top: {
+    top:22,
     alignItems: 'flex-start',
     justifyContent: 'space-evenly',
     width: '100%',

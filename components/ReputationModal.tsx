@@ -131,17 +131,19 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor:'#F9F2ED'
     },
     modalContent: {
-        backgroundColor: 'white',
         borderRadius: 20,
         width: '90%',
         height: '40%',
+        backgroundColor:'#F9F2ED'
     },
     customRatingBar: {
         justifyContent: 'center',
         flexDirection: 'row',
         marginTop: 10,
+        backgroundColor:'#F9F2ED'
     },
     starImg: {
         width: 40,
