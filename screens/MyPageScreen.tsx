@@ -213,18 +213,19 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '35%',
     padding: 7,
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF',
   },
   profile__column1: {
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
     flexDirection: 'row',
     width: '50%',
+    //backgroundColor:'#FBF0DF' does not work here
   },
   profile__column2: {
     flexDirection: 'column',
     width: '120%',
-    height: '100%'
+    height: '100%',
   },
   profile__column2__top: {
     alignItems: 'flex-start',
@@ -237,6 +238,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     width: '100%',
     height: '40%',
+   
   },
   image:{
     width:100,
@@ -265,7 +267,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flexWrap: 'wrap',
     height: '100%',
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF'
   },
   book__shelf: {
     width: '100%',
