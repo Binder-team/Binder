@@ -71,7 +71,7 @@ function RootNavigator() {
       {getToken()!==null?(
         <>
           <Stack.Screen
-            name="Root"
+            name="Book x Change"
             component={BottomTabNavigator}
             options={{ headerShown: true, headerTitle: (props) => <LogoTitle {...props} /> } }
           />
@@ -86,12 +86,12 @@ function RootNavigator() {
           <Stack.Screen 
               name="Login" 
               component={LoginScreen} 
-              options={{title: 'Sign in'}} 
+              options={{title: 'Sign in', headerShown: false}} 
           />
           <Stack.Screen 
               name="CreateAccount" 
               component={CreateAccountScreen} 
-              options={{title: 'Create a new account'}} 
+              options={{title: 'Create a new account', headerShown: false}} 
           />
          </> 
         )}
