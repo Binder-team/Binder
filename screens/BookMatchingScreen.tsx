@@ -21,11 +21,6 @@ import { Alert } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { setRerender } from '../components/userTokenManager';
 
-
-
-
-
-
 const Like = require('../assets/images/LIKE.png');
 const Nope = require('../assets/images/nope.png');
 
@@ -85,6 +80,7 @@ const handleFetch = async() => {
 
   useEffect(()=>{
     handleFetch();
+    console.log("fetching");
   },[]);
 
 
@@ -168,12 +164,13 @@ const gestureHandler = useAnimatedGestureHandler ({
       {},
       () =>runOnJS(setCurrentIndex)(currentIndex + 1), 
       );
+    
       //function for matching ... should be on screen 
       
     const onSwipe = event.velocityX > 0 ?  onSwipeRight : onSwipeLeft; 
 
     onSwipe && runOnJS(onSwipe)(currentProfile);
-    runOnJS(setNextIndex)(nextIndex + 1);
+    runOnJS(setNextIndex)(currentIndex + 1);
   },
 });
 
