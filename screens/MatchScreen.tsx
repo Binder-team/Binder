@@ -52,7 +52,7 @@ export default function MatchScreen({ navigation }) {
           );
           const matches = await fetchMatch.data;
           const mappedMatches = matches.map(item => {
-          return (
+        return (
           <View style={styles.item}>
             
 
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
     resizeMode:'cover',
     elevation:5,
     marginHorizontal:5,
-    marginBottom:10
+    marginBottom:10,
     // borderColor: 'black',
     // borderWidth:2
   },
@@ -389,10 +389,8 @@ const styles = StyleSheet.create({
 
    },
   refreshBox:{
-    alignSelf:'center'
-
+    alignSelf:'center',
     marginLeft: 20,
-
    },
    refresh: {
 

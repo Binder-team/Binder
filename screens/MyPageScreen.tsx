@@ -155,16 +155,14 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
                   </Button>
                 </TouchableOpacity>
                   <TouchableOpacity style={{left: -30}} >
-                    <Button icon="account-edit" color = "#23598B">Edit</Button>
+                    <Button icon="account-edit" color = "#23598B"style={{disabled: 'true'}}>Edit</Button>
                   </TouchableOpacity>
                   <TouchableOpacity  style={{left: -40}}>
                     <Button 
                     color = "#23598B"
                     onPress={signOut}
                     icon="logout"
-
                     >Logout
-                    
                     </Button>
                   </TouchableOpacity>
                   
