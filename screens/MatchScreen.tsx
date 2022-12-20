@@ -130,7 +130,7 @@ export default function MatchScreen({ navigation }) {
                     sendCancel(item)
                   }}
                   >
-                    <Text style={styles.buttonText}>Deny</Text>
+                    <Text style={styles.buttonText}>Decline</Text>
                   </Button>
             
               </View> 
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     textAlign:'center',
     fontWeight:'bold',
-    paddingVertical:15,
+    paddingVertical:10,
     height: 75
   },
   buttonContainer:{
@@ -364,7 +364,8 @@ const styles = StyleSheet.create({
     fontSize: 14, 
     fontWeight: '500', 
     alignSelf: 'flex-start',
-    marginLeft: 20,
+    marginLeft: 18,
+    color: '#666260',
 
    }
    

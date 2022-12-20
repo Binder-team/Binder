@@ -132,22 +132,23 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
             <View style={styles.profile__column2}>
               <View style={styles.profile__column2__top}>
                 <View style={{justifyContent:'center',alignItems: 'flex-start' , flexDirection: 'row'}}>
-                  <Avatar.Icon size={24} icon="pin" />
+                  <Avatar.Icon size={24} icon="pin" backgroundColor = "#23598B"/>
                   <Text>  {userInfo.city}</Text>
                   <Text>  {userInfo.postal_code}</Text>
                 </View>
                 <View style={{flexDirection: 'row'}}>
-                  <Avatar.Icon size={24} icon="email" />
+                  <Avatar.Icon size={24} icon="email" backgroundColor = "#23598B"/>
                   <Text>  {userInfo.email}</Text>
                 </View>
               </View>
               <View style={styles.profile__column2__bottom}>
                 <Card.Actions>
                   <TouchableOpacity>
-                    <Button icon="account-edit">Edit</Button>
+                    <Button icon="account-edit" color = "#23598B">Edit</Button>
                   </TouchableOpacity>
                   <TouchableOpacity>
                     <Button 
+                    color = "#23598B"
                     onPress={signOut}
                     icon="logout">Logout
                     </Button>
@@ -161,8 +162,8 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
 
         </SafeAreaView>
         <ToggleButton.Row onValueChange={value => setToggleView(value)} value={toggleView}>
-          <ToggleButton style={styles.toggleButton} icon="book" value="MyBooks" />
-          <ToggleButton style={styles.toggleButton} icon="cards-playing-heart-multiple" value="LikedBooks" />
+          <ToggleButton style={styles.toggleButton} icon="book" value="MyBooks" color="white" />
+          <ToggleButton style={styles.toggleButton} icon="cards-playing-heart-multiple" value="LikedBooks" color="white"/>
         </ToggleButton.Row>
         <Card style={styles.books__container} mode='outlined'>
           {toggleView === "MyBooks"
