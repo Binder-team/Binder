@@ -48,7 +48,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     const fetchedRatings = await axios.get(`https://binderapp-server.herokuapp.com/api/reputation/user/average/${getUsername()}`);
     const scoreArray = fetchedRatings.data.map((rating: Rating) => rating.score);
     const score = Math.min(scoreArray.reduce((acc: number, curr: number) => acc + curr, 0) / scoreArray.length);
-    setDefaultRating(score);
+    setDefaultRating(Math.round(score));
   }
 
   const getUserBooks = async () => {
@@ -133,12 +133,12 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
               <View style={styles.profile__column2__top}>
                 <View style={{justifyContent:'center',alignItems: 'flex-start' , flexDirection: 'row'}}>
                   <Avatar.Icon size={24} icon="pin" backgroundColor = "#23598B"/>
-                  <Text>  {userInfo.city}</Text>
-                  <Text>  {userInfo.postal_code}</Text>
+                  <Text style={styles.text}>  {userInfo.city}</Text>
+                  <Text style={styles.text}>  {userInfo.postal_code}</Text>
                 </View>
                 <View style={{flexDirection: 'row'}}>
                   <Avatar.Icon size={24} icon="email" backgroundColor = "#23598B"/>
-                  <Text>  {userInfo.email}</Text>
+                  <Text style={styles.text}>  {userInfo.email}</Text>
                 </View>
               </View>
               <View style={styles.profile__column2__bottom}>
@@ -215,6 +215,11 @@ const styles = StyleSheet.create({
     height: '35%',
     padding: 7,
     backgroundColor:'#F9F2ED',
+  },
+  text:{
+    fontSize:15,
+    fontWeight:'500',
+    color: '#666260'
   },
   profile__column1: {
     justifyContent: 'flex-start',
