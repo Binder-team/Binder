@@ -322,22 +322,26 @@ const styles = StyleSheet.create({
   },
   refreshbox: {
     position: 'relative',
-    zIndex: 100,
+    zIndex: -1,
     margin: 0,
-
+    
     alignContent: 'center',
     top: 0,
-    left: -30,
+    left: -19,
     size: 1,
     marginLeft: 0,
     paddingLeft: 0,
     width: 40,
+    textAlign: "center",
 
   },
   refresh: {
     alignContent: 'center',
     marginLeft: 0,
     paddingLeft: 0,
+    width: 1,
+    textAlign: "center",
+    alignSelf: 'center',
     
     //flexDirection: 'row',
 

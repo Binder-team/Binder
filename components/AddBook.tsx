@@ -61,6 +61,7 @@ const AddBooks = () => {
         const fetchedBook = await axios.get(`https://www.googleapis.com/books/v1/volumes/${book.id}?key=${key}`);
         const bookData = fetchedBook.data.volumeInfo;
         const default_image = 'https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fleadershiftinsights.com%2Fwp-content%2Fuploads%2F2019%2F07%2Fno-book-cover-available.jpg';
+        
         const imageBase64Fetch = await axios.post("https://binderapp-server.herokuapp.com/api/user_books/base", {
           "image_url": bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image)) : default_image,
         });
