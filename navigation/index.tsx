@@ -28,7 +28,7 @@ import { Image } from "react-native";
 function LogoTitle() {
   return (
     <Image
-      style={{ width: 50, height: 50, justifyContent: 'center',alignItems: 'center',}}
+      style={{ width: 60, height: 60, justifyContent: 'center',alignItems: 'center',resizeMode:'contain', alignSelf:"center"}}
       source={require('../assets/images/logo-transparent.png')}
     />
   );
@@ -71,6 +71,7 @@ function RootNavigator() {
       headerStyle: {
         backgroundColor: '#E7C7B2',
       },
+      headerTitleAlign: 'center'
       // headerTintColor: '#fff',
       // headerTitleStyle: {
       //   fontWeight: 'bold',
