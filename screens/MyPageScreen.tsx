@@ -1,14 +1,18 @@
 import React, { useEffect, useState }from 'react';
-import { View, StyleSheet, Image, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Image, SafeAreaView,Platform,StatusBar } from 'react-native';
 import { Avatar, Button, Card, DataTable, Title, ToggleButton } from 'react-native-paper';
 import { Book, Rating } from '../types';
-import { getUsername} from '../components/userTokenManager';
+import { getUsername, rerender} from '../components/userTokenManager';
 import { RootStackScreenProps } from '../types';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
 import { Text } from '../components/Themed';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-
+import Animated from 'react-native-reanimated';
+import { interpolate } from 'react-native-reanimated';
+import AnimatedHeader from 'react-native-animated-header';
+import { ScreenStackHeaderSearchBarView
+ } from 'react-native-screens';
 const starImgFilled = 'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
 const starImgCorner = 'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
 
@@ -42,7 +46,17 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     getUserBooks();
     getUserInfo();
     getLikedBooks();
-  },[]);
+    console.log('profile page books refreshed')
+  },[rerender]);
+
+ const HEADER_HEIGHT = Platform.OS == 'ios'?115:70;
+  const scrolly = new Animated.Value(0);
+  const diffClampScrollY = Animated.diffClamp(scrolly,0,HEADER_HEIGHT);
+ 
+  const headerY = Animated.interpolateNode(diffClampScrollY,{
+    inputRange:[0,HEADER_HEIGHT],
+    outputRange:[0,-HEADER_HEIGHT]
+  })
 
   const getUserRating = async () => {
     const fetchedRatings = await axios.get(`https://binderapp-server.herokuapp.com/api/reputation/user/average/${getUsername()}`);
@@ -104,8 +118,48 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     setLikedBooks(books);
   };
 
-  return (
+  return ( <>
+  <View style={{flex:1}}>
+   <Animated.View style={{
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: HEADER_HEIGHT,
+    width: "100%",
+    //overflow: "hidden",
+    zIndex: 1000,
+    elevation:1000,
+    backgroundColor:'#E89064',
+    // STYLE
+    //borderBottomColor: "#EFEFF4",
+    //borderBottomWidth: 2,
+    //padding: 10,
+   // backgroundColor: "blue"
+   transform:[{ translateY: headerY}],
+   alignItems: 'center',
+   justifyContent: 'center',
+   paddingTop: 45
+  
+  }}>
+
+    <Text>Book x Change</Text>
+  </Animated.View>
+  </View> 
+  <Animated.ScrollView
+  bounces={false}
+  scrollEventThrottle={16}
+  style={{paddingTop: HEADER_HEIGHT}}
+  onScroll={Animated.event([
+    {
+      nativeEvent:{contentOffset:{y:scrolly}}
+    }
+  ])}
+  >
+   {/* <Animated.View style={{position:'absolute',left:0,right:0,top:0,height:69,backgroundColor:'grey'}}/>  */}
+  
     <View style={styles.container}>
+      
         <Card style={styles.profile__container} mode='outlined'>
           <View style={styles.profile__column1}>
             <Card.Content>
@@ -128,7 +182,6 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
               </View>
                 <Text> {defaultRating} / 5</Text>
             </Card.Content>
-
             <View style={styles.profile__column2}>
               <View style={styles.profile__column2__top}>
                 <View style={{justifyContent:'center',alignItems: 'flex-start' , flexDirection: 'row'}}>
@@ -158,8 +211,9 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
           </View>
         </Card>
         <SafeAreaView>
-
+        
         </SafeAreaView>
+        {/* <Animated.ScrollView></Animated.ScrollView> */}
         <ToggleButton.Row onValueChange={value => setToggleView(value)} value={toggleView}>
           <ToggleButton style={styles.toggleButton} icon="book" value="MyBooks" />
           <ToggleButton style={styles.toggleButton} icon="cards-playing-heart-multiple" value="LikedBooks" />
@@ -191,6 +245,9 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
           )}
         </Card>
     </View>
+     </Animated.ScrollView>
+    </>
+   
   )
 }
 

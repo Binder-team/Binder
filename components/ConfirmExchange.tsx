@@ -151,32 +151,31 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
             
             <View style = {styles.buttonContainer}>
               <TouchableOpacity style={styles.confirmButton}>
-                  <Button title="Confirm Exchange" 
-                  
-                  onPress={() => setOpenModal(true)}>
-                    <Text style={styles.buttonText}>Confirm exchange</Text>
+                <Button title="Confirm Exchange" 
+                
+                onPress={() => setOpenModal(true)}>
+                  <Text style={styles.buttonText}>Confirm exchange</Text>
+                </Button>
+              </TouchableOpacity>
+              <ReputationModal 
+                  item={item} 
+                  text='Rate your exchange!' 
+                  buttonText='Close' 
+                  visible={openModal} 
+                  onClose={onClose}
+                  setRerender={setRerender}
+                  counter={counter}
+              ></ReputationModal>
+              <TouchableOpacity>
+                  <Button
+                    style={styles.denyButton}
+                      title = 'cancel exchange'
+                      onPress={()=>sendCancel(item)
+                      }
+                  >
+                      <Text style={styles.buttonText}>Cancel</Text>
                   </Button>
-                  <ReputationModal 
-                      item={item} 
-                      text='Rate your exchange!' 
-                      buttonText='Close' 
-                      visible={openModal} 
-                      onClose={onClose}
-                      setRerender={setRerender}
-                      counter={counter}
-                  ></ReputationModal>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Button
-
-                      style={styles.denyButton}
-                        title = 'cancel exchange'
-                        onPress={()=>sendCancel(item)
-                        }
-                    >
-                        <Text style={styles.buttonText}>Cancel</Text>
-                    </Button>
-                </TouchableOpacity>
+              </TouchableOpacity>
             </View>
         </View>
     );
