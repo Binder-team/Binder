@@ -60,9 +60,9 @@ export default function MatchScreen({ navigation }) {
                 }}
               />
               <Text style = {styles.bookTitle}>{item.title1}</Text>
-              <Text style={styles.text}>Author: {item.author1}</Text>
+              <Text style={styles.text}>By: {item.author1}</Text>
               <Text style={styles.text}>Condition: {item.condition1}</Text>
-              <Text style={styles.text}>User: {item.username1}</Text>
+              <Text style={styles.text}>Posted by: {item.username1}</Text>
               {/* <Text>accepted?: {`${item.didUser1Accept}`}</Text>
               <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
               {/* <Text>Contact:{item.email1}</Text>  */}
@@ -76,7 +76,7 @@ export default function MatchScreen({ navigation }) {
                 }}
               />
               <Text style = {styles.bookTitle}>{item.title2}</Text>
-              {/* <Text style={styles.text}>by {item.author2}</Text> */}
+              <Text style={styles.text}>By: {item.author2}</Text>
               <Text style={styles.text}>Condition: {item.condition2}</Text>
               <Text style={styles.text}>Posted by: {item.username2}</Text>
               {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
