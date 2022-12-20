@@ -56,37 +56,39 @@ export default function MatchScreen({ navigation }) {
           <View style={styles.item}>
             
 
+            <View style={styles.matchContainer}>
 
-            <View style={styles.bookContainer}> 
-              <Image
-                style={styles.avatarContainer}
-                source={{
-                  uri: item.thumbnail1,
-                }}
-              />
-              <Text style = {styles.bookTitle}>{item.title1}</Text>
-              <Text style={styles.text}>By: {item.author1}</Text>
-              <Text style={styles.text}>Condition: {item.condition1}</Text>
-              <Text style={styles.text}>Posted by: {item.username1}</Text>
-              {/* <Text>accepted?: {`${item.didUser1Accept}`}</Text>
-              <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
-              {/* <Text>Contact:{item.email1}</Text>  */}
-            </View>  
-            {/* <Icon style={styles.icon} name="close" color="black"/> */}
-            <View style={styles.bookContainer}>
-              <Image
-                style={styles.avatarContainer}
-                source={{
-                  uri: item.thumbnail2,
-                }}
-              />
-              <Text style = {styles.bookTitle}>{item.title2}</Text>
-              <Text style={styles.text}>By: {item.author2}</Text>
-              <Text style={styles.text}>Condition: {item.condition2}</Text>
-              <Text style={styles.text}>Posted by: {item.username2}</Text>
-              {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
-              <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
-              {/* <Text>Contact:{item.email2}</Text> */}
+              <View style={styles.bookContainer}> 
+                <Image
+                  style={styles.avatarContainer}
+                  source={{
+                    uri: item.thumbnail1,
+                  }}
+                />
+                <Text style = {styles.bookTitle}>{item.title1}</Text>
+                <Text style={styles.text}>By: {item.author1}</Text>
+                <Text style={styles.text}>Condition: {item.condition1}</Text>
+                <Text style={styles.text}>Posted by: {item.username1}</Text>
+                {/* <Text>accepted?: {`${item.didUser1Accept}`}</Text>
+                <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
+                {/* <Text>Contact:{item.email1}</Text>  */}
+              </View>  
+              {/* <Icon style={styles.icon} name="close" color="black"/> */}
+              <View style={styles.bookContainer}>
+                <Image
+                  style={styles.avatarContainer}
+                  source={{
+                    uri: item.thumbnail2,
+                  }}
+                />
+                <Text style = {styles.bookTitle}>{item.title2}</Text>
+                <Text style={styles.text}>By: {item.author2}</Text>
+                <Text style={styles.text}>Condition: {item.condition2}</Text>
+                <Text style={styles.text}>Posted by: {item.username2}</Text>
+                {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
+                <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
+                {/* <Text>Contact:{item.email2}</Text> */}
+              </View>
             </View>
             <View style = {styles.buttonContainer}>
                 {(item.didUser1Accept && item.didUser2Accept) 
@@ -255,7 +257,7 @@ const styles = StyleSheet.create({
     // borderColor: 'black',
     // borderWidth:2
   },
-   item: {
+  item: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -270,14 +272,19 @@ const styles = StyleSheet.create({
     // borderColor: 'red',
     // borderWidth:2
   }, 
-  bookContainer: {
+  matchContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    elevation: 5,
+    backgroundColor:'#fcf6ed',
     borderRadius: 20,
+  },
+  bookContainer: {
     height: '90%',
+    backgroundColor:'#fcf6ed',
     width: 180,
     alignItems: 'center',
-    backgroundColor:'#fcf6ed',
     resizeMode:'cover',
-    elevation:5,
     marginHorizontal:5,
     marginBottom:10
     // borderColor: 'black',
@@ -307,7 +314,7 @@ const styles = StyleSheet.create({
     marginHorizontal:30,
     justifyContent: 'space-evenly',
     backgroundColor:'#FBF0DF',
-    marginTop: 15,
+    marginTop: 30,
   },
   button: {
     flex: 1,
