@@ -206,7 +206,7 @@ export default function MatchScreen({ navigation }) {
         <View>
           {currentView === "all matches"? ( 
             <View style={styles.titleContainer}>
-              <TouchableOpacity style={styles.refreshbox}>
+              <TouchableOpacity style={styles.refreshBox}>
                   <Button onPress={ () => setRefresh(!refresh) } style={styles.refresh } >
                     <Icon name="refresh-ccw" size={16} color="#23598B" style={{padding: 0, marginLeft: 0}}/>
                   </Button>
@@ -389,13 +389,16 @@ const styles = StyleSheet.create({
 
    },
   refreshBox:{
+    position: 'absolute',
     alignSelf:'center',
-
-    marginLeft: 20,
+    width: "100%",
+    top: -10,
+    left: 158,
+    zIndex: 10,
+    //marginLeft: 20,
 
    },
    refresh: {
-
-
+    width: 1,
    }
 });
