@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { Dimensions } from 'react-native';
-import { BubblingEventHandler } from 'react-native/Libraries/Types/CodegenTypes';
-
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -30,11 +28,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: windowWidth / 2,
     height: windowHeight / 15,
-    backgroundColor:'#72147E',
+    backgroundColor:'#1E86AC',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
     padding: 5,
+  
+
   },
   buttonText: {
     fontSize: 17,
