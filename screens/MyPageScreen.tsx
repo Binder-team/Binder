@@ -47,7 +47,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   const getUserRating = async () => {
     const fetchedRatings = await axios.get(`https://binderapp-server.herokuapp.com/api/reputation/user/average/${getUsername()}`);
     const scoreArray = fetchedRatings.data.map((rating: Rating) => rating.score);
-    const score = Math.min(scoreArray.reduce((acc: number, curr: number) => acc + curr, 0) / scoreArray.length);
+    const score = scoreArray.length > 0 ? Math.min(scoreArray.reduce((acc: number, curr: number) => acc + curr, 0) / scoreArray.length): 5;
     setDefaultRating(Math.round(score));
   }
 
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     flexWrap: 'wrap',
-    height: '100%',
+    height: '140%',
     backgroundColor:'#FBF0DF'
   },
   book__shelf: {
