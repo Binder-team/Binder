@@ -100,8 +100,8 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                     height: 50,
                 }}
               />  
-                <Text style = {styles.bookTitle}>Title: {item.title1}</Text>
-                <Text style={styles.text}>Author: {item.author1}</Text>
+                <Text style = {styles.bookTitle}>{item.title1}</Text>
+                <Text style={styles.text}>By: {item.author1}</Text>
                 <Text style={styles.text}>Condition: {item.condition1}</Text>
                 <Text style={styles.text}>User: {item.username1}</Text>
                 <Text style={styles.emailText}>Send an email:</Text> 
@@ -253,15 +253,15 @@ const styles = StyleSheet.create({
     paddingBottom:20,
   },
   buttonText: {
-    fontSize: 15,
+    fontSize: 13,
     color: '#F3F3F3',
-    lineHeight: 16,
+    lineHeight: 15,
     fontWeight: '500',
   },
   emailButtonText:{
-    fontSize: 18,
+    fontSize: 15,
     color: '#F3F3F3',
-    lineHeight: 20,
+    lineHeight: 18,
     fontWeight: '500',
   },
   backButtonText: {
@@ -277,11 +277,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   buttonContainer:{
+    flex: 1,
+    alignContent:'center',
     height:50,
     width:300,
     flexDirection: 'row',
     marginHorizontal:20,
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     backgroundColor:'#fcf6ed',
     paddingTop:5
   },
@@ -306,9 +308,9 @@ const styles = StyleSheet.create({
       fontWeight:'500',
       width:'100%',
       color:'black',
-      fontSize: 25,
+      fontSize: 20,
       paddingBottom:10,
-      marginLeft: 55,
+      marginLeft: 45,
     },
   title: {
     alignSelf: 'flex-start',
@@ -317,17 +319,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   emailContainer:{
+    justifyContent:'center',
     alignItems:'center',
-    marginTop:10,
+    marginTop:0,
+    marginBottom: 20,
     height: 50,
-    width: 250,
+    width: 300,
     backgroundColor:'#fcf6ed'
   },
   emailButton: {
     flex: 1,
     width: '100%', 
     height: 5,
-    backgroundColor:'#1e86ac',
+    backgroundColor:'#23598B',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius:5,
@@ -364,8 +368,9 @@ const styles = StyleSheet.create({
     fontSize: 17, 
     fontWeight: '400', 
     alignSelf: 'flex-start',
-    color:'black',
-    marginLeft: 30
+    color:'#666260',
+    marginLeft: 22,
+    
 
   },
   emailText:{
@@ -375,7 +380,8 @@ const styles = StyleSheet.create({
     fontWeight: '500', 
     alignSelf: 'center',
     color:'black',
-    paddingTop: 15
+    paddingTop: 15,
+    marginBottom: 10,
   }
     // app: {
     // width: '100%',
