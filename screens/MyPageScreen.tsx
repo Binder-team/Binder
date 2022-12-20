@@ -1,311 +1,301 @@
-// import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState, useRef } from 'react';
-import { Platform, StyleSheet,Image, TouchableOpacity, } from 'react-native';
-import { Button } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import BookCard from '../components/BookCard';
-import { Book } from '../types';
-import { getUsername } from '../components/userTokenManager';
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import React, { useEffect, useState }from 'react';
+import { View, StyleSheet, Image, SafeAreaView } from 'react-native';
+import { Avatar, Button, Card, DataTable, Title, ToggleButton } from 'react-native-paper';
+import { Book, Rating } from '../types';
+import { getUsername} from '../components/userTokenManager';
+import { RootStackScreenProps } from '../types';
 import axios from 'axios';
-import { Card } from 'react-native-paper';
-import ConfirmExchange from '../components/ConfirmExchange';
-import { RootStackParamList } from '../types';
-import { ScreenContainer } from 'react-native-screens';
+import useAuth from '../hooks/useAuth';
+import { Text } from '../components/Themed';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+
+const starImgFilled = 'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
+const starImgCorner = 'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
+
 export type Props = {
-  book: Book,
-  BookItem: Function,
-  ConfirmExchange: Function
+  book: Book;
+  BookItem: Function;
+  MyBooks: Function;
+  LikedBooks: Function;
+  navigation: Function
 }
-export default function MatchScreen({ navigation }) {
-  const [acceptTrade, setAcceptTrade] = useState<boolean>(false);
-  const [matchedBooks, setMatchedBooks] = useState<[]>([]);
-  const [currentView, setCurrentView] = useState<string>("all matches");
-  const [numberMatches, setNumberMatches] = useState<number>();
-  const [rerender, setRerender] = useState<number>();
-  let counter = 0;
-  const [item, setItem] = useState({
-    thumbnail1:'',
-    title1: '',
-    author1: '',
-    condition1: '',
-    username1: '',
-    email1: '',
-    thumbnail2:'',
-    title2: '',
-    author2: '',
-    condition2: '',
-    username2: '',
-    email2: ''
-})
-  const getMatchedBooks = async () => {
-    try {
-      const fetchMatch = await axios.get(
-          `https://binderapp-server.herokuapp.com/api/matches/${getUsername()}`,
-          );
-          const matches = await fetchMatch.data;
-          const mappedMatches = matches.map(item => {
-          return (
-          <View style={styles.item}>
-            <View style={styles.bookContainer}>
-              <Image
-                style={styles.avatarContainer}
-                source={{
-                  uri: item.thumbnail1,
-                }}
-              />
-              <Text style = {styles.bookTitle}>{item.title1}</Text>
-              <Text style={styles.text}>Author: {item.author1}</Text>
-              <Text style={styles.text}>Condition: {item.condition1}</Text>
-              <Text style={styles.text}>User: {item.username1}</Text>
-              {/* <Text>accepted?: {`${item.didUser1Accept}`}</Text>
-              <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
-              {/* <Text>Contact:{item.email1}</Text>  */}
-            </View>
-            <View style={styles.bookContainer}>
-              <Image
-                style={styles.avatarContainer}
-                source={{
-                  uri: item.thumbnail2,
-                }}
-              />
-              <Text style = {styles.bookTitle}>{item.title2}</Text>
-              <Text style={styles.text}>Author: {item.author2}</Text>
-              <Text style={styles.text}>Condition: {item.condition2}</Text>
-              <Text style={styles.text}>User: {item.username2}</Text>
-              {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
-              <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
-              {/* <Text>Contact:{item.email2}</Text> */}
-            </View>
-            <View style = {styles.buttonContainer}>
-                {(item.didUser1Accept && item.didUser2Accept)
-                ? (<Button
-                    activeOpacity={.3}
-                    style = {styles.button}
-                    title="see contact details"
-                    mode="contained"
-                    onPress={()=>{
-                      setCurrentView("confirm exchange view")
-                      setItem(item)
-                    }}
-                  >
-                    <Text style={styles.buttonText}>Contact</Text>
-                  </Button>
-                ) : (item.username1===getUsername() && item.didUser1Accept || item.username2===getUsername() && item.didUser2Accept
-                ) ? (
-                  <Button
-                        activeOpacity={.3}
-                        style={styles.button}
-                        title="pending"
-                        mode="contained">
-                      <Text style={styles.buttonText}>Pending</Text>
-                  </Button>
-                ):(
-                  <Button
-                    activeOpacity={.3}
-                    style={styles.button}
-                    title="accept"
-                    onPress={()=>{
-                      setAcceptTrade(true)
-                      sendAccept(item)
-                      }
-                    }
-                  >
-                  <Text style={styles.buttonText}>Accept</Text>
-                  </Button>
-                )}
-                <Button
-                  activeOpacity={0.6}
-                  style={styles.denyButton}
-                  title="deny"
-                  onPress={()=>{
-                    sendCancel(item)
-                  }}
-                  >
-                    <Text style={styles.buttonText}>Deny</Text>
-                  </Button>
-              </View>
-          </View>
-           )
-          });
-          console.log(Array.isArray(mappedMatches))
-            setMatchedBooks(mappedMatches)
-        } catch (err)  {
-        console.log(err);
-      }
+
+const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
+  const [toggleView, setToggleView] = useState('MyBooks');
+  const [defaultRating, setDefaultRating] = useState(5);
+  const [maxRating, setMaxRating] = useState([1,2,3,4,5]);
+  const [userBooks, setUserBooks] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
+  const [likedBooks, setLikedBooks] = useState([]);
+  const [logout, setLogout] = useState<boolean>(false);
+  const {signOut} = useAuth();
+  const  getUserInfo = async() => {
+    const fetchedUserInfo = await axios.post(`https://binderapp-server.herokuapp.com/api/users/info`, 
+    {
+      "username": getUsername()
+    });
+    const info = fetchedUserInfo.data;
+    setUserInfo(info);
   }
-  const sendAccept = async (item) => {
-    try {
-      const put = await axios.put(
-        `https://binderapp-server.herokuapp.com/api/matches/accept/user/${getUsername()}`, item
-      );
-      console.log(item);
-      const data = put.data;
-      setAcceptTrade(true);
-      counter++;
-      setRerender(counter);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  const sendCancel = async (item) => {
-    try {
-      const put = await axios.put(
-        `https://binderapp-server.herokuapp.com/api/matches/deny/user/${getUsername()}`, item
-      );
-      const data = put.data;
-      counter++;
-      setRerender(counter);
-      setNumberMatches(data);
-      // setRerender(data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  useEffect(() => {
-    getMatchedBooks();
-  },[rerender]);
-  useEffect(() => {
-    getMatchedBooks();
+  useEffect(()=>{
+    getUserRating();
+    getUserBooks();
+    getUserInfo();
+    getLikedBooks();
   },[]);
-  const itemSeparator = () => {
-    return <View style={styles.separator} />;
+
+  const getUserRating = async () => {
+    const fetchedRatings = await axios.get(`https://binderapp-server.herokuapp.com/api/reputation/user/average/${getUsername()}`);
+    const scoreArray = fetchedRatings.data.map((rating: Rating) => rating.score);
+    const score = Math.min(scoreArray.reduce((acc: number, curr: number) => acc + curr, 0) / scoreArray.length);
+    setDefaultRating(score);
+  }
+
+  const getUserBooks = async () => {
+    const fetchedBooks = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/user/${getUsername()}`);
+    const books = fetchedBooks.data.map((book: Book) => {
+      return (
+        <Card style={styles.book__card}>
+          <Image 
+            style={styles.thumbnail}
+            source={
+              {
+                uri: book.thumbnail_url, 
+                width: 50,
+                height: 50,
+              }
+            }
+          ></Image>
+          <Text style={styles.book__title}>{book.title}</Text>
+        </Card>
+      );
+    });
+    setUserBooks(books);
   };
+
+  const getLikedBooks = async () => {
+    const fetchLikes = await axios.get(
+      `https://binderapp-server.herokuapp.com/api/trade_table/liked/${getUsername()}`,
+      );
+      const likedBookIds = fetchLikes.data.map((book: Book) => book.bookId);
+      const likedBooks =  await Promise.all(likedBookIds.map(async (id : string) => {
+        const bookObj = await axios.get(
+          `https://binderapp-server.herokuapp.com/api/user_books/${id}`,
+          );
+          return bookObj.data;
+      }));
+    const books = likedBooks.map((book) => {
+      return (
+        <Card style={styles.book__card} mode='outlined'>
+          <Image 
+            style={styles.thumbnail}
+            source={
+              {
+                uri: book.thumbnail_url, 
+                width: 50,
+                height: 50,
+              }
+            }
+          ></Image>
+          <Text style={styles.book__title}>{book.title}</Text>
+        </Card>
+      );
+    });
+    setLikedBooks(books);
+  };
+
   return (
-    <SafeAreaView >
-      <View style= {styles.pageContainer}>
-        <View>
-          {currentView === "all matches"? (
-            <View>
-              <Text title = "matches" style = {styles.title}>My matches:</Text>
-                <ScrollView>{matchedBooks}</ScrollView>
+    <View style={styles.container}>
+        <Card style={styles.profile__container} mode='outlined'>
+          <View style={styles.profile__column1}>
+            <Card.Content>
+              <Image style={styles.image}source={{uri:userInfo.profile_url}} ></Image>
+              <Title>{userInfo.username}</Title>
+              <View style={styles.strRating}>
+                {
+                  maxRating.map((item, key) => {
+                    return (
+                      <Image
+                          style={styles.starImg}
+                          source={
+                              item <= defaultRating
+                                  ? {uri: starImgFilled}
+                                  : {uri: starImgCorner}
+                        }/>
+                      );
+                  })
+                }
+              </View>
+                <Text> {defaultRating} / 5</Text>
+            </Card.Content>
+
+            <View style={styles.profile__column2}>
+              <View style={styles.profile__column2__top}>
+                <View style={{justifyContent:'center',alignItems: 'flex-start' , flexDirection: 'row'}}>
+                  <Avatar.Icon size={24} icon="pin" />
+                  <Text>  {userInfo.city}</Text>
+                  <Text>  {userInfo.postal_code}</Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <Avatar.Icon size={24} icon="email" />
+                  <Text>  {userInfo.email}</Text>
+                </View>
+              </View>
+              <View style={styles.profile__column2__bottom}>
+                <Card.Actions>
+                  <TouchableOpacity>
+                    <Button icon="account-edit">Edit</Button>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Button 
+                    onPress={signOut}
+                    icon="logout">Logout
+                    </Button>
+                  </TouchableOpacity>
+                </Card.Actions>
+              </View>
+            </View> 
+          </View>
+        </Card>
+        <SafeAreaView>
+
+        </SafeAreaView>
+        <ToggleButton.Row onValueChange={value => setToggleView(value)} value={toggleView}>
+          <ToggleButton style={styles.toggleButton} icon="book" value="MyBooks" />
+          <ToggleButton style={styles.toggleButton} icon="cards-playing-heart-multiple" value="LikedBooks" />
+        </ToggleButton.Row>
+        <Card style={styles.books__container} mode='outlined'>
+          {toggleView === "MyBooks"
+          ? (
+            <View style={styles.books__shelf__container}>
+              <DataTable>
+                <DataTable.Header>
+                  <DataTable.Title>My Books</DataTable.Title>
+                </DataTable.Header>
+                <ScrollView contentContainerStyle={styles.book__shelf}>
+                  {userBooks}
+                </ScrollView>
+              </DataTable>
             </View>
-          ):(
-            <View>
-              <Text title = "confirm exchange" style = {styles.title}>Confirm your exchange</Text>
-               <ConfirmExchange
-                  item = {item}
-                  setCurrentView = {setCurrentView}
-                  setRerender={setRerender}
-                  counter={counter}
-            />
+          ): (
+            <View style={styles.books__shelf__container}>
+              <DataTable>
+                <DataTable.Header>
+                  <DataTable.Title>Liked Books</DataTable.Title>
+                </DataTable.Header>
+                <ScrollView contentContainerStyle={styles.book__shelf}>
+                  {likedBooks}
+                </ScrollView>
+              </DataTable>
             </View>
           )}
-        </View>
-      </View>
-    </SafeAreaView>
-  );
+        </Card>
+    </View>
+  )
 }
+
+
 const styles = StyleSheet.create({
-  pageContainer:{
-    backgroundColor: '#F9F2ED',
-    width:'100%',
-    height: '100%',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    textAlign: 'center',
-    padding: 5,
-    paddingBottom: 10,
-  },
-   item: {
+
+  container: {
+    flex: 1,
     width: '100%',
-    flexDirection: 'row',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingVertical: 13,
-    flexWrap: 'wrap',
+    padding: 0,
+    margin: 0,
     backgroundColor:'#F9F2ED',
-    marginTop: 0,
-    marginBottom: 0,
-    paddingBottom: 30,
-    paddingHorizontal: 20
   },
-   bookContainer: {
-    borderRadius: 20,
-    height: '90%',
+  profile__container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    width: '100%',
+    height: '35%',
+    padding: 7,
+    backgroundColor:'#F9F2ED',
+  },
+  profile__column1: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    flexDirection: 'row',
     width: '50%',
-    alignItems: 'center',
-    backgroundColor:'#F9F2ED',
-    resizeMode:'cover',
-    borderColor: 'black',
   },
-  avatarContainer: {
-    backgroundColor: '#F9F2ED',
-    borderRadius: 2,
-    height: 170,
-    width: 130,
-    justifyContent: 'center',
-    alignItems: 'center',
+  profile__column2: {
+    flexDirection: 'column',
+    width: '120%',
+    height: '100%'
+  },
+  profile__column2__top: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
+    width: '100%',
+    height: '60%',
+  },
+  profile__column2__bottom: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
+    width: '100%',
+    height: '40%',
+  },
+  image:{
+    width:100,
+    height:100,
+    borderWidth: 10,
+    borderRadius:25,
+  },
+  starImg: {
+    width: 25,
+    height: 25,
     resizeMode: 'cover',
-    marginTop: 5,
   },
-  bookTitle:{
-    fontSize:16,
-    justifyContent:'center',
-    textAlign:'center',
-    fontWeight:'bold',
-    paddingVertical:10,
-    height: 75
-  },
-  buttonContainer:{
+  strRating: {
     flexDirection: 'row',
-    marginHorizontal:20,
-    justifyContent: 'space-evenly',
-    backgroundColor:'#F3F3F3',
-    marginTop: 5,
   },
-  button: {
-    flex: 1,
-    //width: 10,
-    //height: 35,
-    backgroundColor:'#1EAE98',
-    //justifyContent: 'center',
-   // alignItems: 'center',
-   // borderRadius:5,
-    marginHorizontal: 5,
-    elevation:5,
-    shadowColor: '#000',
-   // mode:'contained'
+  books__container: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '100%',
+    height: '60%',
   },
-  denyButton: {
-    flex: 1,
-    //width: 10,
-    //height: 35,
-    backgroundColor:'#D82148',
-    //justifyContent: 'center',
-    //alignItems: 'center',
-    //borderRadius:5,
-    marginHorizontal: 5,
-    elevation:5,
-    shadowColor: '000',
-  },
-  buttonText: {
-    fontSize: 15,
-    color: 'white',
-    lineHeight: 18,
-    fontWeight: '400',
-    resizeMode: 'contained'
-  },
-  title: {
-    width:'100%',
-    alignSelf: 'flex-start',
-    justifyContent: 'center',
-    fontSize: 25,
-    fontWeight: 'bold',
-    paddingHorizontal:10,
-    color:'#283747',
+  books__shelf__container: {
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    height: '100%',
     backgroundColor:'#F9F2ED',
-    paddingBottom:10
   },
-  separator: {
+  book__shelf: {
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
-   text: {
-    alignItems:'flex-start',
-    fontSize: 14,
-    fontWeight: '350',
-    alignSelf: 'flex-start',
-    marginLeft: 30,
-   }
+  book__card: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 230,
+    width: 116,
+    margin: 7,
+    overflow: 'hidden',
+  },
+  book__title: {
+    marginTop: 10,
+    fontWeight: 'bold'
+  },
+  thumbnail: {
+    marginTop: 5,
+    borderRadius: 8,
+    height: 170,
+    width: 100,
+  },
+  toggleButton: {
+    width: '49%',
+    backgroundColor: '#1E86AC',
+  },
 });
+
+export default  MyPageScreen;
