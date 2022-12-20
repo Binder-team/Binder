@@ -56,40 +56,40 @@ export default function MatchScreen({ navigation }) {
           const mappedMatches = matches.map(item => {
           return (
           <View style={styles.item}>
-            
-
-
-            <View style={styles.bookContainer}> 
+            <View style={styles.pairContainer}>
               <Image
                 style={styles.avatarContainer}
                 source={{
                   uri: item.thumbnail1,
                 }}
               />
-              <Text style = {styles.bookTitle}>{item.title1}</Text>
-              <Text style={styles.text}>By: {item.author1}</Text>
-              <Text style={styles.text}>Condition: {item.condition1}</Text>
-              <Text style={styles.text}>Posted by: {item.username1}</Text>
-              {/* <Text>accepted?: {`${item.didUser1Accept}`}</Text>
-              <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
-              {/* <Text>Contact:{item.email1}</Text>  */}
-            </View>  
-            {/* <Icon style={styles.icon} name="close" color="black"/> */}
-            <View style={styles.bookContainer}>
+                <Text style = {styles.bookTitle}>{item.title1}</Text>
+                <Text style={styles.text}>By: {item.author1}</Text>
+                <Text style={styles.text}>Condition: {item.condition1}</Text>
+                <Text style={styles.text}>Posted by: {item.username1}</Text>
+                {/* <Text>accepted?: {`${item.didUser1Accept}`}</Text>
+                <Text>exhanged?: {`${item.didUser1Exchange}`}</Text> */}
+                {/* <Text>Contact:{item.email1}</Text>  */}
+              </View>  
+              <View style={styles.bookContainer}>
               <Image
                 style={styles.avatarContainer}
                 source={{
                   uri: item.thumbnail2,
                 }}
               />
-              <Text style = {styles.bookTitle}>{item.title2}</Text>
-              <Text style={styles.text}>By: {item.author2}</Text>
-              <Text style={styles.text}>Condition: {item.condition2}</Text>
-              <Text style={styles.text}>Posted by: {item.username2}</Text>
-              {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
-              <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
-              {/* <Text>Contact:{item.email2}</Text> */}
+                <Text style = {styles.bookTitle}>{item.title2}</Text>
+                <Text style={styles.text}>By: {item.author2}</Text>
+                <Text style={styles.text}>Condition: {item.condition2}</Text>
+                <Text style={styles.text}>Posted by: {item.username2}</Text>
+                {/* <Text>accepted?: {`${item.didUser2Accept}`}</Text>
+                <Text>exhanged?: {`${item.didUser2Exchange}`}</Text> */}
+                {/* <Text>Contact:{item.email2}</Text> */}
             </View>
+          </View>
+            
+            {/* <Icon style={styles.icon} name="close" color="black"/> */}
+            
             <View style = {styles.buttonContainer}>
                 {(item.didUser1Accept && item.didUser2Accept) 
                 ? (<Button
@@ -239,6 +239,14 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
   },
+  pairContainer:{
+    flexDirection:'row',
+    borderRadius: 10,
+    width: '100%',
+    backgroundColor:'#fcf6ed',
+    elevation:5,
+    paddingTop:10
+  },
   pageContainer:{
     backgroundColor: '#FBF0DF',
     width:'100%',
@@ -274,7 +282,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor:'#fcf6ed',
     resizeMode:'cover',
-    elevation:5,
     marginHorizontal:5,
     marginBottom:10
     // borderColor: 'black',
@@ -301,10 +308,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer:{
     flexDirection: 'row',
-    marginHorizontal:30,
+    marginHorizontal:20,
     justifyContent: 'space-evenly',
     backgroundColor:'#FBF0DF',
-    marginTop: 15,
+    marginTop: 20,
   },
   button: {
     flex: 1,
@@ -352,7 +359,6 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     fontWeight: '400',
     resizeMode: 'contained'
-
   },
   title: {
     width:'100%',
@@ -375,9 +381,9 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginLeft: 20,
 
+    marginBottom: 5,
    },
    refresh: {
-
    }
    
 });

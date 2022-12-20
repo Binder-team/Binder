@@ -61,14 +61,17 @@ const AddBooks = () => {
         const fetchedBook = await axios.get(`https://www.googleapis.com/books/v1/volumes/${book.id}?key=${key}`);
         const bookData = fetchedBook.data.volumeInfo;
         const default_image = 'https://slack-imgs.com/?c=1&o1=ro&url=https%3A%2F%2Fleadershiftinsights.com%2Fwp-content%2Fuploads%2F2019%2F07%2Fno-book-cover-available.jpg';
+        const imageBase64Fetch = await axios.post("https://binderapp-server.herokuapp.com/api/user_books/base", {
+          "image_url": bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image)) : default_image,
+        });
+        const imageBase64 = imageBase64Fetch.data;
         const bookObj = {
           book_id: fetchedBook.data.id,
           title: bookData.title,
-          isAvailable: true,
           condition: condition,
           author: bookData.authors ? bookData.authors.join(', ') : 'n/a',
-          image_url: bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image)) : default_image,
-          thumbnail_url: bookData.imageLinks ? (bookData.imageLinks.large ? bookData.imageLinks.large : (bookData.imageLinks.thumbnail ? bookData.imageLinks.thumbnail : default_image)) : default_image,
+          image_url: imageBase64,
+          thumbnail_url: imageBase64,
         }
         return bookObj;
       }));
@@ -144,6 +147,7 @@ const AddBooks = () => {
         <View style={styles.title__input} >
           <View style={{width: '60%', marginRight: 10}}>
             <Searchbar
+              style={{height: 60, marginTop: 5,}}
               placeholder="Enter book title"
               onChangeText={onChangeSearch}
               value={bookTitleQuery}
@@ -194,6 +198,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '20%',
     backgroundColor: '#fcf6ed',
+    elevation: 5, 
   },
   title__input: {
     flexDirection: 'row',
@@ -205,10 +210,11 @@ const styles = StyleSheet.create({
   book__results__container: {
     width: '100%',
     height: '80%',
+    margin: 10,
   },
    book__results: {
     flexDirection: 'column',
-    width: '100%',
+    width: '95%',
     height: '100%',
   },
   condition: {
@@ -232,11 +238,13 @@ const styles = StyleSheet.create({
   book__image__container: {
     height: 170,
     justifyContent: 'center',
-    width: '30%',
+    borderRadius: 10,
+    width: '33%',
   },
   book__info__container: {
     flexDirection: 'column',
-    width: '70%',
+    width: '67%',
+    marginRight: 10,
     height: 170,
   },
   book__info: {
@@ -248,8 +256,10 @@ const styles = StyleSheet.create({
   book__buttons__container: {
     width: '100%',
     height: 70,
+    paddingLeft: 10,
     alignItems: 'center',
     justifyContent: 'flex-end',
+    elevation: 5,
   },
   button: {
     backgroundColor:'#1e86ac',
@@ -263,7 +273,6 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     fontWeight: '400',
     resizeMode: 'contained'
-
   },
   thumbnail: {
     borderRadius: 8,

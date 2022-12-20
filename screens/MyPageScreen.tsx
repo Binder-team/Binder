@@ -52,7 +52,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
     const fetchedRatings = await axios.get(`https://binderapp-server.herokuapp.com/api/reputation/user/average/${getUsername()}`);
     const scoreArray = fetchedRatings.data.map((rating: Rating) => rating.score);
     const score = Math.min(scoreArray.reduce((acc: number, curr: number) => acc + curr, 0) / scoreArray.length);
-    setDefaultRating(score);
+    setDefaultRating(Math.round(score));
   }
 
   const getUserBooks = async () => {
@@ -137,12 +137,12 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
               <View style={styles.profile__column2__top}>
                 <View style={{justifyContent:'center',alignItems: 'flex-start' , flexDirection: 'row'}}>
                   <Avatar.Icon size={24} icon="pin" backgroundColor = "#23598B"/>
-                  <Text>  {userInfo.city}</Text>
-                  <Text>  {userInfo.postal_code}</Text>
+                  <Text style={styles.text}>  {userInfo.city}</Text>
+                  <Text style={styles.text}>  {userInfo.postal_code}</Text>
                 </View>
                 <View style={{flexDirection: 'row'}}>
                   <Avatar.Icon size={24} icon="email" backgroundColor = "#23598B"/>
-                  <Text>  {userInfo.email}</Text>
+                  <Text style={styles.text}>  {userInfo.email}</Text>
                 </View>
               </View>
               <View style={styles.profile__column2__bottom}>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 0,
     margin: 0,
-    backgroundColor:'#F9F2ED',
+    // backgroundColor:'#F9F2ED',
   },
   profile__container: {
     alignItems: 'center',
@@ -230,18 +230,24 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '35%',
     padding: 7,
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF',
+  },
+  text:{
+    fontSize:15,
+    fontWeight:'500',
+    color: '#666260'
   },
   profile__column1: {
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
     flexDirection: 'row',
     width: '50%',
+    //backgroundColor:'#FBF0DF' does not work here
   },
   profile__column2: {
     flexDirection: 'column',
     width: '120%',
-    height: '100%'
+    height: '100%',
   },
   profile__column2__top: {
     alignItems: 'flex-start',
@@ -254,6 +260,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     width: '100%',
     height: '40%',
+   
   },
   image:{
     width:100,
@@ -282,7 +289,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flexWrap: 'wrap',
     height: '100%',
-    backgroundColor:'#F9F2ED',
+    backgroundColor:'#FBF0DF'
   },
   book__shelf: {
     width: '100%',
