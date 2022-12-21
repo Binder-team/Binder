@@ -11,3 +11,7 @@ Create two terminals that access the directory. (Inside the IDE or otherwise)
 Have the first terminal run ```npm start```
 The other should run ```npm run android``` after the first has finished it's process.
 It should then open Android Studio's Phone Emulator and run the app.
+
+# Swipe example
+
+![](https://github.com/Binder-team/BookXChange-client/blob/main/assets/images/swipe.gif)
