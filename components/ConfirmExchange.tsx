@@ -67,11 +67,11 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
 
   const emailBodyUser2 = `Hello, \n\n\nThank you for accepting the book match! \n\n Below are the details of my book: 
     \n\n${item.title1}, \nby ${item.author1}, \nin ${item.condition1} condition \n\nand I am interested in your book:
-    \n\n${item.title2}, \nby ${item.author2}, \nin ${item.condition2} condition\n\nPlease let me know you preferred method of exchanging. I look forward to hearing back from you!\n\nWith regards, \n\n${item.username1}`
+    \n\n${item.title2}, \nby ${item.author2}, \nin ${item.condition2} condition\n\nPlease let me know your preferred method of exchanging. I look forward to hearing back from you!\n\nWith regards, \n\n${item.username1}`
     
   const emailBodyUser1 = `Hello, \n\n\nThank you for accepting the book match! \n\n Below are the details of my book: 
     \n\n${item.title2}, \nby ${item.author2}, \nin ${item.condition2} condition \n\nand I am interested in your book:
-    \n\n${item.title1}, \nby ${item.author1}, \nin ${item.condition1} condition\n\nPlease let me know you preferred method of exchanging. I look forward to hearing back from you!\n\nWith regards, \n\n${item.username2}`
+    \n\n${item.title1}, \nby ${item.author1}, \nin ${item.condition1} condition\n\nPlease let me know your preferred method of exchanging. I look forward to hearing back from you!\n\nWith regards, \n\n${item.username2}`
     
     return (
       <View style={styles.item}> 

@@ -40,7 +40,6 @@ const BookCard =(props) => {
   ]);
 
 //changing to work by shift (or popping) the previous entry.  Should stop flicker
-
   const handleFetch = async() => {
     const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/swipe/${getUsername()}`);
     const data = await res.data;
@@ -57,12 +56,9 @@ const processNextBook = async() => {
 
   useEffect(()=>{
     handleFetch();
-
-//    console.log("❣");
   },[]);
 
   useEffect(()=>{
-    //processNextBook();
     console.log("BookCards L76",props.index);
   },[props.index]);
 
@@ -73,19 +69,16 @@ const processNextBook = async() => {
                 style={styles.cardImage}
                 source={{uri: `${bookData[ props.index ]["image_url"]}` }}
                 />
-                    
-                        
+              
         </Card>
         <View style={styles.cardInner}>
         <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
         <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text> 
         </View>
-                          
-                    </View> 
+        </View> 
         
     );
 };
-
 
 const styles = StyleSheet.create({
 
