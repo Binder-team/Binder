@@ -293,6 +293,7 @@ const styles = StyleSheet.create({
   },
   book__shelf: {
     width: '100%',
+    height:'170%',
     justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'row',
