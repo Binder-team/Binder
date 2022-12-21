@@ -12,41 +12,31 @@ import { Card } from 'react-native-paper';
 const BookCard =(props) => {
   const [bookData, setBookData] = useState([
     {
-        "id": 7,
-        "user_id": 3,
-        "book_id": "0",
-        "is_available": true,
-        "isbn": "9780439023481",
-        "condition": 7,
-        "image_url": null,
-        "thumbnail_url": "http://books.google.com/books/content?id=Yz8Fnw0PlEQC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-        "title": "The Mungy Games",
-        "author": "Suzanne Collins"
+      "id": 1,
+      "userId": 1,
+      "book_id": "PlaceHolder",
+      "isAvailable": true,
+      "isbn": null,
+      "condition": "　",
+      "description": "　",
+      "image_url": "../assets/images/Loading_icon.gif",
+      "thumbnail_url": "../assets/images/Loading_icon.gif",
+      "title": "Loading Books",
+      "author": "　",
     },
     {
-        "id": 8,
-        "user_id": 3,
-        "book_id": "0",
-        "is_available": true,
-        "isbn": "9781594631931",
-        "condition": 8,
-        "image_url": null,
-        "thumbnail_url": "http://books.google.com/books/content?id=ykWQEAAAQBAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
-        "title": "The Kite Runner",
-        "author": "Khaled Hosseini"
+      "id": 1,
+      "userId": 1,
+      "book_id": "PlaceHolder",
+      "isAvailable": true,
+      "isbn": null,
+      "condition": "　",
+      "description": "　",
+      "image_url": "../assets/images/Loading_icon.gif",
+      "thumbnail_url": "../assets/images/Loading_icon.gif",
+      "title": "Loading Books",
+      "author": "　",
     },
-    {
-        "id": 9,
-        "user_id": 3,
-        "book_id": "0",
-        "is_available": true,
-        "isbn": "0307762718",
-        "condition": 6,
-        "image_url": null,
-        "thumbnail_url": "http://books.google.com/books/content?id=1EhPf1ZptXwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
-        "title": "Norwegian Wood",
-        "author": "Haruki Murakami"
-    }
   ]);
 
 //changing to work by shift (or popping) the previous entry.  Should stop flicker
