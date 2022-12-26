@@ -5,8 +5,12 @@ A book swapping mobile app using React Native, Typescript, Node, Android Studio 
 ## Technologies
 
 Android Emulator (Android Studio Dolphin 2021.3.1)
+
 React Native 0.70.6
+
 Typescript 4.8.3
+
+
 
 
 ## Set up
@@ -24,6 +28,7 @@ It will then open Android Studio's Phone Emulator and run the app on port 8081.
 ## Swipe example
 
 To show interest in a particular book, swipe right. To pass, swipe to the left. 
+
 ![](https://github.com/Binder-team/BookXChange-client/blob/main/assets/images/swipe.gif)
 
 
