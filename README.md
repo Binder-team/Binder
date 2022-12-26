@@ -1,17 +1,32 @@
-# Book x Change Privacy Policy
+# Book X Change
 
-Any and all information collected is available on a restricted database. Requests for removal of collected data or account data is free by request by Email.
+A book swapping mobile app using React Native, Typescript, Node, Android Studio emulator, Java, SpringBoot, and Google Books API.
+
+## Technologies
+
+Android Emulator (Android Studio Dolphin 2021.3.1)
+React Native 0.70.6
+Typescript 4.8.3
 
 
-# Binder-client
+## Set up
 
 Basic instructions for running app:
-Open in visual studio, or any other IDE.
-Create two terminals that access the directory. (Inside the IDE or otherwise)
-Have the first terminal run ```npm start```
-The other should run ```npm run android``` after the first has finished it's process.
-It should then open Android Studio's Phone Emulator and run the app.
 
-# Swipe example
+Clone this repo to your desktop and run `npm install` to install all the dependencies.
 
+Open two terminals that access the directory. (Inside the IDE or otherwise)
+
+In first terminal, run ```npm start```.
+After run ```npm run android``` after the first has finished it's process.
+It will then open Android Studio's Phone Emulator and run the app on port 8081.
+
+## Swipe example
+
+To show interest in a particular book, swipe right. To pass, swipe to the left. 
 ![](https://github.com/Binder-team/BookXChange-client/blob/main/assets/images/swipe.gif)
+
+
+## Book x Change Privacy Policy
+
+Any and all information collected is available on a restricted database. Requests for removal of collected data or account data is free by request by Email.
