@@ -2,7 +2,7 @@ import React, { useEffect, useState }from 'react';
 import { View, StyleSheet, Image, SafeAreaView } from 'react-native';
 import { Avatar, Button, Card, DataTable, Title, ToggleButton } from 'react-native-paper';
 import { Book, Rating } from '../types';
-import { getUsername} from '../components/userTokenManager';
+import { getUsername } from '../components/userTokenManager';
 import { RootStackScreenProps } from '../types';
 import axios from 'axios';
 import useAuth from '../hooks/useAuth';
@@ -218,8 +218,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 0,
-    margin: 0,
-    // backgroundColor:'#F9F2ED',
+    margin: 0
   },
   profile__container: {
     alignItems: 'center',
@@ -239,9 +238,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
     flexDirection: 'row',
-    width: '50%',
-
-    //backgroundColor:'#FBF0DF' 
+    width: '50%', 
   },
   profile__column2: {
     flexDirection: 'column',
@@ -262,7 +259,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '40%',
   },
-  image:{
+  image: {
     width:100,
     height:100,
     borderWidth: 10,
@@ -293,7 +290,6 @@ const styles = StyleSheet.create({
   },
   book__shelf: {
     width: '100%',
-    height:'170%',
     justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'row',
@@ -325,7 +321,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     zIndex: -1,
     margin: 0,
-    
     alignContent: 'center',
     top: 0,
     left: -19,
@@ -334,7 +329,6 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
     width: 40,
     textAlign: "center",
-
   },
   refresh: {
     alignContent: 'center',
@@ -343,10 +337,7 @@ const styles = StyleSheet.create({
     width: 1,
     textAlign: "center",
     alignSelf: 'center',
-    
-    //flexDirection: 'row',
-
   },
 });
 
-export default  MyPageScreen;
+export default MyPageScreen;
