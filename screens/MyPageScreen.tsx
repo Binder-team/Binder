@@ -27,10 +27,12 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   const [defaultRating, setDefaultRating] = useState(5);
   const [maxRating, setMaxRating] = useState([1,2,3,4,5]);
   const [userBooks, setUserBooks] = useState([]);
-  const [userInfo, setUserInfo] = useState({});
-  const [likedBooks, setLikedBooks] = useState([]);
+  const [userInfo, setUserInfo] :any[]= useState({});
+  const [likedBooks, setLikedBooks] :any[]= useState([]);
   const {signOut} = useAuth();
   const [refresh, setRefresh] = useState<boolean>(true);
+  const [tempUsername, setTempUsername] = useState<String>("Default");
+
   const  getUserInfo = async() => {
   
     const fetchedUserInfo = await axios.post(`https://binderapp-server.herokuapp.com/api/users/info`, 
@@ -77,17 +79,28 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
   };
 
   const getLikedBooks = async () => {
+    console.log(getUsername());
+
     const fetchLikes = await axios.get(
       `https://binderapp-server.herokuapp.com/api/trade_table/liked/${getUsername()}`,
       );
       const likedBookIds = fetchLikes.data.map((book: Book) => book.bookId);
       const likedBooks =  await Promise.all(likedBookIds.map(async (id : string) => {
+
         const bookObj = await axios.get(
           `https://binderapp-server.herokuapp.com/api/user_books/${id}`,
           );
+          console.log(`${id}`);
+          console.log(bookObj.data.title);
+          //if (!bookObj.data){
           return bookObj.data;
+          //};
       }));
+      console.log(likedBooks);
+
+
     const books = likedBooks.map((book) => {
+
       return (
         <Card style={styles.book__card} mode='outlined'>
           <Image 
@@ -104,6 +117,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
         </Card>
       );
     });
+    console.log("Book loaded");
     setLikedBooks(books);
   };
 
@@ -136,7 +150,7 @@ const MyPageScreen = ({ navigation }: RootStackScreenProps<'Login'>) => {
             <View style={styles.profile__column2}>
               <View style={styles.profile__column2__top}>
                 <View style={{justifyContent:'center',alignItems: 'flex-start' , flexDirection: 'row'}}>
-                  <Avatar.Icon size={24} icon="pin" backgroundColor = "#23598B"/>
+                  <Avatar.Icon size={24} icon="pin" backgroundColor="#23598B"/>
                   <Text style={styles.text}>  {userInfo.city}</Text>
                   <Text style={styles.text}>  {userInfo.postal_code}</Text>
                 </View>

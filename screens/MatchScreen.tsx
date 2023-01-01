@@ -137,7 +137,7 @@ export default function MatchScreen({ navigation }) {
                     sendCancel(item)
                   }}
                   >
-                    <Text style={styles.buttonText}>Deny</Text>
+                    <Text style={styles.buttonText}>Decline</Text>
                   </Button>
             
               </View> 
