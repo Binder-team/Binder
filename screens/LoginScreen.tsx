@@ -46,7 +46,7 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Create
       <TouchableOpacity>
         <ButtonForm title='Sign In' onPress={signIn}/>
       </TouchableOpacity>
-        <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        <View style={styles.separator} lightColor="#b3b3b3" darkColor="rgba(255,255,255,0.1)" />
           <View style={styles.signUp}>
             <Text>New user? Join here!</Text>
             <TouchableOpacity >
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
    },
   separator: {
     marginVertical: 15,
-    height: 3,
+    height: 1,
     width: '80%',
   },
   signUp: {

@@ -18,10 +18,7 @@ import axios from 'axios'
 const AuthContext = createContext({});
 
 export const AuthProvider = ({children, setAuthenticated, authenticated}) => {
-    // const [authenticated, setAuthenticated] = useState(false);
-    // const username = getUsername();
-    // const password = getPassword();
-    
+   
    
     const signIn =  async () => {
         try{

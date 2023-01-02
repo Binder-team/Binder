@@ -34,7 +34,6 @@ const ReputationModal = (props: ReputationModalProps, ) => {
     let {counter} = props;
     const starImgFilled = 'https://github.com/tranhonghan/images/blob/main/star_filled.png?raw=true';
     const starImgCorner = 'https://github.com/tranhonghan/images/blob/main/star_corner.png?raw=true';
-
     const [defaultRating, setDefaultRating] = useState(5);
     const [maxRating, setMaxRating] = useState([1,2,3,4,5]);
 
@@ -80,33 +79,31 @@ const ReputationModal = (props: ReputationModalProps, ) => {
     }
     return (
         <Portal>
-
             <Modal style={{height: '100%', width: '100%'}} visible={visible} contentContainerStyle={styles.modal}>
-                    <View style={styles.modalContentWrapper}>
-                        <View style={styles.modalContent}>
-                            <Text style={styles.text}>
-                                Rate this exchange
-                            </Text>
-                            <CustomRatingBar/>
-                            <Text style={styles.text}>
-                                {defaultRating + ' / ' + maxRating.length}
-                            </Text>
-                            <View style={styles.button__container}>
-                                <Button
-                                    style={styles.button}
-                                    onPress={() => {
-                                        sendConfirmExchange(item);
-                                        Alert.alert(`Exchange Confirmed!`);
-                                        onClose();
-                                    }
-                                }
-                                >
-                                    <Text style={styles.buttonText}>Confirm</Text>
-                                </Button>
-                                <Button style={{color: 'black'}} onPress={onClose}>Cancel</Button>
-                            </View>
+                <View style={styles.modalContentWrapper}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.text}>
+                            Rate this exchange
+                        </Text>
+                        <CustomRatingBar/>
+                        <Text style={styles.text}>
+                            {defaultRating + ' / ' + maxRating.length}
+                        </Text>
+                        <View style={styles.button__container}>
+                            <Button
+                                style={styles.button}
+                                onPress={() => {
+                                    sendConfirmExchange(item);
+                                    Alert.alert(`Exchange Confirmed!`);
+                                    onClose();
+                                }}
+                            >
+                                <Text style={styles.buttonText}>Confirm</Text>
+                            </Button>
+                            <Button style={{color: 'black'}} onPress={onClose}>Cancel</Button>
                         </View>
                     </View>
+                </View>
             </Modal>
         </Portal>
     );
@@ -169,7 +166,7 @@ const styles = StyleSheet.create({
         color: '#F3F3F3',
         lineHeight: 15,
         fontWeight: '500',
-      },
+    },
 });
 
 export default ReputationModal;
