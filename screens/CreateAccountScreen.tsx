@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect, ChangeEvent } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, Button } from 'react-native';
+import { useEffect } from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text, View } from '../components/Themed';
 import {  
     getUsername, 
@@ -11,8 +11,7 @@ import {
     getCity, 
     getEmail, 
     setPostalCode } from '../components/userTokenManager';
-import axios from 'axios';
-import Navigation from '../navigation';
+
 import useAuth from '../hooks/useAuth';
 import ButtonForm from '../components/ButtonForm';
 import FormInput from '../components/FormInput';
