@@ -35,7 +35,7 @@ export interface Value {
   value : number;
 }
 
-export interface Props {
+export interface Props { //Interface for props
   onStart: () => void;
   onActive: () => void;
   onEnd: () => void;
@@ -49,7 +49,6 @@ export type AnimatedGHContext  = {
 const ROTATION = 60;
 const SWIPE_VELOCITY = 800;
 
-
     //===IMPORTANT===
   //let index = 0;  //index should be declared outside of App to avoid duplicates.  
     //It's here for now and resets every time this loads
@@ -61,8 +60,35 @@ const Swipe = ({
   onSwipe, 
 }: Props) => {
 
+  const [bookData, setBookData] = useState([
+    {
+      "id": 1,
+      "userId": 1,
+      "book_id": "PlaceHolder",
+      "isAvailable": true,
+      "isbn": null,
+      "condition": "　",
+      "description": "　",
+      "image_url": "../assets/images/Loading_icon.gif",
+      "thumbnail_url": "../assets/images/Loading_icon.gif",
+      "title": "Loading Books",
+      "author": "　",
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "book_id": "PlaceHolder",
+      "isAvailable": true,
+      "isbn": null,
+      "condition": "　",
+      "description": "　",
+      "image_url": "../assets/images/Loading_icon.gif",
+      "thumbnail_url": "../assets/images/Loading_icon.gif",
+      "title": "Loading Books",
+      "author": "　",
+    },
+  ]); //where all user's books get stored, as an array
 
-const [bookData, setBookData] = useState([]); //where all user's books get stored, as an array
 const [currentIndex, setCurrentIndex] = useState(0);
 const [nextIndex, setNextIndex] = useState(currentIndex + 1);
 const [currentCard, setCurrentCard] = useState(bookData[currentIndex]);
@@ -86,7 +112,6 @@ const handleFetch = async() => {
     console.log("fetching");
   },[]);
 
-
   async function onSwipeRight (bookObj: Book) {
   const match = await axios.post(`https://binderapp-server.herokuapp.com/api/trade_table/user/${getUsername()}`,
   bookObj  );
@@ -105,11 +130,11 @@ const onSwipeLeft =( bookObj: Book )=> {
 
 const {width: screenWidth} = useWindowDimensions();
 
-const hiddenSreenWidth = 2 * screenWidth; 
+const hiddenScreenWidth = 2 * screenWidth; 
 
 const sharedValue = useSharedValue(0);
 const rotate = useDerivedValue(() =>  interpolate(
-  sharedValue.value, [0, hiddenSreenWidth], [0, ROTATION]) +  'deg');
+  sharedValue.value, [0, hiddenScreenWidth], [0, ROTATION]) +  'deg');
 
 const cardStyle = useAnimatedStyle(() => ({
   transform: [{
@@ -125,25 +150,25 @@ const nextCardStyle = useAnimatedStyle(() => ({
   transform: [
     {
     scale: interpolate(sharedValue.value,
-      [-hiddenSreenWidth, 0, hiddenSreenWidth],
+      [-hiddenScreenWidth, 0, hiddenScreenWidth],
         [1, 0.5, 1]
         ),
     },  
   ],
   opacity: interpolate(
     sharedValue.value,
-    [-hiddenSreenWidth, 0, hiddenSreenWidth],
+    [-hiddenScreenWidth, 0, hiddenScreenWidth],
     [1, 0.6, 1]
   )
 }))
 
 
 const likeStyle = useAnimatedStyle(()=>({
-  opacity: interpolate(sharedValue.value, [0, hiddenSreenWidth/10], [0, 1])
+  opacity: interpolate(sharedValue.value, [0, hiddenScreenWidth/10], [0, 1])
 }));
 
 const nopeStyle = useAnimatedStyle(()=> ({
-  opacity: interpolate(sharedValue.value, [0, -hiddenSreenWidth/10], [0, 1])
+  opacity: interpolate(sharedValue.value, [0, -hiddenScreenWidth/10], [0, 1])
 }));
 
 const gestureHandler = useAnimatedGestureHandler ({
@@ -162,7 +187,7 @@ const gestureHandler = useAnimatedGestureHandler ({
       return;
     }
     sharedValue.value = withSpring(
-      hiddenSreenWidth * Math.sign(event.velocityX),
+      hiddenScreenWidth * Math.sign(event.velocityX),
       {},
       () =>runOnJS(setCurrentIndex)(currentIndex + 1), 
       );
@@ -178,6 +203,7 @@ const gestureHandler = useAnimatedGestureHandler ({
 
   useEffect(() => {
   sharedValue.value = 0;
+  console.log(bookData[0])
   }, [currentIndex, translateX]);
   
   const showDialog = () => setVisible(true);
@@ -200,7 +226,7 @@ const gestureHandler = useAnimatedGestureHandler ({
         {nextProfile && (
       <View style={styles.nextCardContainer}>
         <Animated.View style={[styles.animatedCard,nextCardStyle]}>
-          <BookCard bookData={nextProfile} index={currentIndex+ 1}/>
+          <BookCard bookData={bookData[currentIndex+1]} /*index={bookData[currentIndex+1]}*//>
         </Animated.View>
         </View>
         )}
@@ -212,13 +238,13 @@ const gestureHandler = useAnimatedGestureHandler ({
                 source={Like}
                 style={[styles.like, {left: 10}, likeStyle]}
                 resizeMode="contain"
-           />
-           <Animated.Image
-               source={Nope}
-               style={[styles.like, {right: 10}, nopeStyle]}
-               resizeMode="contain"
-               />
-              <BookCard bookData={currentProfile}  index={currentIndex}/> 
+          />
+          <Animated.Image
+              source={Nope}
+              style={[styles.like, {right: 10}, nopeStyle]}
+              resizeMode="contain"
+              />
+              <BookCard bookData={bookData[currentIndex]}  /*index={bookData[currentIndex]}*//> 
 
           </Animated.View> 
       </PanGestureHandler>

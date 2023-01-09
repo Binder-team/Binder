@@ -9,71 +9,26 @@ import { Card } from 'react-native-paper';
   let index = 0;  //index should be declared outside of App to avoid duplicates.  
     //It's here for now and resets every time this loads
 
-const BookCard =(props) => {
-  const [bookData, setBookData] = useState([
-    {
-      "id": 1,
-      "userId": 1,
-      "book_id": "PlaceHolder",
-      "isAvailable": true,
-      "isbn": null,
-      "condition": "　",
-      "description": "　",
-      "image_url": "../assets/images/Loading_icon.gif",
-      "thumbnail_url": "../assets/images/Loading_icon.gif",
-      "title": "Loading Books",
-      "author": "　",
-    },
-    {
-      "id": 1,
-      "userId": 1,
-      "book_id": "PlaceHolder",
-      "isAvailable": true,
-      "isbn": null,
-      "condition": "　",
-      "description": "　",
-      "image_url": "../assets/images/Loading_icon.gif",
-      "thumbnail_url": "../assets/images/Loading_icon.gif",
-      "title": "Loading Books",
-      "author": "　",
-    },
-  ]);
-
-//changing to work by shift (or popping) the previous entry.  Should stop flicker
-  const handleFetch = async() => {
-    const res = await axios.get(`https://binderapp-server.herokuapp.com/api/user_books/swipe/${getUsername()}`);
-    const data = await res.data;
-    setBookData(data);
-  };
-
-const processNextBook = async() => {
-  console.log("💦💤");
-  console.log(bookData[0].title)
-  bookData.shift();
-  console.log(bookData[0].title);
-  console.log("💦💤");
-};
-
+const BookCard = (bookCardProp) => {
+  const [bookData, setBookData] = useState([]);
   useEffect(()=>{
-    handleFetch();
+    setBookData(bookCardProp);
+    console.log("Prop", bookCardProp["bookData"]);
+    console.log("BookCards title", bookCardProp["bookData"]["title"]);
   },[]);
-
-  useEffect(()=>{
-    console.log("BookCards L76",props.index);
-  },[props.index]);
 
     return (
       <View style={styles.container}>
         <Card style={styles.card}>
             <Image 
                 style={styles.cardImage}
-                source={{uri: `${bookData[ props.index ]["image_url"]}` }}
+                source={{uri: `${bookCardProp["bookData"]["image_url"]}` }}
                 />
               
         </Card>
         <View style={styles.cardInner}>
-        <Text style={styles.title}>{bookData[ props.index ]["title"]}</Text>
-        <Text style={styles.description}>Condition: {bookData[ props.index ]["condition"]}</Text> 
+        <Text style={styles.title}>{bookCardProp["bookData"]["title"]}</Text>
+        <Text style={styles.description}>Condition: {bookCardProp["bookData"]["condition"]}</Text> 
         </View>
         </View> 
         
@@ -134,6 +89,20 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     }   
 });
+
+// BookCard.propTypes = {
+//   "id": Number,
+//   "userId": Number,
+//   "book_id": any,
+//   "isAvailable": boolean,
+//   "isbn": any,
+//   "condition": "　",
+//   "description": "　",
+//   "image_url": "../assets/images/Loading_icon.gif",
+//   "thumbnail_url": "../assets/images/Loading_icon.gif",
+//   "title": "Loading Books",
+//   "author": "　",
+// }
 
 export default BookCard;
 
