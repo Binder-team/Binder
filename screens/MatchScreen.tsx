@@ -253,9 +253,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     textAlign: 'center',
     padding: 5,
-    paddingBottom: 10,
-    // borderColor: 'black',
-    // borderWidth:2
+    paddingBottom: 10
   },
   item: {
     width: '100%',
@@ -269,8 +267,6 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     paddingHorizontal: 0,
     elevation:5
-    // borderColor: 'red',
-    // borderWidth:2
   }, 
   matchContainer: {
     width: '100%',
@@ -287,8 +283,6 @@ const styles = StyleSheet.create({
     resizeMode:'cover',
     marginHorizontal:5,
     marginBottom:10,
-    // borderColor: 'black',
-    // borderWidth:2
   },
   avatarContainer: {
     backgroundColor: '#F9F2ED',
@@ -299,7 +293,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     resizeMode: 'cover',
     marginTop: 5,
-    
   },
   bookTitle:{
     fontSize:16,
@@ -318,43 +311,26 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    //width: 10, 
-    //height: 35,
     backgroundColor:'#1e86ac',
-    //justifyContent: 'center',
-   // alignItems: 'center',
-   // borderRadius:5,
     marginHorizontal: 5,
     elevation:5,
-    shadowColor: '#000',
-   // mode:'contained'
+    shadowColor: '#000'
   }, 
   denyButton: {
     flex: 1,
-    //width: 10, 
-    //height: 35,
     backgroundColor:'#db5153',
-    //justifyContent: 'center',
-    //alignItems: 'center',
-    //borderRadius:5,
     marginHorizontal: 5,
     elevation:5,
     shadowColor: '000',
   },
   pendingButton:{
     flex: 1,
-    //width: 10, 
-    //height: 35,
     backgroundColor:'#97bcb8',
     color:'white',
-    //justifyContent: 'center',
-   // alignItems: 'center',
-   // borderRadius:5,
     marginHorizontal: 5,
     elevation:5,
     shadowColor: '#000',
     disabled: 'true'
-   // mode:'contained'
   },
   buttonText: {
     fontSize: 15,
@@ -403,7 +379,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 145,
    },
-   refresh: {
+  refresh: {
     width: 1,
    }
 });

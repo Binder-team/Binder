@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Text, View } from '../components/Themed';
-import { setToken, getToken, getUsername, setUsername, setPassword, getPassword } from '../components/userTokenManager';
+import { setUsername, setPassword } from '../components/userTokenManager';
 import useAuth from '../hooks/useAuth';
 import { RootStackScreenProps } from '../types';
 import ButtonForm from '../components/ButtonForm';
@@ -20,42 +20,42 @@ export default function LoginScreen({ navigation }: RootStackScreenProps<'Create
        bounces={false}
        keyboardOpeningTime={0}
        >
-   < View style={styles.container}>  
-      <Image style={styles.logo}
-           resizeMode={'contain'}
-           source={require('../assets/images/logo.png')}
-           />
+      <View style={styles.container}>  
+        <Image 
+            style={styles.logo}
+            resizeMode={'contain'}
+            source={require('../assets/images/logo.png')}
+      />
       <FormInput
-        //value={username}
-        placeholderText="Enter Username"
-        onChange={(e) => {
-          setUsername(e.nativeEvent.text)
-         }}
-        autoCapitalize='none'
-        autoCorrect={false}
-       />
+          //value={username}
+          placeholderText="Enter Username"
+          onChange={(e) => {
+            setUsername(e.nativeEvent.text)
+          }}
+          autoCapitalize='none'
+          autoCorrect={false}
+      />
       <FormInput
-           // value={password}
-            placeholderText="Enter Password"
-             secureTextEntry={true}
-             onChange={(e)=> {
-              setPassword(e.nativeEvent.text);
-            }}
-            />
-        <TouchableOpacity>
-          <ButtonForm title='Sign In' onPress={signIn}/>
-       </TouchableOpacity>
-          <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-           <View style={styles.signUp}>
+          // value={password}
+          placeholderText="Enter Password"
+          secureTextEntry={true}
+          onChange={(e)=> {
+            setPassword(e.nativeEvent.text);
+          }}
+      />
+      <TouchableOpacity>
+        <ButtonForm title='Sign In' onPress={signIn}/>
+      </TouchableOpacity>
+        <View style={styles.separator} lightColor="#b3b3b3" darkColor="rgba(255,255,255,0.1)" />
+          <View style={styles.signUp}>
             <Text>New user? Join here!</Text>
-        <TouchableOpacity >
-            <ButtonForm title='Create an Account' onPress={()=>{
-                  navigation.navigate('CreateAccount')
-                  }}/>
-        </TouchableOpacity>
+            <TouchableOpacity >
+                <ButtonForm title='Create an Account' onPress={()=>{
+                      navigation.navigate('CreateAccount') }}/>
+          </TouchableOpacity>
+        </View>
       </View>
-     </View>
-  </KeyboardAwareScrollView>
+    </KeyboardAwareScrollView>
     
     
   )
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
    },
   separator: {
     marginVertical: 15,
-    height: 3,
+    height: 1,
     width: '80%',
   },
   signUp: {

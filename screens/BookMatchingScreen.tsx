@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, StatusBar, useWindowDimensions, Pressable, PanResponder } from 'react-native';
+import { StyleSheet, View, useWindowDimensions} from 'react-native';
 import { Portal, Dialog, Paragraph, Button } from 'react-native-paper';
 import { GestureHandlerRootView, PanGestureHandler } from 'react-native-gesture-handler';
 import axios from 'axios';
@@ -224,35 +224,29 @@ const gestureHandler = useAnimatedGestureHandler ({
       </Portal>
       <View style={styles.pageContainer}>
         {nextProfile && (
-      <View style={styles.nextCardContainer}>
-        <Animated.View style={[styles.animatedCard,nextCardStyle]}>
-          <BookCard bookData={bookData[currentIndex+1]} /*index={bookData[currentIndex+1]}*//>
-        </Animated.View>
-        </View>
+          <View style={styles.nextCardContainer}>
+            <Animated.View style={[styles.animatedCard,nextCardStyle]}>
+              <BookCard bookData={nextProfile} index={currentIndex+ 1}/>
+            </Animated.View>
+          </View>
         )}
-
         {currentProfile && (
-      <PanGestureHandler onGestureEvent={gestureHandler} >
-          <Animated.View style={[styles.animatedCard,cardStyle]}>
-            <Animated.Image 
-                source={Like}
-                style={[styles.like, {left: 10}, likeStyle]}
-                resizeMode="contain"
-          />
-          <Animated.Image
-              source={Nope}
-              style={[styles.like, {right: 10}, nopeStyle]}
-              resizeMode="contain"
-              />
-              <BookCard bookData={bookData[currentIndex]}  /*index={bookData[currentIndex]}*//> 
-
-          </Animated.View> 
-      </PanGestureHandler>
+          <PanGestureHandler onGestureEvent={gestureHandler}>
+              <Animated.View style={[styles.animatedCard,cardStyle]}>
+                <Animated.Image 
+                    source={Like}
+                    style={[styles.like, {left: 10}, likeStyle]}
+                    resizeMode="contain"
+                />
+                <Animated.Image
+                  source={Nope}
+                  style={[styles.like, {right: 10}, nopeStyle]}
+                  resizeMode="contain"
+                />
+                <BookCard bookData={currentProfile} index={currentIndex}/>
+              </Animated.View> 
+          </PanGestureHandler>
       )}
-       {/* <View style={styles.vectorContainer}>
-        <Entypo name="cross" size={40} color="#FF4500" style={{padding: 0, marginRight: 100}} />
-        <Entypo name="check" size={40} color="#32CD32"  style={{padding: 0, marginLeft: 100}}/>
-       </View> */}
       </View>    
     </GestureHandlerRootView>
   );
@@ -266,7 +260,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
     backgroundColor:'#FBF0DF'
   },
-  animatedCard: { //The actual card location
+  animatedCard: {
     position:'absolute',
     width: '90%',
     height: '75%',
@@ -274,10 +268,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 40,
-    //backgroundColor:'blue',
-  }, 
-  text: {
-
   },
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
@@ -295,8 +285,7 @@ const styles = StyleSheet.create({
   vectorContainer: {
     alignItems:'flex-end',
     flexDirection: 'row', 
-    paddingTop: 580
+    paddingTop: 580,
   }
-  
 });
 export default Swipe;

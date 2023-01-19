@@ -14,14 +14,11 @@ import {
 } from '../components/userTokenManager'
 import axios from 'axios'
 
-import Navigation from '../navigation/index';
-import LoginScreen from '../screens/LoginScreen';
+
 const AuthContext = createContext({});
+
 export const AuthProvider = ({children, setAuthenticated, authenticated}) => {
-    // const [authenticated, setAuthenticated] = useState(false);
-    // const username = getUsername();
-    // const password = getPassword();
-    
+   
    
     const signIn =  async () => {
         try{
@@ -45,30 +42,29 @@ export const AuthProvider = ({children, setAuthenticated, authenticated}) => {
         setAuthenticated(false);
     }
 
-const newUser = async () => {
-    try{
-        const username = getUsername();
-        const res = await axios.post('https://binderapp-server.herokuapp.com/api/users',{
-            username:username,
-            city:getCity(),
-            profile_url: 'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg',
-            email:getEmail(),
-            postal_code:getPostalCode(),
-            is_banned:false
-        });
-        const data = res.data;
-        console.log("new user data: ", data)
-        if(res.status === 200) {
-            signIn();
-        }
+    const newUser = async () => {
+        try{
+            const username = getUsername();
+            const res = await axios.post('https://binderapp-server.herokuapp.com/api/users',{
+                username:username,
+                city:getCity(),
+                profile_url: 'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg',
+                email:getEmail(),
+                postal_code:getPostalCode(),
+                is_banned:false
+            });
+            const data = res.data;
+            console.log("new user data: ", data)
+            if(res.status === 200) {
+                signIn();
+            }
 
-    } catch {
-        Alert.alert("Could not sign up, please try again!")
-    }
+        } catch {
+            Alert.alert("Could not sign up, please try again!")
+        }
 }
     return (
         <AuthContext.Provider
-
             value={
                 {
                     user: getToken(),
@@ -77,7 +73,7 @@ const newUser = async () => {
                     newUser
                 }
             }>
-                {children}
+            {children}
         </AuthContext.Provider>
     )
 }

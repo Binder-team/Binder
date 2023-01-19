@@ -47,9 +47,7 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
     }
 
 
-    //when 'confirm exchange' button is pressed
-
-  const sendCancel = async () => {
+    const sendCancel = async () => {
       try {
       //sends a post request to cancel exchange
       const put = await axios.put(
@@ -62,7 +60,8 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
       } catch (err) {
       console.log(err);
       }
-  }
+    }
+
   const emailTitle = `Book x Change Match`
 
   const emailBodyUser2 = `Hello, \n\n\nThank you for accepting the book match! \n\n Below are the details of my book: 
@@ -78,21 +77,15 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
         <View style={styles.backContainer}>
           <Button
               style={styles.backButton}
-                title = 'back'
-                onPress={()=> 
-                    setCurrentView("all matches")
-                }
-            >
-              <Icon style={styles.icon} name="chevron-left" color="black"/>
-              {/* <Text style={styles.backButtonText}>Back</Text> */}
-              
-            </Button>
-        </View>
-            
-          <>
-            {getUsername()!==item.username1?(
-              <View style={styles.bookContainer}> 
-                <Image
+              title = 'back'
+              onPress={()=> setCurrentView("all matches")}>
+            <Icon style={styles.icon} name="chevron-left" color="black"/>
+          </Button>
+        </View>  
+        <>
+          {getUsername()!==item.username1?(
+            <View style={styles.bookContainer}> 
+              <Image
                 style={styles.avatarContainer}
                 source={{
                     uri: item.thumbnail1,
@@ -100,60 +93,56 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                     height: 50,
                 }}
               />  
-                <Text style = {styles.bookTitle}>{item.title1}</Text>
-                <Text style={styles.text}>By: {item.author1}</Text>
-                <Text style={styles.text}>Condition: {item.condition1}</Text>
-                <Text style={styles.text}>User: {item.username1}</Text>
-                <Text style={styles.emailText}>Send an email:</Text> 
-                <View style = {styles.emailContainer}>
-                  <Button style={styles.emailButton}>
-                    <Text 
+              <Text style = {styles.bookTitle}>{item.title1}</Text>
+              <Text style={styles.text}>By: {item.author1}</Text>
+              <Text style={styles.text}>Condition: {item.condition1}</Text>
+              <Text style={styles.text}>User: {item.username1}</Text>
+              <Text style={styles.emailText}>Send an email:</Text> 
+              <View style = {styles.emailContainer}>
+                <Button style={styles.emailButton}>
+                  <Text 
                     style={styles.emailButtonText}
                     onPress={
-                      () => Linking.openURL(`mailto:${item.email1}?subject=${emailTitle}&x&change&&body=${emailBodyUser1}`) }>
-                      {item.email1}
-                    </Text>
+                      () => Linking.openURL(`mailto:${item.email1}?subject=${emailTitle}&x&change&&body=${emailBodyUser1}`)}>
+                    {item.email1}
+                  </Text>
                 </Button>
                 </View>
             </View>  
             ):(
             <View style={styles.bookContainer}>
-                <Image
-                  style={styles.avatarContainer}
-                  source={{
-                      uri: item.thumbnail2,
-                      width: 50,
-                      height: 50,
+              <Image
+                style={styles.avatarContainer}
+                source={{
+                  uri: item.thumbnail2,
+                  width: 50,
+                  height: 50,
                   }}
-                />
-                <Text style = {styles.bookTitle}>{item.title2}</Text>
-                <Text style={styles.text}>By: {item.author2}</Text>
-                <Text style={styles.text}>Condition:{item.condition2}</Text>
-                <Text style={styles.text}>User:{item.username2}</Text>
-                <Text style={styles.emailText}>Send an email: </Text>
-                <View style = {styles.emailContainer}>
-                  <TouchableOpacity style={styles.emailButton}>
+              />
+              <Text style = {styles.bookTitle}>{item.title2}</Text>
+              <Text style={styles.text}>By: {item.author2}</Text>
+              <Text style={styles.text}>Condition:{item.condition2}</Text>
+              <Text style={styles.text}>User:{item.username2}</Text>
+              <Text style={styles.emailText}>Send an email: </Text>
+              <View style = {styles.emailContainer}>
+                <TouchableOpacity style={styles.emailButton}>
                   <Text 
-                  style={styles.emailButtonText}
-                  onPress={
-                    () => Linking.openURL(`mailto:${item.email2}?subject=${emailTitle}&x&change&&body=${emailBodyUser2}`) }>
+                    style={styles.emailButtonText}
+                    onPress={
+                      () => Linking.openURL(`mailto:${item.email2}?subject=${emailTitle}&x&change&&body=${emailBodyUser2}`) }>
                     {item.email2}
                   </Text>
                 </TouchableOpacity>
-                </View>
-                
-                
+              </View>
             </View>
           )
             }
           </>  
             
-            
             <View style = {styles.buttonContainer}>
               <TouchableOpacity style={styles.confirmButton}>
-                <Button title="Confirm Exchange" 
-                
-                onPress={() => setOpenModal(true)}>
+                <Button title="Confirm Exchange"
+                  onPress={() => setOpenModal(true)}>
                   <Text style={styles.buttonText}>Confirm exchange</Text>
                 </Button>
               </TouchableOpacity>
@@ -164,8 +153,8 @@ const ConfirmExchange: React.FC<Props> = ({item, setCurrentView, setRerender, co
                   visible={openModal} 
                   onClose={onClose}
                   setRerender={setRerender}
-                  counter={counter}
-              ></ReputationModal>
+                  counter={counter}>
+              </ReputationModal>
               <TouchableOpacity>
                   <Button
                     style={styles.denyButton}
