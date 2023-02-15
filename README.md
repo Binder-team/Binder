@@ -6,6 +6,9 @@ A book swapping mobile app using React Native, Typescript, Node, Android Studio 
 
 Android Emulator (Android Studio Dolphin 2021.3.1)
 
+<img width="1440" alt="Screenshot 2023-02-15 at 18 56 41" src="https://user-images.githubusercontent.com/88700081/218996128-96689b86-7823-406d-bda0-5192aece71f7.png">
+
+
 React Native 0.70.6
 
 Typescript 4.8.3
