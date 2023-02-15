@@ -1,17 +1,21 @@
 # Book X Change
-
 A book swapping mobile app using React Native, Typescript, Node, Android Studio emulator, Java, SpringBoot, and Google Books API.
 
+
+<img width="968" alt="Screenshot 2023-02-15 at 19 04 32" src="https://user-images.githubusercontent.com/88700081/218997113-c7fce218-ac3a-4d3d-ab7f-f65cdd6989fb.png">
+
+
+
+
 ## Technologies
-
 Android Emulator (Android Studio Dolphin 2021.3.1)
-
-<img width="1440" alt="Screenshot 2023-02-15 at 18 56 41" src="https://user-images.githubusercontent.com/88700081/218996128-96689b86-7823-406d-bda0-5192aece71f7.png">
-
 
 React Native 0.70.6
 
 Typescript 4.8.3
+
+<img width="973" alt="Screenshot 2023-02-15 at 19 04 47" src="https://user-images.githubusercontent.com/88700081/218997247-6b29b75e-5a7c-4e43-98b2-0f722a9c002b.png">
+<img width="973" alt="Screenshot 2023-02-15 at 19 04 51" src="https://user-images.githubusercontent.com/88700081/218997310-385fe283-15d3-43be-bb69-273fb89edf0d.png">
 
 
 
